@@ -527,3 +527,68 @@ h1,h2{text-wrap:balance;}
 }
 .final .q::before{content:"「";color:var(--muted);}
 .final .q::after{content:"」";color:var(--muted);}
+
+/* ================= C1 语义色 ================= */
+:root{
+  --ok-soft:#e9f2ec;
+  --warn-soft:#fbf0e6;
+  --no-soft:#f7eaea;
+}
+/* 评级卡：有条件放行 → 琥珀语义 */
+.rating .g{background:var(--warn-soft);color:var(--warm);border-right-color:#e6d3b8;}
+/* 语义单元格 */
+td.t-ok{color:var(--ok);font-weight:600;}
+td.t-warn{color:var(--warm);font-weight:600;}
+td.t-no{color:var(--danger);font-weight:600;}
+
+/* ================= A1 微交互 ================= */
+.topnav a{
+  background-image:linear-gradient(var(--accent),var(--accent));
+  background-size:0% 1px;background-position:0 100%;background-repeat:no-repeat;
+  transition:background-size .16s ease-out,color .16s;
+}
+.topnav a:not(.active):hover{background-size:100% 1px;}
+.verdict,.calc,.rating{transition:transform .18s ease-out,box-shadow .18s ease-out,border-color .18s;}
+.verdict:hover,.calc:hover{
+  transform:translateY(-1px);
+  box-shadow:0 2px 12px rgba(21,24,28,.07);
+}
+.kpi{transition:box-shadow .18s ease-out,background .18s;}
+.kpi:hover{box-shadow:inset 0 0 0 1px rgba(15,92,107,.14);}
+.head-nav a:active,.lang:active,.pager a:active{transform:translateY(1px);}
+.pager .p-t{display:inline-block;transition:transform .16s ease-out,color .16s;}
+.pager a.next:hover .p-t{transform:translateX(2px);}
+.pager a:not(.next):hover .p-t{transform:translateX(-2px);}
+
+/* ================= 语言切换按钮 ================= */
+.lang{
+  flex:0 0 auto;margin-left:.5rem;
+  font:inherit;font-size:.74rem;font-weight:600;letter-spacing:.04em;
+  color:var(--ink-2);background:var(--paper);
+  border:1px solid var(--line-strong);border-radius:4px;
+  padding:.22rem .55rem;cursor:pointer;
+  transition:color .15s,border-color .15s,background .15s;
+}
+.lang:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-soft);}
+
+/* ================= A2 首屏入场 ================= */
+@media (prefers-reduced-motion: no-preference){
+  .kpis .kpi{opacity:0;transform:translateY(8px);animation:kpiIn .5s cubic-bezier(.2,.7,.3,1) forwards;}
+  .kpis .kpi:nth-child(1){animation-delay:.02s}
+  .kpis .kpi:nth-child(2){animation-delay:.08s}
+  .kpis .kpi:nth-child(3){animation-delay:.14s}
+  .kpis .kpi:nth-child(4){animation-delay:.20s}
+  .kpis .kpi:nth-child(5){animation-delay:.26s}
+  .kpis .kpi:nth-child(6){animation-delay:.32s}
+}
+@keyframes kpiIn{to{opacity:1;transform:none;}}
+
+@media (max-width:900px){
+  .lang{margin-left:auto;order:2;}
+  .sister-link{margin-left:0;}
+}
+
+/* 判断类单元格：文字 + 同色系浅底，保证小字号下也可辨 */
+td.t-ok{color:#17603c;background:#eef6f1;}
+td.t-warn{color:#8a4a0a;background:#fdf4ea;}
+td.t-no{color:#8f2222;background:#fbeeee;}

@@ -9,23 +9,24 @@
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body id="top">
-<a class="skip" href="#main">跳到正文</a>
+<a class="skip" href="#main" data-en="Skip to content">跳到正文</a>
 
 <header class="topbar">
   <div class="topbar-in">
     <a class="brand" href="index.html"><b>EH216-S 安全分析</b><span>Safety Systems Engineering</span></a>
     <nav class="topnav" aria-label="章节导航">
-      <a href="01-scope.html">范围</a>
-      <a href="02-method.html">方法</a>
-      <a href="03-hazard.html">危害</a>
-      <a href="04-arch.html" class="active" aria-current="page">架构</a>
-      <a href="05-hw-sw.html">软硬件</a>
-      <a href="06-physical.html">物理安全</a>
-      <a href="07-vv.html">验证</a>
-      <a href="08-assurance.html">论证</a>
-      <a href="09-evidence.html">证据</a>
-      <a href="10-summary.html">总结</a>
+      <a href="01-scope.html" data-en="Scope">范围</a>
+      <a href="02-method.html" data-en="Method">方法</a>
+      <a href="03-hazard.html" data-en="Hazard">危害</a>
+      <a href="04-arch.html" class="active" aria-current="page" data-en="Arch">架构</a>
+      <a href="05-hw-sw.html" data-en="HW &amp; SW">软硬件</a>
+      <a href="06-physical.html" data-en="Physical">物理安全</a>
+      <a href="07-vv.html" data-en="V&amp;V">验证</a>
+      <a href="08-assurance.html" data-en="Argument">论证</a>
+      <a href="09-evidence.html" data-en="Evidence">证据</a>
+      <a href="10-summary.html" data-en="Summary">总结</a>
     </nav>
+    <button class="lang" type="button" aria-label="切换语言 / Switch language" title="切换语言 / Switch language">EN</button>
     <a class="sister-link" href="https://tianba9.github.io/eh216s-research/" title="切换至卷一：全方位调研与分析">卷一·调研分析 ↗</a>
   </div>
 </header>
@@ -33,29 +34,29 @@
 <div class="shell">
 
   <aside class="toc-nav" aria-label="全站章节">
-    <p class="toc-title">全站章节</p>
+    <p class="toc-title" data-en="Site Chapters">全站章节</p>
                         <ol>
-        <li class="nav-home"><a href="index.html">首页</a></li>
-        <li><a href="01-scope.html">01 安全管理与场景定义</a></li>
-        <li><a href="02-method.html">02 安全分析方法与标准体系</a></li>
-        <li><a href="03-hazard.html">03 危害识别与风险评估</a></li>
-        <li><a href="04-arch.html" class="active" aria-current="page">04 系统安全架构与冗余</a></li>
-        <li><a href="05-hw-sw.html">05 硬件与软件安全设计</a></li>
-        <li><a href="06-physical.html">06 机械、化学与电气安全</a></li>
-        <li><a href="07-vv.html">07 安全测试与验证</a></li>
-        <li><a href="08-assurance.html">08 运行安全论证</a></li>
-        <li><a href="09-evidence.html">09 证据与引用</a></li>
-        <li><a href="10-summary.html">10 全文总结</a></li>
+        <li class="nav-home"><a href="index.html" data-en="Home">首页</a></li>
+        <li><a href="01-scope.html" data-en="01 Safety Management &amp; Scenario Definition">01 安全管理与场景定义</a></li>
+        <li><a href="02-method.html" data-en="02 Safety Analysis Methods &amp; Standards">02 安全分析方法与标准体系</a></li>
+        <li><a href="03-hazard.html" data-en="03 Hazard Identification &amp; Risk Assessment">03 危害识别与风险评估</a></li>
+        <li><a href="04-arch.html" class="active" aria-current="page" data-en="04 Safety Architecture &amp; Redundancy">04 系统安全架构与冗余</a></li>
+        <li><a href="05-hw-sw.html" data-en="05 Hardware &amp; Software Safety">05 硬件与软件安全设计</a></li>
+        <li><a href="06-physical.html" data-en="06 Mechanical, Chemical &amp; Electrical Safety">06 机械、化学与电气安全</a></li>
+        <li><a href="07-vv.html" data-en="07 Test &amp; Verification">07 安全测试与验证</a></li>
+        <li><a href="08-assurance.html" data-en="08 Operational Safety Argument">08 运行安全论证</a></li>
+        <li><a href="09-evidence.html" data-en="09 Evidence &amp; References">09 证据与引用</a></li>
+        <li><a href="10-summary.html" data-en="10 Overall Conclusion">10 全文总结</a></li>
       </ol>
   </aside>
 
   <main id="main">
     <div class="page-head">
       <div class="ph-top">
-        <div class="crumb"><a href="index.html">首页</a><span class="sep">›</span><span class="cur">04 系统安全架构与冗余</span></div>
-        <div class="head-nav"><a href="03-hazard.html" title="上一章：03 危害识别与风险评估">‹ 03 危害识别与风险评估</a><a href="05-hw-sw.html" title="下一章：05 硬件与软件安全设计">05 硬件与软件安全设计 ›</a></div>
+        <div class="crumb"><a href="index.html" data-en="Home">首页</a><span class="sep">›</span><span class="cur" data-en="04 Safety Architecture &amp; Redundancy">04 系统安全架构与冗余</span></div>
+        <div class="head-nav"><a href="03-hazard.html" title="上一章：03 危害识别与风险评估" data-en="‹ 03 Hazard Identification &amp; Risk Assessment">‹ 03 危害识别与风险评估</a><a href="05-hw-sw.html" title="下一章：05 硬件与软件安全设计" data-en="05 Hardware &amp; Software Safety ›">05 硬件与软件安全设计 ›</a></div>
       </div>
-      <h1>冗余不是堆数量，是设计「失效之后还能飞」</h1>
+      <h1 data-en="Redundancy Is Designing What Happens After Failure">冗余不是堆数量，是设计「失效之后还能飞」</h1>
       <p class="lede">
         EH216-S 的冗余体现在三个层面：三套飞控、12 组电池、三重链路。但冗余的价值不取决于数量，
         取决于失效后系统还能否维持可控——这一章把「容错边界」算成一个具体数字。
@@ -63,7 +64,7 @@
     </div>
 
     <section id="overview">
-      <h2><span class="num">01</span>架构总览</h2>
+      <h2><span class="num">01</span><span data-en="Architecture Overview">架构总览</span></h2>
       <p>下表把公开披露的冗余措施按系统归类，并标注其对应的安全目标。凡属功能要求层面的推断，均在备注中说明。</p>
 
       <div class="tw">
@@ -91,7 +92,7 @@
     </section>
 
     <section id="form">
-      <h2><span class="num">02</span>冗余形式的选型</h2>
+      <h2><span class="num">02</span><span data-en="Choosing a Redundancy Scheme">冗余形式的选型</span></h2>
       <p>冗余结构不是随意选择，而是由「能否检测故障」和「失效是否安全」两个条件决定的。下表列出常见形式及其适用条件。</p>
 
       <div class="tw">
@@ -114,7 +115,7 @@
     </section>
 
     <section id="vote">
-      <h2><span class="num">03</span>表决与降级路径</h2>
+      <h2><span class="num">03</span><span data-en="Voting &amp; Degradation Paths">表决与降级路径</span></h2>
       <p>表决机制必须与降级策略配套。检测到通道分歧后，系统要回答三个问题：相信谁、是否降级、降到什么状态。</p>
 
       <div class="tw">
@@ -138,7 +139,7 @@
     </section>
 
     <section id="deep">
-      <h2><span class="num">04</span>专题：飞控冗余与失效降级</h2>
+      <h2><span class="num">04</span><span data-en="Focus: Flight-Control Redundancy &amp; Degradation">专题：飞控冗余与失效降级</span></h2>
       <p>本节把第 03 章的割集 A1 与控制结构落在具体数字上：当一副旋翼、一个机臂乃至更多动力单元失效时，这架飞机还能不能飞。</p>
 
       <h3>推力余量是容错能力的物理基础</h3>
@@ -151,10 +152,10 @@
             <tr><th style="width:26%">失效情形</th><th class="num" style="width:14%">剩余旋翼</th><th class="num" style="width:18%">总可用推力</th><th class="num" style="width:16%">余量</th><th>能否维持悬停</th></tr>
           </thead>
           <tbody>
-            <tr><td>完好</td><td class="num">16</td><td class="num">8000 N</td><td class="num">31.5%</td><td>能</td></tr>
-            <tr><td>单副旋翼失效</td><td class="num">15</td><td class="num">7500 N</td><td class="num">23.3%</td><td>能，需力矩补偿</td></tr>
-            <tr><td>整臂失效（2 副）</td><td class="num">14</td><td class="num">7000 N</td><td class="num">15.1%</td><td>能，但姿态裕度显著下降</td></tr>
-            <tr><td>两臂失效（4 副）</td><td class="num">12</td><td class="num">6000 N</td><td class="num">-1.4%</td><td><strong>不能</strong>，必须立即着陆</td></tr>
+            <tr><td>完好</td><td class="num">16</td><td class="num">8000 N</td><td class="num">31.5%</td><td class="t-ok">能</td></tr>
+            <tr><td>单副旋翼失效</td><td class="num">15</td><td class="num">7500 N</td><td class="num">23.3%</td><td class="t-warn">能，需力矩补偿</td></tr>
+            <tr><td>整臂失效（2 副）</td><td class="num">14</td><td class="num">7000 N</td><td class="num">15.1%</td><td class="t-warn">能，但姿态裕度显著下降</td></tr>
+            <tr><td>两臂失效（4 副）</td><td class="num">12</td><td class="num">6000 N</td><td class="num">-1.4%</td><td class="t-no"><strong>不能</strong>，必须立即着陆</td></tr>
           </tbody>
         </table>
       </div>
@@ -188,7 +189,7 @@
       </div>
 
     <section id="boundary">
-      <h2><span class="num">05</span>容错边界与剩余风险</h2>
+      <h2><span class="num">05</span><span data-en="Fault-Tolerance Boundary &amp; Residual Risk">容错边界与剩余风险</span></h2>
 
       <div class="tw">
         <table>
@@ -210,7 +211,7 @@
     </section>
 
     <section id="sum">
-      <h2><span class="num">06</span>本章总结</h2>
+      <h2><span class="num">06</span><span data-en="Chapter Summary">本章总结</span></h2>
       <div class="sum">
         <p>三套飞控、12 组电池、三重链路构成分层冗余。表决能容忍一路错误，前提是至多一路错误——两路同向错误时，2oo3 会判错，这是整套架构最脆弱的一格。</p>
         <p>推力余量算到具体数字：单副与单臂失效可控，损失两臂后余量转负。<strong>容错能力不体现在「还能飞」，而体现在「能平稳落下来」。</strong></p>
@@ -218,28 +219,29 @@
     </section>
 
     <nav class="pager" aria-label="章节翻页">
-      <a href="03-hazard.html"><span class="p-d">上一章</span><span class="p-t">← 03 危害识别与风险评估</span></a>
-      <a href="05-hw-sw.html" class="next"><span class="p-d">下一章</span><span class="p-t">05 硬件与软件安全设计 →</span></a>
+      <a href="03-hazard.html"><span class="p-d" data-en="Previous">上一章</span><span class="p-t" data-en="← 03 Hazard Identification &amp; Risk Assessment">← 03 危害识别与风险评估</span></a>
+      <a href="05-hw-sw.html" class="next"><span class="p-d" data-en="Next">下一章</span><span class="p-t" data-en="05 Hardware &amp; Software Safety →">05 硬件与软件安全设计 →</span></a>
     </nav>
   </main>
 
   <aside class="toc" aria-label="本页目录">
-    <p class="toc-title">本页</p>
+    <p class="toc-title" data-en="On This Page">本页</p>
         <ol>
-      <li><a href="#overview">架构总览</a></li>
-      <li><a href="#form">冗余形式的选型</a></li>
-      <li><a href="#vote">表决与降级路径</a></li>
-      <li><a href="#deep">专题：飞控冗余与失效降级</a></li>
-      <li><a href="#boundary">容错边界与剩余风险</a></li>
-      <li><a href="#sum">本章总结</a></li>
+      <li><a href="#overview" data-en="Architecture Overview">架构总览</a></li>
+      <li><a href="#form" data-en="Choosing a Redundancy Scheme">冗余形式的选型</a></li>
+      <li><a href="#vote" data-en="Voting &amp; Degradation Paths">表决与降级路径</a></li>
+      <li><a href="#deep" data-en="Focus: Flight-Control Redundancy &amp; Degradation">专题：飞控冗余与失效降级</a></li>
+      <li><a href="#boundary" data-en="Fault-Tolerance Boundary &amp; Residual Risk">容错边界与剩余风险</a></li>
+      <li><a href="#sum" data-en="Chapter Summary">本章总结</a></li>
     </ol>
   </aside>
 </div>
 
 <footer class="foot">
-  <span><a class="home" href="index.html">首页</a>　·　飞行汽车技术基础 2026</span>
-  <span><a href="#top" class="back-to-top">↑ 返回顶部</a>　|　<a href="09-evidence.html">证据与引用</a></span>
+  <span><a class="home" href="index.html" data-en="Home">首页</a>　·　<span data-en="Fundamentals of Flying Vehicle Technology 2026">飞行汽车技术基础 2026</span></span>
+  <span><a href="#top" class="back-to-top" data-en="↑ Back to top">↑ 返回顶部</a>　|　<a href="09-evidence.html" data-en="Evidence &amp; References">证据与引用</a></span>
 </footer>
+<script src="assets/lang.js"></script>
 <script src="assets/main.js"></script>
 <script src="assets/calc.js"></script>
 </body>

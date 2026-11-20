@@ -9,23 +9,24 @@
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body id="top">
-<a class="skip" href="#main">跳到正文</a>
+<a class="skip" href="#main" data-en="Skip to content">跳到正文</a>
 
 <header class="topbar">
   <div class="topbar-in">
     <a class="brand" href="index.html"><b>EH216-S 安全分析</b><span>Safety Systems Engineering</span></a>
     <nav class="topnav" aria-label="章节导航">
-      <a href="01-scope.html">范围</a>
-      <a href="02-method.html">方法</a>
-      <a href="03-hazard.html">危害</a>
-      <a href="04-arch.html">架构</a>
-      <a href="05-hw-sw.html" class="active" aria-current="page">软硬件</a>
-      <a href="06-physical.html">物理安全</a>
-      <a href="07-vv.html">验证</a>
-      <a href="08-assurance.html">论证</a>
-      <a href="09-evidence.html">证据</a>
-      <a href="10-summary.html">总结</a>
+      <a href="01-scope.html" data-en="Scope">范围</a>
+      <a href="02-method.html" data-en="Method">方法</a>
+      <a href="03-hazard.html" data-en="Hazard">危害</a>
+      <a href="04-arch.html" data-en="Arch">架构</a>
+      <a href="05-hw-sw.html" class="active" aria-current="page" data-en="HW &amp; SW">软硬件</a>
+      <a href="06-physical.html" data-en="Physical">物理安全</a>
+      <a href="07-vv.html" data-en="V&amp;V">验证</a>
+      <a href="08-assurance.html" data-en="Argument">论证</a>
+      <a href="09-evidence.html" data-en="Evidence">证据</a>
+      <a href="10-summary.html" data-en="Summary">总结</a>
     </nav>
+    <button class="lang" type="button" aria-label="切换语言 / Switch language" title="切换语言 / Switch language">EN</button>
     <a class="sister-link" href="https://tianba9.github.io/eh216s-research/" title="切换至卷一：全方位调研与分析">卷一·调研分析 ↗</a>
   </div>
 </header>
@@ -33,29 +34,29 @@
 <div class="shell">
 
   <aside class="toc-nav" aria-label="全站章节">
-    <p class="toc-title">全站章节</p>
+    <p class="toc-title" data-en="Site Chapters">全站章节</p>
                         <ol>
-        <li class="nav-home"><a href="index.html">首页</a></li>
-        <li><a href="01-scope.html">01 安全管理与场景定义</a></li>
-        <li><a href="02-method.html">02 安全分析方法与标准体系</a></li>
-        <li><a href="03-hazard.html">03 危害识别与风险评估</a></li>
-        <li><a href="04-arch.html">04 系统安全架构与冗余</a></li>
-        <li><a href="05-hw-sw.html" class="active" aria-current="page">05 硬件与软件安全设计</a></li>
-        <li><a href="06-physical.html">06 机械、化学与电气安全</a></li>
-        <li><a href="07-vv.html">07 安全测试与验证</a></li>
-        <li><a href="08-assurance.html">08 运行安全论证</a></li>
-        <li><a href="09-evidence.html">09 证据与引用</a></li>
-        <li><a href="10-summary.html">10 全文总结</a></li>
+        <li class="nav-home"><a href="index.html" data-en="Home">首页</a></li>
+        <li><a href="01-scope.html" data-en="01 Safety Management &amp; Scenario Definition">01 安全管理与场景定义</a></li>
+        <li><a href="02-method.html" data-en="02 Safety Analysis Methods &amp; Standards">02 安全分析方法与标准体系</a></li>
+        <li><a href="03-hazard.html" data-en="03 Hazard Identification &amp; Risk Assessment">03 危害识别与风险评估</a></li>
+        <li><a href="04-arch.html" data-en="04 Safety Architecture &amp; Redundancy">04 系统安全架构与冗余</a></li>
+        <li><a href="05-hw-sw.html" class="active" aria-current="page" data-en="05 Hardware &amp; Software Safety">05 硬件与软件安全设计</a></li>
+        <li><a href="06-physical.html" data-en="06 Mechanical, Chemical &amp; Electrical Safety">06 机械、化学与电气安全</a></li>
+        <li><a href="07-vv.html" data-en="07 Test &amp; Verification">07 安全测试与验证</a></li>
+        <li><a href="08-assurance.html" data-en="08 Operational Safety Argument">08 运行安全论证</a></li>
+        <li><a href="09-evidence.html" data-en="09 Evidence &amp; References">09 证据与引用</a></li>
+        <li><a href="10-summary.html" data-en="10 Overall Conclusion">10 全文总结</a></li>
       </ol>
   </aside>
 
   <main id="main">
     <div class="page-head">
       <div class="ph-top">
-        <div class="crumb"><a href="index.html">首页</a><span class="sep">›</span><span class="cur">05 硬件与软件安全设计</span></div>
-        <div class="head-nav"><a href="04-arch.html" title="上一章：04 系统安全架构与冗余">‹ 04 系统安全架构与冗余</a><a href="06-physical.html" title="下一章：06 机械、化学与电气安全">06 机械、化学与电气安全 ›</a></div>
+        <div class="crumb"><a href="index.html" data-en="Home">首页</a><span class="sep">›</span><span class="cur" data-en="05 Hardware &amp; Software Safety">05 硬件与软件安全设计</span></div>
+        <div class="head-nav"><a href="04-arch.html" title="上一章：04 系统安全架构与冗余" data-en="‹ 04 Safety Architecture &amp; Redundancy">‹ 04 系统安全架构与冗余</a><a href="06-physical.html" title="下一章：06 机械、化学与电气安全" data-en="06 Mechanical, Chemical &amp; Electrical Safety ›">06 机械、化学与电气安全 ›</a></div>
       </div>
-      <h1>硬件靠隔离，软件靠约束</h1>
+      <h1 data-en="Hardware by Isolation, Software by Constraint">硬件靠隔离，软件靠约束</h1>
       <p class="lede">
         硬件安全的通用解法是「检测 — 隔离 — 降级」，因为硬件失效是随机的、可统计的。
         软件失效不是随机的：它一旦存在就必然复现，且会在三套系统里同时发作。所以软件安全的解法不是冗余，而是开发过程的约束。
@@ -63,7 +64,7 @@
     </div>
 
     <section id="hw">
-      <h2><span class="num">01</span>硬件失效模式与保护</h2>
+      <h2><span class="num">01</span><span data-en="Hardware Failure Modes &amp; Protection">硬件失效模式与保护</span></h2>
       <p>下表按分系统列出主要失效模式、检测手段与保护动作。这张表是 FMEA 的浓缩版，也是维修大纲的输入。</p>
 
       <div class="tw">
@@ -88,7 +89,7 @@
     </section>
 
     <section id="spfm">
-      <h2><span class="num">02</span>单点故障与潜伏故障</h2>
+      <h2><span class="num">02</span><span data-en="Single-Point &amp; Latent Faults">单点故障与潜伏故障</span></h2>
       <p>评估硬件安全架构时，两个指标比「有几个冗余」更有意义：单点故障度量（SPFM）与潜伏故障度量（LFM）。它们原本来自汽车功能安全，但其逻辑完全适用于航空。</p>
 
       <div class="tw">
@@ -108,7 +109,7 @@
     </section>
 
     <section id="sw">
-      <h2><span class="num">03</span>软件安全设计</h2>
+      <h2><span class="num">03</span><span data-en="Software Safety Design">软件安全设计</span></h2>
       <p>飞控软件按 A 级开发，意味着需求追溯、覆盖率、独立验证三项都必须满足。但过程合规不等于逻辑正确，下面按功能拆解软件层面的安全设计。</p>
 
       <div class="tw">
@@ -138,7 +139,7 @@
     </section>
 
     <section id="sotif">
-      <h2><span class="num">04</span>感知与预期功能安全</h2>
+      <h2><span class="num">04</span><span data-en="Perception &amp; SOTIF">感知与预期功能安全</span></h2>
       <p>预期功能安全（SOTIF）处理的是「系统没有故障，但性能不足以应对场景」的风险。对低空飞行器，这类风险集中在感知与决策。</p>
 
       <div class="tw">
@@ -162,7 +163,7 @@
     </section>
 
     <section id="human">
-      <h2><span class="num">05</span>远程机组人因</h2>
+      <h2><span class="num">05</span><span data-en="Remote-Crew Human Factors">远程机组人因</span></h2>
       <p>机上无人后，人的角色从「操纵者」变成「监视者与决策者」。这个转变带来一类新的风险：监视型工作的注意力衰减。</p>
 
       <div class="tw">
@@ -181,7 +182,7 @@
     </section>
 
     <section id="sum">
-      <h2><span class="num">06</span>本章总结</h2>
+      <h2><span class="num">06</span><span data-en="Chapter Summary">本章总结</span></h2>
       <div class="sum">
         <p>硬件安全的通用解法是检测—隔离—降级，因为硬件失效随机、可统计。软件不同：缺陷一旦存在就必然复现，且会在三套系统里同时发作——所以软件安全靠开发约束，不靠冗余。</p>
         <p>SPFM 与 LFM 比「有几个冗余」更有意义，潜伏故障往往在需要备份时才暴露。SOTIF 那张表里没有一项能靠加冗余解决，解法都是缩小运行范围。</p>
@@ -189,28 +190,29 @@
     </section>
 
     <nav class="pager" aria-label="章节翻页">
-      <a href="04-arch.html"><span class="p-d">上一章</span><span class="p-t">← 04 系统安全架构与冗余</span></a>
-      <a href="06-physical.html" class="next"><span class="p-d">下一章</span><span class="p-t">06 机械、化学与电气安全 →</span></a>
+      <a href="04-arch.html"><span class="p-d" data-en="Previous">上一章</span><span class="p-t" data-en="← 04 Safety Architecture &amp; Redundancy">← 04 系统安全架构与冗余</span></a>
+      <a href="06-physical.html" class="next"><span class="p-d" data-en="Next">下一章</span><span class="p-t" data-en="06 Mechanical, Chemical &amp; Electrical Safety →">06 机械、化学与电气安全 →</span></a>
     </nav>
   </main>
 
   <aside class="toc" aria-label="本页目录">
-    <p class="toc-title">本页</p>
+    <p class="toc-title" data-en="On This Page">本页</p>
         <ol>
-      <li><a href="#hw">硬件失效模式与保护</a></li>
-      <li><a href="#spfm">单点故障与潜伏故障</a></li>
-      <li><a href="#sw">软件安全设计</a></li>
-      <li><a href="#sotif">感知与预期功能安全</a></li>
-      <li><a href="#human">远程机组人因</a></li>
-      <li><a href="#sum">本章总结</a></li>
+      <li><a href="#hw" data-en="Hardware Failure Modes &amp; Protection">硬件失效模式与保护</a></li>
+      <li><a href="#spfm" data-en="Single-Point &amp; Latent Faults">单点故障与潜伏故障</a></li>
+      <li><a href="#sw" data-en="Software Safety Design">软件安全设计</a></li>
+      <li><a href="#sotif" data-en="Perception &amp; SOTIF">感知与预期功能安全</a></li>
+      <li><a href="#human" data-en="Remote-Crew Human Factors">远程机组人因</a></li>
+      <li><a href="#sum" data-en="Chapter Summary">本章总结</a></li>
     </ol>
   </aside>
 </div>
 
 <footer class="foot">
-  <span><a class="home" href="index.html">首页</a>　·　飞行汽车技术基础 2026</span>
-  <span><a href="#top" class="back-to-top">↑ 返回顶部</a>　|　<a href="09-evidence.html">证据与引用</a></span>
+  <span><a class="home" href="index.html" data-en="Home">首页</a>　·　<span data-en="Fundamentals of Flying Vehicle Technology 2026">飞行汽车技术基础 2026</span></span>
+  <span><a href="#top" class="back-to-top" data-en="↑ Back to top">↑ 返回顶部</a>　|　<a href="09-evidence.html" data-en="Evidence &amp; References">证据与引用</a></span>
 </footer>
+<script src="assets/lang.js"></script>
 <script src="assets/main.js"></script>
 </body>
 </html>
