@@ -463,3 +463,7 @@ figcaption b{color:var(--ink-2);font-weight:600;}
   .ph-top .head-nav{flex:1 1 100%;justify-content:flex-start;}
   .head-nav a{font-size:.7rem;padding:.24rem .5rem;}
 }
+
+/* 章节切换按钮：不换行、不压缩 */
+.ph-top .head-nav{flex:0 0 auto;flex-wrap:wrap;justify-content:flex-end;}
+.head-nav a{white-space:nowrap;}
