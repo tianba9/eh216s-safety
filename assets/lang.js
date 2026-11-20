@@ -15,7 +15,7 @@
 
     var btn = document.querySelector('.lang');
     if (btn) {
-      btn.textContent = lang === 'en' ? '中' : 'EN';
+      btn.textContent = lang === 'en' ? '中文' : 'EN';
       btn.setAttribute('title', lang === 'en' ? '切换为中文' : 'Switch to English');
       btn.setAttribute('aria-label', lang === 'en' ? '切换为中文' : 'Switch to English');
     }
