@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>09 证据与引用 · EH216-S 安全分析</title>
+<meta name="description" content="安全分析所依据的监管文件、标准、企业披露与行业资料，以及本文引用的标准体系与计算假设。">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="index.html"><b>EH216-S 安全分析</b><span>Safety Systems Engineering</span></a>
+    <nav class="topnav">
+      <a href="01-scope.html">范围</a><a href="02-method.html">方法</a><a href="03-hazard.html">危害</a>
+      <a href="04-arch.html">架构</a><a href="05-hw-sw.html">软硬件</a><a href="06-physical.html">物理安全</a>
+      <a href="07-vv.html">验证</a><a href="08-assurance.html">论证</a>
+    </nav>
+    <span class="tag-assign">作业二 · 安全分析</span>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="toc">
+    <p class="toc-title">本页</p>
+    <ol>
+      <li><a href="#matrix">安全证据矩阵</a></li>
+      <li><a href="#std">引用的标准体系</a></li>
+      <li><a href="#assume">计算假设汇总</a></li>
+      <li><a href="#limit">局限声明</a></li>
+    </ol>
+    <div class="sub">
+      <p class="toc-title">全站章节</p>
+      <ol>
+        <li><a href="01-scope.html">0–1 安全管理与场景定义</a></li>
+        <li><a href="02-method.html">2 安全分析方法与标准</a></li>
+        <li><a href="03-hazard.html">2 危害识别与风险评估</a></li>
+        <li><a href="04-arch.html">3 系统安全架构与冗余</a></li>
+        <li><a href="05-hw-sw.html">4–5 硬件与软件安全</a></li>
+        <li><a href="06-physical.html">6 机械、化学与电气安全</a></li>
+        <li><a href="07-vv.html">7 安全测试与验证</a></li>
+        <li><a href="08-assurance.html">8 运行安全论证</a></li>
+        <li><a href="09-evidence.html">证据与引用</a></li>
+      </ol>
+    </div>
+  </aside>
+
+  <main>
+    <div class="page-head">
+      <div class="eyebrow">09 · 证据与引用</div>
+      <h1>安全分析的证据基础</h1>
+      <p class="lede">
+        安全类结论对来源的要求比性能数据更高：一条错引用的失效率，可能让整棵故障树的结论失效。
+        本页列出全部来源、引用标准与计算假设，供读者复核。
+      </p>
+    </div>
+
+    <section id="matrix">
+      <h2><span class="num">01</span>安全证据矩阵</h2>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 9-1</b>　安全分析证据矩阵（共 16 条）</caption>
+          <thead>
+            <tr>
+              <th style="width:6%">编号</th><th style="width:30%">来源</th><th style="width:10%">类型</th>
+              <th style="width:10%">可信度</th><th>支撑的安全论断</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">A01</td><td>《亿航EH216-S型无人驾驶航空器系统专用条件》SC-21-002</td><td>标准</td><td>最高</td><td>七类审定要求；三套独立飞控；2 名乘员；隔离空域运行；适坠性、热失控、三重链路为新增要求</td></tr>
+            <tr><td class="em">A02</td><td>EH216-S 型号合格证（TC），2023-10-13</td><td>监管</td><td>最高</td><td>设计符合性已通过局方审查，SSA 结论获接受</td></tr>
+            <tr><td class="em">A03</td><td>标准适航证（AC），2023-12-21</td><td>监管</td><td>最高</td><td>单机处于适航状态</td></tr>
+            <tr><td class="em">A04</td><td>生产许可证（PC），2024-04-07</td><td>监管</td><td>中高</td><td>批产质量体系通过审查</td></tr>
+            <tr><td class="em">A05</td><td>运营合格证（OC），2025-03-28</td><td>监管</td><td>高</td><td>运营人具备持续安全运行能力</td></tr>
+            <tr><td class="em">A06</td><td>EH216-S 产品页（安全栏目）</td><td>官方</td><td>高</td><td>三套飞控 + 表决；关键部件全备份；Fail-Safe 健康评估；加密通信与独立密钥</td></tr>
+            <tr><td class="em">A07</td><td>官网：8 轴 16 旋翼、共轴双桨、碳纤维机身、滑橇式起落架</td><td>官方</td><td>高</td><td>构型与结构形式，用于适坠性与容错分析</td></tr>
+            <tr><td class="em">A08</td><td>累计 9 万架次零事故（企业口径经媒体转述，截至 2026-06）</td><td>企业自述</td><td>中</td><td>运行可靠性增长；<strong>不用于失效概率定量证明</strong></td></tr>
+            <tr><td class="em">A09</td><td>12 组动力电池、16 套电机的配置说明</td><td>官方/媒体</td><td>中高</td><td>能源与动力的分组冗余；具体供电拓扑未公开</td></tr>
+            <tr><td class="em">A10</td><td>固态电池测试飞行（480 Wh/kg，48 分 10 秒）</td><td>企业测试</td><td>低中</td><td>能量密度对航时的支配关系；未量产</td></tr>
+            <tr><td class="em">A11</td><td>SAE ARP4754A 民用飞机与系统开发指南</td><td>标准</td><td>最高</td><td>V 模型、开发保证等级、系统安全评估流程</td></tr>
+            <tr><td class="em">A12</td><td>SAE ARP4761 民用机安全评估指南</td><td>标准</td><td>最高</td><td>FHA / PSSA / SSA / FTA / CCA 的方法定义</td></tr>
+            <tr><td class="em">A13</td><td>RTCA DO-178C 机载软件、DO-254 机载硬件</td><td>标准</td><td>最高</td><td>A/B/C/D 级软件的开发与验证严格度</td></tr>
+            <tr><td class="em">A14</td><td>RTCA DO-160G 机载设备环境条件与试验程序</td><td>标准</td><td>最高</td><td>温度、振动、EMC、雷电等环境试验要求</td></tr>
+            <tr><td class="em">A15</td><td>ISO 26262 / ISO 21448 / ISO-SAE 21434</td><td>标准</td><td>高</td><td>功能安全、预期功能安全、信息安全的分析框架（跨域参考）</td></tr>
+            <tr><td class="em">A16</td><td>EASA SC-VTOL-01 小型垂直起降航空器专用条件</td><td>标准</td><td>高</td><td>eVTOL 适航框架的国际对照，用于评价国内专用条件的完备性</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="std">
+      <h2><span class="num">02</span>引用的标准体系</h2>
+      <p>按 GB/T 7714 格式列出。标准类文献不标访问日期。</p>
+      <ol style="font-size:.88rem;line-height:1.8;max-width:74ch;">
+        <li>中国民用航空局. 亿航EH216-S型无人驾驶航空器系统专用条件: SC-21-002[S]. 2022.</li>
+        <li>SAE International. Guidelines for Development of Civil Aircraft and Systems: ARP4754A[S]. 2010.</li>
+        <li>SAE International. Guidelines and Methods for Conducting the Safety Assessment Process on Civil Airborne Systems and Equipment: ARP4761[S]. 1996.</li>
+        <li>RTCA. DO-178C Software Considerations in Airborne Systems and Equipment Certification[S]. 2011.</li>
+        <li>RTCA. DO-254 Design Assurance Guidance for Airborne Electronic Hardware[S]. 2000.</li>
+        <li>RTCA. DO-160G Environmental Conditions and Test Procedures for Airborne Equipment[S]. 2010.</li>
+        <li>ISO. ISO 26262 Road vehicles — Functional safety[S]. 2018.</li>
+        <li>ISO. ISO 21448 Road vehicles — Safety of the intended functionality[S]. 2022.</li>
+        <li>ISO/SAE. ISO/SAE 21434 Road vehicles — Cybersecurity engineering[S]. 2021.</li>
+        <li>EASA. Special Condition for Small-Category VTOL Aircraft: SC-VTOL-01[S]. 2019.</li>
+        <li>亿航智能. EH216-S 无人驾驶载人航空器系统产品页[EB/OL]. [2026-11-20]. https://www.ehang.com/ehang216s/.</li>
+        <li>EHang Holdings Limited. Form 6-K: Fiscal Year 2025 Financial Results[R]. 2026.</li>
+      </ol>
+    </section>
+
+    <section id="assume">
+      <h2><span class="num">03</span>计算假设汇总</h2>
+      <p>本站出现的全部定量结果，均以下列假设为前提。替换任一假设后结论可能变化，因此集中列出。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 9-2</b>　定量分析的假设清单</caption>
+          <thead><tr><th style="width:26%">假设</th><th class="num" style="width:18%">取值</th><th style="width:24%">用于</th><th>依据</th></tr></thead>
+          <tbody>
+            <tr><td>最大起飞重量</td><td class="num">620 kg</td><td>全部力学计算</td><td>官网值（二手来源有 650 kg 说法）</td></tr>
+            <tr><td>重力加速度</td><td class="num">9.81 m/s²</td><td>推力与能量</td><td>标准值</td></tr>
+            <tr><td>单副旋翼最大推力</td><td class="num">500 N</td><td>容错边界</td><td><strong>假设值</strong>，按 30% 余量反推</td></tr>
+            <tr><td>悬停需求推力</td><td class="num">6082 N</td><td>推力余量</td><td>620 × 9.81</td></tr>
+            <tr><td>单架次飞行时间</td><td class="num">25 min</td><td>运行小时折算</td><td>官网航时</td></tr>
+            <tr><td>人员耐受限值</td><td class="num">20 g</td><td>坠撞减速度判定</td><td>脊柱方向短时耐受的通行参考</td></tr>
+            <tr><td>灾难性失效目标</td><td class="num">10⁻⁹/fh</td><td>统计效力估算</td><td>运输类航空器通行量级</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="limit">
+      <h2><span class="num">04</span>局限声明</h2>
+      <ul>
+        <li><strong>无内部资料。</strong>本文未获得该型号的 FHA、PSSA、SSA、FMEA 报告与符合性验证文件，全部分析基于公开信息重建，属「第三方独立复算」，不等同于厂商的正式安全评估。</li>
+        <li><strong>不做概率定量。</strong>缺少失效率数据与架构细节，故障树只给出割集与定性排序，不给出顶事件概率。</li>
+        <li><strong>不推断未披露的配置。</strong>整机降落伞、机载灭火系统、供电拓扑、软件是否异构，凡公开材料未载明者，一律标注为「未披露」而非「没有」。</li>
+        <li><strong>运行数据未经审计。</strong>9 万架次与零事故均为企业口径，本文按最低可信等级使用，并在第 07 章说明其统计学局限。</li>
+        <li><strong>标准版本可能滞后。</strong>本文引用的 ARP4754A、DO-178C 等为通行版本，实际审定中局方可能采用更新或等效的接受方法。</li>
+      </ul>
+
+      <div class="note">
+        <span class="lbl">关于本报告的方法论立场</span>
+        <p>安全分析的价值不在于给出「安全」或「不安全」的结论，而在于把「为什么认为安全」拆成可追问的环节。
+        本文对三处缺口的指出，目的不是质疑审定结论，而是标出在扩展运行场景时最需要补强的位置。</p>
+      </div>
+    </section>
+
+    <nav class="pager">
+      <a href="08-assurance.html"><span class="p-d">上一章</span><span class="p-t">← 08 运行安全论证</span></a>
+      <a href="index.html" class="next"><span class="p-d">返回</span><span class="p-t">首页 →</span></a>
+    </nav>
+  </main>
+</div>
+
+<footer class="foot">
+  <span>飞行汽车技术基础 · 课程作业二 · 2026</span>
+  <span>研究对象：亿航智能 EH216-S</span>
+</footer>
+<script src="assets/main.js"></script>
+</body>
+</html>

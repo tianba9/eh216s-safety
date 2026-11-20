@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>03 危害识别与风险评估 · EH216-S 安全分析</title>
+<meta name="description" content="12 项危害的功能危害分析、STPA 控制结构与不安全控制行为、非指令坠地与动力丧失的故障树，以及共因失效分析。">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="index.html"><b>EH216-S 安全分析</b><span>Safety Systems Engineering</span></a>
+    <nav class="topnav">
+      <a href="01-scope.html">范围</a><a href="02-method.html">方法</a><a href="03-hazard.html">危害</a>
+      <a href="04-arch.html">架构</a><a href="05-hw-sw.html">软硬件</a><a href="06-physical.html">物理安全</a>
+      <a href="07-vv.html">验证</a><a href="08-assurance.html">论证</a>
+    </nav>
+    <span class="tag-assign">作业二 · 安全分析</span>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="toc">
+    <p class="toc-title">本页</p>
+    <ol>
+      <li><a href="#fha">FHA：12 项危害</a></li>
+      <li><a href="#stpa">STPA 控制结构</a></li>
+      <li><a href="#uca">不安全控制行为</a></li>
+      <li><a href="#fta">故障树：非指令坠地</a></li>
+      <li><a href="#cca">共因失效分析</a></li>
+    </ol>
+    <div class="sub">
+      <p class="toc-title">全站章节</p>
+      <ol>
+        <li><a href="01-scope.html">0–1 安全管理与场景定义</a></li>
+        <li><a href="02-method.html">2 安全分析方法与标准</a></li>
+        <li><a href="03-hazard.html">2 危害识别与风险评估</a></li>
+        <li><a href="04-arch.html">3 系统安全架构与冗余</a></li>
+        <li><a href="05-hw-sw.html">4–5 硬件与软件安全</a></li>
+        <li><a href="06-physical.html">6 机械、化学与电气安全</a></li>
+        <li><a href="07-vv.html">7 安全测试与验证</a></li>
+        <li><a href="08-assurance.html">8 运行安全论证</a></li>
+        <li><a href="09-evidence.html">证据与引用</a></li>
+      </ol>
+    </div>
+  </aside>
+
+  <main>
+    <div class="page-head">
+      <div class="eyebrow">03 · 步骤 2（核心）</div>
+      <h1>十二项危害、一棵控制结构、一棵故障树</h1>
+      <p class="lede">
+        危害分析的产出不是一张长表，而是三个判断：哪些危害不可接受、哪些控制环节可能给出错误指令、哪些失效路径会绕过冗余。
+        本章依次给出这三者。
+      </p>
+    </div>
+
+    <section id="fha">
+      <h2><span class="num">01</span>FHA：12 项危害</h2>
+      <p>严重度按运输类航空器惯例分五级：灾难性、危险、较大、较小、无安全影响。概率目标随严重度递减，灾难性项取 10<sup>-9</sup>/飞行小时。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 3-1</b>　功能危害分析（FHA）</caption>
+          <thead>
+            <tr><th style="width:7%">编号</th><th style="width:24%">危害</th><th style="width:9%">阶段</th><th style="width:10%">严重度</th><th style="width:11%">概率目标</th><th>控制思路</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">H01</td><td>空中丧失姿态控制</td><td>巡航</td><td>灾难性</td><td class="num">10<sup>-9</sup></td><td>三余度飞控 + 表决 + 包线保护</td></tr>
+            <tr><td class="em">H02</td><td>全部推力丧失</td><td>全阶段</td><td>灾难性</td><td class="num">10<sup>-9</sup></td><td>16 旋翼分布动力 + 12 组电池隔离</td></tr>
+            <tr><td class="em">H03</td><td>电池热失控引发火情</td><td>全阶段</td><td>灾难性</td><td class="num">10<sup>-9</sup></td><td>热失控预警、组间隔离、泄压阻燃</td></tr>
+            <tr><td class="em">H04</td><td>与障碍物或其他航空器相撞</td><td>巡航</td><td>灾难性</td><td class="num">10<sup>-9</sup></td><td>隔离空域 + 航路申报 + 感知避让</td></tr>
+            <tr><td class="em">H05</td><td>坠撞导致乘员致命伤</td><td>着陆</td><td>灾难性</td><td class="num">10<sup>-9</sup></td><td>适坠性结构 + 约束系统 + 吸能</td></tr>
+            <tr><td class="em">H06</td><td>部分推力丧失导致不可控偏航</td><td>全阶段</td><td>危险</td><td class="num">10<sup>-7</sup></td><td>控制重构 + 降级飞行 + 就近迫降</td></tr>
+            <tr><td class="em">H07</td><td>数据链路丧失</td><td>巡航</td><td>危险</td><td class="num">10<sup>-7</sup></td><td>三重链路 + 失联自主失效保护</td></tr>
+            <tr><td class="em">H08</td><td>导航受扰或欺骗导致偏航</td><td>巡航</td><td>危险</td><td class="num">10<sup>-7</sup></td><td>多源导航融合 + 一致性校验</td></tr>
+            <tr><td class="em">H09</td><td>强风扰动超出控制能力</td><td>起降 / 巡航</td><td>危险</td><td class="num">10<sup>-7</sup></td><td>气象门槛 + 风扰估计 + 包线限制</td></tr>
+            <tr><td class="em">H10</td><td>起降阶段地面人员进入旋翼区</td><td>起降</td><td>危险</td><td class="num">10<sup>-7</sup></td><td>场地隔离 + 地面引导 + 起飞前确认</td></tr>
+            <tr><td class="em">H11</td><td>非计划着陆造成地面第三方伤害</td><td>全阶段</td><td>较大</td><td class="num">10<sup>-5</sup></td><td>迫降区选择 + 航线避开人口密集区</td></tr>
+            <tr><td class="em">H12</td><td>乘员未系约束或误触舱门</td><td>全阶段</td><td>较大</td><td class="num">10<sup>-5</sup></td><td>约束监测 + 舱门联锁 + 起飞前检查</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>五项灾难性危害中，<strong>H01、H02 由架构控制，H03 由电池系统与热管理控制，H04 由空域与运行控制，H05 由结构适坠性控制</strong>。四类控制手段分属完全不同的专业领域——这解释了为什么整机安全不可能由单一团队完成。</p>
+    </section>
+
+    <section id="stpa">
+      <h2><span class="num">02</span>STPA 控制结构</h2>
+      <p>STPA 的第一步是把系统描述成一个分层控制结构：谁给谁下指令，谁向谁反馈状态。EH216-S 的特殊之处在于，控制链跨越了「机上」与「地面」两个物理空间。</p>
+
+      <figure>
+        <div class="frame">
+          <svg viewBox="0 0 680 250" role="img" aria-label="EH216-S 分层控制结构">
+            <defs>
+              <marker id="a2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+                <path d="M0,0 L7,3 L0,6 z" fill="#0f5c6b"/>
+              </marker>
+              <marker id="a3" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+                <path d="M0,0 L7,3 L0,6 z" fill="#a8500c"/>
+              </marker>
+            </defs>
+            <g font-family="system-ui, sans-serif">
+              <!-- 控制方框 -->
+              <g font-size="11" text-anchor="middle">
+                <rect x="14" y="60" width="96" height="46" fill="#ffffff" stroke="#15181c"/><text x="62" y="80">监管方</text><text x="62" y="96" font-size="9.5" fill="#6d7783">空域与审定</text>
+                <rect x="122" y="60" width="96" height="46" fill="#ffffff" stroke="#15181c"/><text x="170" y="80">运营人</text><text x="170" y="96" font-size="9.5" fill="#6d7783">运行与维修</text>
+                <rect x="230" y="60" width="96" height="46" fill="#e8f1f2" stroke="#0f5c6b"/><text x="278" y="80">远程机组</text><text x="278" y="96" font-size="9.5" fill="#6d7783">监视·应急接管</text>
+                <rect x="338" y="60" width="96" height="46" fill="#e8f1f2" stroke="#0f5c6b"/><text x="386" y="80">地面控制站</text><text x="386" y="96" font-size="9.5" fill="#6d7783">调度·链路</text>
+                <rect x="446" y="60" width="96" height="46" fill="#e8f1f2" stroke="#0f5c6b"/><text x="494" y="80">机载飞控</text><text x="494" y="96" font-size="9.5" fill="#6d7783">三余度表决</text>
+                <rect x="554" y="60" width="112" height="46" fill="#ffffff" stroke="#15181c"/><text x="610" y="80">执行机构</text><text x="610" y="96" font-size="9.5" fill="#6d7783">电机·电调·桨</text>
+              </g>
+              <!-- 前向控制 -->
+              <g stroke="#0f5c6b" stroke-width="1.4" fill="none">
+                <line x1="110" y1="83" x2="120" y2="83" marker-end="url(#a2)"/>
+                <line x1="218" y1="83" x2="228" y2="83" marker-end="url(#a2)"/>
+                <line x1="326" y1="83" x2="336" y2="83" marker-end="url(#a2)"/>
+                <line x1="434" y1="83" x2="444" y2="83" marker-end="url(#a2)"/>
+                <line x1="542" y1="83" x2="552" y2="83" marker-end="url(#a2)"/>
+              </g>
+              <text x="386" y="42" text-anchor="middle" font-size="10" fill="#0f5c6b">前向控制：指令与授权</text>
+              <!-- 反馈 -->
+              <path d="M610,106 L610,150 L278,150 L278,110" fill="none" stroke="#a8500c" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#a3)"/>
+              <text x="430" y="166" text-anchor="middle" font-size="10" fill="#a8500c">反馈：状态·告警·健康度（经数据链路回传）</text>
+              <!-- 航空器 -->
+              <rect x="470" y="188" width="190" height="42" fill="#f7f5f0" stroke="#cfcabf"/>
+              <text x="565" y="206" text-anchor="middle" font-size="11" fill="#3d454e">航空器 + 外部环境</text>
+              <text x="565" y="221" text-anchor="middle" font-size="9.5" fill="#6d7783">风扰·障碍物·人群·电磁</text>
+              <line x1="610" y1="106" x2="610" y2="186" stroke="#cfcabf" stroke-width="1" stroke-dasharray="2 2"/>
+              <text x="640" y="150" font-size="9" fill="#9aa4ae">作用</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>图 3-1</b>　EH216-S 的分层控制结构。控制指令自左向右，反馈自右向左；<strong>整条链路跨越机上与地面，任一环节延迟或失真都会形成新的风险</strong>。
+        <span class="fig-src">依据专用条件对「航空器 + 地面控制站 + 数据链路」的系统定义与远程机组职责绘制。</span></figcaption>
+      </figure>
+    </section>
+
+    <section id="uca">
+      <h2><span class="num">03</span>不安全控制行为</h2>
+      <p>STPA 的核心是追问：对每一个控制行为，什么情况下「给了」「没给」「给早了」「给晚了」或「给太久」会导致危害。下表列出五类典型情形。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 3-2</b>　典型不安全控制行为（UCA）与致因场景</caption>
+          <thead>
+            <tr><th style="width:8%">编号</th><th style="width:22%">控制行为</th><th style="width:18%">不安全类型</th><th style="width:26%">致因场景</th><th>后果</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">U1</td><td>提供推力指令</td><td>持续时间过长</td><td>风扰下持续修正，作动器饱和后仍不降级</td><td>电机过载、姿态发散</td></tr>
+            <tr><td class="em">U2</td><td>终止飞行 / 触发迫降</td><td>未提供</td><td>Fail-Safe 判据过宽，健康状态误判为正常</td><td>带故障继续飞行</td></tr>
+            <tr><td class="em">U3</td><td>切换飞控通道</td><td>提供不当</td><td>表决逻辑在双通道故障时选错通道</td><td>接入故障通道，姿态失控</td></tr>
+            <tr><td class="em">U4</td><td>远程下达航路变更</td><td>给得过晚</td><td>链路延迟叠加机组态势感知不足</td><td>进入禁飞区或障碍区</td></tr>
+            <tr><td class="em">U5</td><td>起飞放行</td><td>给得过早</td><td>地面检查未完成，乘员未系约束</td><td>舱门开启、乘员伤害</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>U2 与 U3 是最值得警惕的两项，因为它们都发生在「系统自认为正常」的状态下。传统 FMEA 无法发现这类问题——所有部件都通过了自检。<strong>这正是 STPA 存在的理由：它分析的是控制逻辑的缺陷，而不是部件的损坏。</strong></p>
+    </section>
+
+    <section id="fta">
+      <h2><span class="num">04</span>故障树：非指令坠地</h2>
+      <p>以「航空器非指令坠地」为顶事件，向下展开三个中间事件。每个中间事件下列出主导割集，作为架构设计的检验清单。</p>
+
+      <figure>
+        <div class="frame">
+          <svg viewBox="0 0 680 340" role="img" aria-label="航空器非指令坠地故障树">
+            <g font-family="system-ui, sans-serif">
+              <!-- 顶事件 -->
+              <rect x="240" y="18" width="200" height="38" fill="#15181c"/>
+              <text x="340" y="42" text-anchor="middle" font-size="12" fill="#ffffff">航空器非指令坠地</text>
+              <line x1="340" y1="56" x2="340" y2="76" stroke="#6d7783"/>
+              <!-- OR 门 -->
+              <path d="M320,76 Q340,96 360,76 Q340,66 320,76 Z" fill="#ffffff" stroke="#6d7783"/>
+              <text x="340" y="113" text-anchor="middle" font-size="9" fill="#6d7783">OR</text>
+              <line x1="340" y1="96" x2="340" y2="108" stroke="#6d7783"/>
+              <!-- 分配母线 -->
+              <line x1="135" y1="108" x2="545" y2="108" stroke="#6d7783"/>
+              <g stroke="#6d7783">
+                <line x1="135" y1="108" x2="135" y2="126"/>
+                <line x1="340" y1="108" x2="340" y2="126"/>
+                <line x1="545" y1="108" x2="545" y2="126"/>
+              </g>
+              <!-- 中间事件 -->
+              <g font-size="11" text-anchor="middle">
+                <rect x="40" y="126" width="190" height="34" fill="#fbf0e6" stroke="#a8500c"/><text x="135" y="148">姿态失控</text>
+                <rect x="245" y="126" width="190" height="34" fill="#fbf0e6" stroke="#a8500c"/><text x="340" y="148">推力完全丧失</text>
+                <rect x="450" y="126" width="190" height="34" fill="#fbf0e6" stroke="#a8500c"/><text x="545" y="148">结构失效</text>
+              </g>
+              <g stroke="#cfcabf">
+                <line x1="135" y1="160" x2="135" y2="180"/>
+                <line x1="340" y1="160" x2="340" y2="180"/>
+                <line x1="545" y1="160" x2="545" y2="180"/>
+              </g>
+              <!-- 割集框 -->
+              <g font-size="9.8" fill="#3d454e">
+                <rect x="40" y="180" width="190" height="126" fill="#ffffff" stroke="#cfcabf"/>
+                <text x="52" y="198">割集 A1　三通道共因失效</text>
+                <text x="52" y="215" fill="#6d7783">同源软件缺陷 / 共同供电</text>
+                <text x="52" y="240">割集 A2　传感器校验失效</text>
+                <text x="52" y="257" fill="#6d7783">共模误差未被检出</text>
+                <text x="52" y="282">割集 A3　作动器卡阻</text>
+                <text x="52" y="299" fill="#6d7783">无独立位置监控</text>
+
+                <rect x="245" y="180" width="190" height="126" fill="#ffffff" stroke="#cfcabf"/>
+                <text x="257" y="198">割集 B1　电池组连锁失效</text>
+                <text x="257" y="215" fill="#6d7783">热失控跨组蔓延</text>
+                <text x="257" y="240">割集 B2　配电主干失效</text>
+                <text x="257" y="257" fill="#6d7783">单点汇聚未隔离</text>
+                <text x="257" y="282">割集 B3　推力指令归零</text>
+                <text x="257" y="299" fill="#6d7783">控制律异常输出</text>
+
+                <rect x="450" y="180" width="190" height="126" fill="#ffffff" stroke="#cfcabf"/>
+                <text x="462" y="198">割集 C1　机臂疲劳裂纹</text>
+                <text x="462" y="215" fill="#6d7783">未在检查间隔内检出</text>
+                <text x="462" y="240">割集 C2　桨叶脱落打击</text>
+                <text x="462" y="257" fill="#6d7783">波及相邻机臂</text>
+                <text x="462" y="282">割集 C3　坠撞后舱体坍塌</text>
+                <text x="462" y="299" fill="#6d7783">吸能不足致乘员伤害</text>
+              </g>
+              <text x="340" y="330" text-anchor="middle" font-size="9.5" fill="#9aa4ae">简化树：仅展开主导割集，非完整故障树</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>图 3-2</b>　「非指令坠地」故障树（简化）。九个割集中，<strong>A1、A2、B1 三项属于「单点即可穿透冗余」的类型</strong>，是架构设计的优先处置对象。
+        <span class="fig-src">本文依据公开架构描述构建，未使用厂商失效数据，故只作定性排序。</span></figcaption>
+      </figure>
+
+      <p>故障树的价值不在图本身，而在它逼出的三个问题：三套飞控是否真的独立？12 组电池之间是否真能阻断热蔓延？机臂裂纹能否在下一次飞行前被发现？这三问分别指向第 04、06、07 章。</p>
+    </section>
+
+    <section id="cca">
+      <h2><span class="num">05</span>共因失效分析</h2>
+      <p>冗余的敌人不是随机失效，是共因。若三套系统共享任一要素，1oo3 会在那一刻退化为 1oo1。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 3-3</b>　四条共因通道与隔离措施</caption>
+          <thead>
+            <tr><th style="width:16%">共因通道</th><th style="width:30%">具体表现</th><th style="width:28%">隔离措施</th><th>可验证性</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">软件同源</td><td>三套飞控运行同一份代码，同一缺陷同时触发</td><td>异构开发、独立团队、独立工具链、多样性算法</td><td>可通过开发过程审查验证</td></tr>
+            <tr><td class="em">供电共用</td><td>三套系统由同一母线供电，一处短路全部失电</td><td>独立电源与独立配电通道，物理隔离布线</td><td>可通过架构图与故障注入验证</td></tr>
+            <tr><td class="em">物理环境</td><td>三个传感器同处一个舱段，同时受热、受振、受水汽</td><td>分舱安装、减振隔离、环境防护等级提升</td><td>可通过环境试验验证</td></tr>
+            <tr><td class="em">维修差错</td><td>同一工序错误地施加于三套相同部件</td><td>防呆设计、独立检查、差异化工序</td><td>可通过维修程序审查验证</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note warn">
+        <span class="lbl">最关键的一处空白</span>
+        <p>公开材料明确「三套独立飞行控制系统」「关键部件全备份」<span class="ev ev-off">官方</span>，但<strong>未披露三套系统是否采用异构软件</strong>。若为同源软件，「独立」只解决硬件随机失效，不解决软件共因——而软件缺陷恰恰是 A 级系统最难通过统计发现的风险。这一项应作为向厂商或局方核实的第一优先问题。</p>
+      </div>
+    </section>
+
+    <nav class="pager">
+      <a href="02-method.html"><span class="p-d">上一章</span><span class="p-t">← 02 安全分析方法与标准</span></a>
+      <a href="04-arch.html" class="next"><span class="p-d">下一章</span><span class="p-t">04 系统安全架构与冗余 →</span></a>
+    </nav>
+  </main>
+</div>
+
+<footer class="foot">
+  <span>飞行汽车技术基础 · 课程作业二 · 2026</span>
+  <span><a href="09-evidence.html">证据与引用</a></span>
+</footer>
+<script src="assets/main.js"></script>
+</body>
+</html>

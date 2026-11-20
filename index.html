@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EH216-S 全方位安全分析 · 飞行汽车技术基础</title>
+<meta name="description" content="按系统安全工程八步法，对亿航 EH216-S 做危害识别、架构论证、软硬件安全设计与运行安全论证。">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="index.html"><b>EH216-S 安全分析</b><span>Safety Systems Engineering</span></a>
+    <nav class="topnav">
+      <a href="01-scope.html">范围</a><a href="02-method.html">方法</a><a href="03-hazard.html">危害</a>
+      <a href="04-arch.html">架构</a><a href="05-hw-sw.html">软硬件</a><a href="06-physical.html">物理安全</a>
+      <a href="07-vv.html">验证</a><a href="08-assurance.html">论证</a>
+    </nav>
+    <span class="tag-assign">作业二 · 安全分析</span>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="toc">
+    <p class="toc-title">本页</p>
+    <ol>
+      <li><a href="#conclusions">五条安全结论</a></li>
+      <li><a href="#goals">安全目标</a></li>
+      <li><a href="#domains">五大安全域</a></li>
+      <li><a href="#route">八步法路径</a></li>
+    </ol>
+    <div class="sub">
+      <p class="toc-title">全站章节</p>
+      <ol>
+        <li><a href="01-scope.html">0–1 安全管理与场景定义</a></li>
+        <li><a href="02-method.html">2 安全分析方法与标准</a></li>
+        <li><a href="03-hazard.html">2 危害识别与风险评估</a></li>
+        <li><a href="04-arch.html">3 系统安全架构与冗余</a></li>
+        <li><a href="05-hw-sw.html">4–5 硬件与软件安全</a></li>
+        <li><a href="06-physical.html">6 机械、化学与电气安全</a></li>
+        <li><a href="07-vv.html">7 安全测试与验证</a></li>
+        <li><a href="08-assurance.html">8 运行安全论证</a></li>
+        <li><a href="09-evidence.html">证据与引用</a></li>
+      </ol>
+    </div>
+  </aside>
+
+  <main>
+    <div class="page-head">
+      <div class="eyebrow">课程作业二 · 全方位安全分析</div>
+      <h1>把「零事故」拆成可论证的命题</h1>
+      <p class="lede">
+        一架没有驾驶员的载人飞行器，把「人会犯错」这个最大的不确定性从机上移除了，同时也移除了最后一道人工兜底。
+        安全责任因此全部转移到自动化、冗余架构与地面远程机组身上。本文用系统安全工程的八步法，检验这套责任分配是否被论证充分。
+      </p>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi"><div class="v">3<small>套飞控</small></div><div class="k">独立控制通道与表决</div></div>
+      <div class="kpi"><div class="v">12<small>组电池</small></div><div class="k">分组供电与隔离</div></div>
+      <div class="kpi"><div class="v">3<small>重链路</small></div><div class="k">专用条件要求的数据链冗余</div></div>
+      <div class="kpi"><div class="v">10<sup>-9</sup></div><div class="k">灾难性失效的目标概率</div></div>
+      <div class="kpi"><div class="v">9<small>万+架次</small></div><div class="k">累计运行证据</div></div>
+      <div class="kpi"><div class="v">4<small>证齐全</small></div><div class="k">TC / AC / PC / OC</div></div>
+    </div>
+
+    <section id="conclusions">
+      <h2><span class="num">01</span>五条安全结论</h2>
+
+      <div class="verdicts">
+        <div class="verdict">
+          <span class="n">结论 01 · 设计前提</span>
+          <h4>取消驾驶员，是全机安全架构的第一性选择</h4>
+          <p>机上无操纵装置，全程按预设航路自动飞行，地面远程机组只做监视与应急接管<span class="ev ev-std">标准</span>。
+          这一选择消除了疲劳、误操作、空间失定向等人因失效，代价是取消了「人在环内」的最后兜底。所有安全设计都必须补偿这一点。</p>
+        </div>
+        <div class="verdict">
+          <span class="n">结论 02 · 架构软肋</span>
+          <h4>三余度解决随机失效，解决不了共因失效</h4>
+          <p>三套独立飞控配合表决机制，可将单点随机失效的概率压到很低<span class="ev ev-off">官方</span>。
+          但若三套系统共享同一份软件、同一路供电或同一安装区域，1oo3 将退化为 1oo1。共因分析（CCA）才是这套架构的真正考验，而公开材料未见其结论。</p>
+        </div>
+        <div class="verdict">
+          <span class="n">结论 03 · 证据性质</span>
+          <h4>九万架次是运行证据，不是安全证明</h4>
+          <p>按灾难性失效目标 10<sup>-9</sup>/飞行小时计，要统计性地「证明」达标需 10<sup>9</sup> 小时量级的数据；9 万架次、每架次 25 分钟，累计约 3.75 万飞行小时<span class="ev ev-est">本文估算</span>。
+          它支持可靠性增长论证，不能替代失效概率的定量分析。</p>
+        </div>
+        <div class="verdict">
+          <span class="n">结论 04 · 危害重心</span>
+          <h4>最严重的三类危害：空中失控、能源失效、坠撞后乘员保护</h4>
+          <p>前两类由架构（冗余、隔离、降级）控制，第三类由适坠性设计控制。专用条件确实新增了无人驾驶载客舱体的结构防护要求<span class="ev ev-std">标准</span>，
+          但公开信息中关于吸能结构、约束系统与整机降落手段的量化指标最少，是安全论证中最薄的一环。</p>
+        </div>
+        <div class="verdict">
+          <span class="n">结论 05 · 风险归属</span>
+          <h4>剩余风险主要在运行边界，不在硬件</h4>
+          <p>气象、隔离空域、起降场人群隔离、远程机组人因，这四项无法靠增加冗余解决，只能靠 ODD 划定与运行程序控制。
+          它们决定了「设计安全」能否转化为「运行安全」。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="goals">
+      <h2><span class="num">02</span>安全目标与失效概率分配</h2>
+      <p>安全分析的落点是可量化的目标。下表把整机安全目标逐级分配到主要功能，作为后文章节讨论架构与验证的基准。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 1</b>　整机安全目标与功能级分配（参照运输类航空器惯例）</caption>
+          <thead>
+            <tr><th style="width:22%">安全目标</th><th style="width:16%">严重度</th><th style="width:16%">目标概率</th><th style="width:12%">DAL</th><th>主要控制手段</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">丧失对航空器的控制</td><td>灾难性</td><td class="num">≤ 10<sup>-9</sup>/fh</td><td class="num">A</td><td>三余度飞控 + 表决 + 包线保护</td></tr>
+            <tr><td class="em">丧失全部推力</td><td>灾难性</td><td class="num">≤ 10<sup>-9</sup>/fh</td><td class="num">A</td><td>16 旋翼分布动力 + 12 组电池隔离</td></tr>
+            <tr><td class="em">不可控火情</td><td>灾难性</td><td class="num">≤ 10<sup>-9</sup>/fh</td><td class="num">A</td><td>热失控预警、隔离、泄压与阻燃</td></tr>
+            <tr><td class="em">空中相撞</td><td>灾难性</td><td class="num">≤ 10<sup>-9</sup>/fh</td><td class="num">B</td><td>隔离空域 + 航路申报 + 感知避让</td></tr>
+            <tr><td class="em">部分推力丧失</td><td>危险</td><td class="num">≤ 10<sup>-7</sup>/fh</td><td class="num">B</td><td>控制重构 + 降级飞行 + 就近迫降</td></tr>
+            <tr><td class="em">数据链路丧失</td><td>危险</td><td class="num">≤ 10<sup>-7</sup>/fh</td><td class="num">B</td><td>三重链路 + 失联自主失效保护</td></tr>
+            <tr><td class="em">坠撞中乘员受伤</td><td>危险</td><td class="num">≤ 10<sup>-7</sup>/fh</td><td class="num">B</td><td>适坠性结构、约束系统、吸能座椅</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="t-foot">说明：概率值为本文依据运输类航空器通行做法设定的分析基准，非局方对该型号公布的具体数值。DAL 为设计保证等级，用于确定软硬件的开发严格程度。</p>
+    </section>
+
+    <section id="domains">
+      <h2><span class="num">03</span>五大安全域的覆盖情况</h2>
+      <p>课程把智能运载工具的安全拆成五个相互耦合的域。逐域检查后可以发现，覆盖并不均衡：功能安全与信息安全证据充分，被动安全与预期功能安全最弱。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 2</b>　五大安全域在 EH216-S 上的覆盖评估</caption>
+          <thead><tr><th style="width:18%">安全域</th><th style="width:30%">核心问题</th><th style="width:22%">EH216-S 的对应措施</th><th>证据充分度</th></tr></thead>
+          <tbody>
+            <tr><td class="em">功能安全</td><td>电子电气故障导致的风险</td><td>三余度飞控、表决、Fail-Safe 自主决策</td><td>较充分（有审定背书）</td></tr>
+            <tr><td class="em">预期功能安全</td><td>性能局限与合理误用</td><td>ODD 限定、包线保护、气象限制</td><td>较弱（缺定量边界）</td></tr>
+            <tr><td class="em">信息安全</td><td>外部攻击与入侵</td><td>加密通信、独立密钥、链路冗余</td><td>中等（机制明确，评估未公开）</td></tr>
+            <tr><td class="em">被动安全</td><td>事故后保护乘员</td><td>舱体结构防护、约束系统</td><td><strong>最弱</strong>（量化指标缺位）</td></tr>
+            <tr><td class="em">行为安全</td><td>与其他交通参与者的交互</td><td>隔离空域、预设航路、地面隔离</td><td>中等（依赖运行程序）</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="route">
+      <h2><span class="num">04</span>八步法路径</h2>
+      <p>全站按课程给出的智能运载工具安全系统工程八步组织，每一步对应一页，构成从场景到论证的完整链条。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 3</b>　八步法与本站章节的对应</caption>
+          <thead><tr><th style="width:8%">步骤</th><th style="width:26%">内容</th><th style="width:34%">本章产出</th><th>关键判断</th></tr></thead>
+          <tbody>
+            <tr><td class="em">0</td><td>安全文化与安全管理</td><td><a href="01-scope.html">01</a>：安全责任分配、组织与持续适航</td><td>责任从机上转到地面</td></tr>
+            <tr><td class="em">1</td><td>整机功能与场景定义</td><td><a href="01-scope.html">01</a>：功能清单、ODC、场景库</td><td>场景即安全边界</td></tr>
+            <tr><td class="em">2</td><td>安全分析方法</td><td><a href="02-method.html">02</a>：方法选择与标准体系</td><td>FHA 定级、STPA 找漏、FTA 定量</td></tr>
+            <tr><td class="em">2</td><td>危害识别与风险评估</td><td><a href="03-hazard.html">03</a>：12 项危害、STPA 控制结构、两棵故障树</td><td>共因失效是主风险</td></tr>
+            <tr><td class="em">3</td><td>系统安全架构设计</td><td><a href="04-arch.html">04</a>：三余度、12 组电池、三重链路、降级路径</td><td>1oo3 的边界在哪</td></tr>
+            <tr><td class="em">4–5</td><td>硬件与软件安全设计</td><td><a href="05-hw-sw.html">05</a>：电机电调、飞控软件、感知与远程机组</td><td>软件共因最难防</td></tr>
+            <tr><td class="em">6</td><td>机械、化学、电气安全</td><td><a href="06-physical.html">06</a>：热失控、坠撞、EMC、防火</td><td>两个专题深挖</td></tr>
+            <tr><td class="em">7</td><td>安全测试与验证</td><td><a href="07-vv.html">07</a>：V&amp;V 矩阵、场景测试、审定试飞</td><td>验证覆盖不等于全覆盖</td></tr>
+            <tr><td class="em">8</td><td>运行安全论证</td><td><a href="08-assurance.html">08</a>：GSN 论证图、四证、剩余风险</td><td>论证的缺口在哪</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note key">
+        <span class="lbl">姊妹篇</span>
+        <p>本站与课程作业一《EH216-S 全方位调研与分析》共用同一套事实基线。作业一回答「能不能做、卖给谁」，本站回答「凭什么安全、监管为何认」。两站可对读，站内不重复论证技术参数与市场数据。
+        <a href="https://tianba9.github.io/eh216s-research/">前往作业一 →</a></p>
+      </div>
+    </section>
+
+    <nav class="pager">
+      <a href="01-scope.html" class="next"><span class="p-d">下一章</span><span class="p-t">01 安全管理与场景定义 →</span></a>
+    </nav>
+  </main>
+</div>
+
+<footer class="foot">
+  <span>飞行汽车技术基础 · 课程作业二 · 2026</span>
+  <span>研究对象：亿航智能 EH216-S　|　<a href="09-evidence.html">证据与引用</a></span>
+</footer>
+<script src="assets/main.js"></script>
+</body>
+</html>

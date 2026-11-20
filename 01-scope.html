@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>01 安全管理与场景定义 · EH216-S 安全分析</title>
+<meta name="description" content="安全责任在机上无人条件下如何重新分配，以及整机功能清单、运行设计条件与场景库的定义。">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="index.html"><b>EH216-S 安全分析</b><span>Safety Systems Engineering</span></a>
+    <nav class="topnav">
+      <a href="01-scope.html">范围</a><a href="02-method.html">方法</a><a href="03-hazard.html">危害</a>
+      <a href="04-arch.html">架构</a><a href="05-hw-sw.html">软硬件</a><a href="06-physical.html">物理安全</a>
+      <a href="07-vv.html">验证</a><a href="08-assurance.html">论证</a>
+    </nav>
+    <span class="tag-assign">作业二 · 安全分析</span>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="toc">
+    <p class="toc-title">本页</p>
+    <ol>
+      <li><a href="#culture">0 安全文化与责任分配</a></li>
+      <li><a href="#func">1 整机功能清单</a></li>
+      <li><a href="#odc">1 运行设计条件</a></li>
+      <li><a href="#scenes">1 场景库</a></li>
+      <li><a href="#matrix">功能—场景—危害矩阵</a></li>
+    </ol>
+    <div class="sub">
+      <p class="toc-title">全站章节</p>
+      <ol>
+        <li><a href="01-scope.html">0–1 安全管理与场景定义</a></li>
+        <li><a href="02-method.html">2 安全分析方法与标准</a></li>
+        <li><a href="03-hazard.html">2 危害识别与风险评估</a></li>
+        <li><a href="04-arch.html">3 系统安全架构与冗余</a></li>
+        <li><a href="05-hw-sw.html">4–5 硬件与软件安全</a></li>
+        <li><a href="06-physical.html">6 机械、化学与电气安全</a></li>
+        <li><a href="07-vv.html">7 安全测试与验证</a></li>
+        <li><a href="08-assurance.html">8 运行安全论证</a></li>
+        <li><a href="09-evidence.html">证据与引用</a></li>
+      </ol>
+    </div>
+  </aside>
+
+  <main>
+    <div class="page-head">
+      <div class="eyebrow">01 · 步骤 0–1</div>
+      <h1>先定义谁负责，再定义飞什么</h1>
+      <p class="lede">
+        安全分析最容易犯的错误，是从「加冗余」开始。正确的起点是两件事：把安全责任在组织之间分配清楚，
+        把「飞什么、在哪飞」定义到可以逐条检验。前者决定管理体系，后者决定危害清单的边界。
+      </p>
+    </div>
+
+    <section id="culture">
+      <h2><span class="num">01</span>安全文化与责任分配</h2>
+      <p>机上无人，意味着传统「飞行员 — 飞机」的责任链被切断。责任必须重新落位，否则会出现「谁都管、谁都不管」的真空。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 1-1</b>　载人无人驾驶运行的安全责任分配</caption>
+          <thead><tr><th style="width:18%">主体</th><th style="width:26%">承担的安全责任</th><th style="width:22%">对应证照或机制</th><th>失效后果</th></tr></thead>
+          <tbody>
+            <tr><td class="em">设计方<br>（亿航智能）</td><td>设计保证、危害分析、符合性验证、持续适航文件</td><td>TC（型号合格证）</td><td>设计缺陷成为系统性风险，全机队同源失效</td></tr>
+            <tr><td class="em">制造方</td><td>批次一致性、工艺控制、供应商管理</td><td>PC（生产许可证）</td><td>单机质量偏差，偏离审定构型</td></tr>
+            <tr><td class="em">运营人</td><td>运行手册、机组资质、维修计划、事件报告</td><td>OC（运营合格证）</td><td>运行偏离 ODD，人因失效</td></tr>
+            <tr><td class="em">远程机组</td><td>飞行监视、异常处置、应急接管</td><td>机型训练与授权</td><td>应急响应迟滞，错过可用窗口</td></tr>
+            <tr><td class="em">监管方<br>（民航局）</td><td>审定、持续监督、事件调查</td><td>SC-21-002 及后续监察</td><td>标准滞后，风险识别不足</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>这张表揭示了一个关键结构：<strong>四证并非四张独立的许可，而是把安全责任分配到四个主体上的制度装置。</strong>
+      TC 锁定设计，PC 锁定制造，AC 锁定单机状态，OC 锁定运行能力。任何一张证缺位，责任链就断一环。</p>
+
+      <h3>安全文化的三个可观测指标</h3>
+      <ul>
+        <li><strong>报告文化</strong>：是否建立无惩罚的事件上报通道。9 万架次的运行数据若无系统化回流，就只是飞行记录，不是安全资产。</li>
+        <li><strong>公正文化</strong>：区分「失误」与「违规」。远程机组在应急接管中的判断失误，应进入训练改进而非追责。</li>
+        <li><strong>学习文化</strong>：审定后的设计更改是否仍走完整的危害再评估。持续适航阶段的设计变更，是最容易被忽视的风险入口。</li>
+      </ul>
+
+      <div class="note warn">
+        <span class="lbl">一处结构性问题</span>
+        <p>机上无驾驶员后，<strong>旅客成为唯一的机上人员，却不具备任何处置能力</strong>。这意味着客舱设计必须假设「乘员完全被动」：不能用「请乘客协助打开舱门」这类程序来兜底。这是与有人驾驶航空器在被动安全设计上的根本差异。</p>
+      </div>
+    </section>
+
+    <section id="func">
+      <h2><span class="num">02</span>整机功能清单</h2>
+      <p>功能定义是危害分析的对象。功能描述不清，危害就无从枚举。下表按「飞行 — 能源 — 控制 — 保障」四类拆解到可分析粒度。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 1-2</b>　整机功能清单与失效影响</caption>
+          <thead>
+            <tr><th style="width:8%">编号</th><th style="width:22%">功能</th><th style="width:30%">功能描述</th><th>功能丧失的影响</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">F1</td><td>垂直起降</td><td>在起降场完成垂直升空与着陆，无需跑道</td><td>无法起降，地面滞留</td></tr>
+            <tr><td class="em">F2</td><td>自主航路飞行</td><td>按预设航路点自动飞行，含速度与高度剖面</td><td>偏离航路，进入非预期空域</td></tr>
+            <tr><td class="em">F3</td><td>姿态与位置保持</td><td>在风扰下维持姿态稳定与定点悬停</td><td><strong>失控</strong>，最严重</td></tr>
+            <tr><td class="em">F4</td><td>能源分配与隔离</td><td>12 组电池分组供电，故障组隔离</td><td>推力丧失或火情</td></tr>
+            <tr><td class="em">F5</td><td>状态监测与诊断</td><td>实时监测电机、电池、传感器健康度</td><td>故障未被发现，劣化至失效</td></tr>
+            <tr><td class="em">F6</td><td>失效保护与紧急着陆</td><td>判定继续飞行或就近自主迫降</td><td>错过处置窗口</td></tr>
+            <tr><td class="em">F7</td><td>空地通信</td><td>与地面站交换状态与指令，三重链路</td><td>失去监视与接管能力</td></tr>
+            <tr><td class="em">F8</td><td>远程接管</td><td>应急状态下由地面远程机组人工指挥</td><td>异常无法人工纠正</td></tr>
+            <tr><td class="em">F9</td><td>乘员保护</td><td>约束、舱体防护、应急撤离</td><td>坠撞伤害放大</td></tr>
+            <tr><td class="em">F10</td><td>精确定位与引导</td><td>厘米级垂直起降定位</td><td>着陆偏差，碰撞地面设施</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>F3 与 F4 是安全关键功能，直接对应灾难性危害；F6、F7 为危险级；其余为较大或较小。这一初判将在第 03 章用 FHA 定量化。</p>
+    </section>
+
+    <section id="odc">
+      <h2><span class="num">03</span>运行设计条件（ODC）</h2>
+      <p>ODC 是「按什么条件设计」的输入，与 ODD（运行中允许的条件）互为镜像。设计的边界越明确，运行的限制就越可执行。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 1-3</b>　运行设计条件及安全含义</caption>
+          <thead><tr><th style="width:16%">条件类</th><th style="width:30%">设计条件</th><th>安全含义</th></tr></thead>
+          <tbody>
+            <tr><td class="em">空域</td><td>低空隔离空域，与有人机分时分区</td><td>把「空中相撞」这一灾难性危害降为可管理</td></tr>
+            <tr><td class="em">高度</td><td>低空运行，具体上限以局方批准为准</td><td>压缩坠落能量与地面影响范围</td></tr>
+            <tr><td class="em">气象</td><td>目视气象条件，限定风速与能见度</td><td>规避超出控制能力的扰动</td></tr>
+            <tr><td class="em">起降场</td><td>硬化平整地面，净空与人群隔离距离</td><td>控制地面第三方风险</td></tr>
+            <tr><td class="em">时段</td><td>昼间运行</td><td>依赖目视与视觉感知的场景约束</td></tr>
+            <tr><td class="em">通信</td><td>专用链路覆盖范围内</td><td>保证远程监视与接管可用</td></tr>
+            <tr><td class="em">电磁</td><td>非强干扰环境</td><td>防止链路与导航受扰</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="t-foot">说明：表中未给出具体数值（如风速上限、人群隔离距离）。公开材料未见量化指标，本文不作推测，仅将其列为后续需要向局方或运营人核实的参数。</p>
+    </section>
+
+    <section id="scenes">
+      <h2><span class="num">04</span>场景库</h2>
+      <p>场景不是营销分类，而是危害的组合方式。同一架飞机在不同场景下，暴露的危害集合并不相同。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 1-4</b>　六个典型运行场景及其主导危害</caption>
+          <thead><tr><th style="width:8%">编号</th><th style="width:24%">场景</th><th style="width:30%">环境特征</th><th>主导危害</th></tr></thead>
+          <tbody>
+            <tr><td class="em">S1</td><td>景区环线观光</td><td>固定环线、下方人群稀疏、单点起降</td><td>起降阶段地面人员侵入；低空风扰</td></tr>
+            <tr><td class="em">S2</td><td>点对点短途接驳</td><td>两岸或两区之间，跨水域或道路</td><td>航路中动力丧失；迫降区选择困难</td></tr>
+            <tr><td class="em">S3</td><td>城市地标游览</td><td>建筑密集、下洗气流复杂、电磁环境复杂</td><td>与障碍物相撞；链路受扰</td></tr>
+            <tr><td class="em">S4</td><td>应急医疗转运</td><td>时间压力大、起降点非常规</td><td>非标准场地着陆；赶时间导致程序简化</td></tr>
+            <tr><td class="em">S5</td><td>训练与试飞</td><td>包线边缘、刻意注入故障</td><td>人为制造的超限状态</td></tr>
+            <tr><td class="em">S6</td><td>多机同场运行</td><td>同一景区多点同时起降</td><td>空域冲突；地面调度失误</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>S3 与 S6 是风险最高的两类场景：前者把航空器暴露在复杂的建筑尾流与电磁环境中，后者把「单机安全」升级为「系统安全」，需要地面调度承担防冲突职责。</p>
+    </section>
+
+    <section id="matrix">
+      <h2><span class="num">05</span>功能—场景—危害矩阵</h2>
+      <p>把功能与场景交叉，可以看出危害集中在哪些组合上。矩阵中的标记指该功能在该场景下失效会导致严重后果。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 1-5</b>　关键功能在六类场景下的风险暴露</caption>
+          <thead>
+            <tr><th style="width:22%">功能</th><th class="num">S1</th><th class="num">S2</th><th class="num">S3</th><th class="num">S4</th><th class="num">S5</th><th class="num">S6</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>F2 自主航路飞行</td><td class="num">○</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">○</td><td class="num">●</td></tr>
+            <tr><td>F3 姿态与位置保持</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">●</td></tr>
+            <tr><td>F4 能源分配与隔离</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">●</td></tr>
+            <tr><td>F6 失效保护与迫降</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">○</td><td class="num">●</td></tr>
+            <tr><td>F7 空地通信</td><td class="num">○</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">○</td><td class="num">●</td></tr>
+            <tr><td>F9 乘员保护</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">●</td></tr>
+            <tr><td>F10 精确定位</td><td class="num">○</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">○</td><td class="num">●</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="t-foot">● 表示该场景下该功能失效将导致严重后果；○ 表示影响可控。判断依据为场景环境复杂度与该功能在任务剖面中的关键程度。</p>
+
+      <p>矩阵的读法是看行与列：<strong>F3、F4、F9 三行全为实心</strong>，说明它们是跨场景的共性关键功能，应优先分配最高的设计保证等级；<strong>S3 列实心最多</strong>，说明城市场景是风险最密集的运行环境，也是 ODD 划定的重点。</p>
+    </section>
+
+    <nav class="pager">
+      <a href="index.html"><span class="p-d">返回</span><span class="p-t">← 首页</span></a>
+      <a href="02-method.html" class="next"><span class="p-d">下一章</span><span class="p-t">02 安全分析方法与标准 →</span></a>
+    </nav>
+  </main>
+</div>
+
+<footer class="foot">
+  <span>飞行汽车技术基础 · 课程作业二 · 2026</span>
+  <span><a href="09-evidence.html">证据与引用</a></span>
+</footer>
+<script src="assets/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04 系统安全架构与冗余 · EH216-S 安全分析</title>
+<meta name="description" content="三余度飞控的表决机制、12 组电池的隔离、三重链路的降级路径，以及单臂/多臂失效下的容错边界定量分析。">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="index.html"><b>EH216-S 安全分析</b><span>Safety Systems Engineering</span></a>
+    <nav class="topnav">
+      <a href="01-scope.html">范围</a><a href="02-method.html">方法</a><a href="03-hazard.html">危害</a>
+      <a href="04-arch.html">架构</a><a href="05-hw-sw.html">软硬件</a><a href="06-physical.html">物理安全</a>
+      <a href="07-vv.html">验证</a><a href="08-assurance.html">论证</a>
+    </nav>
+    <span class="tag-assign">作业二 · 安全分析</span>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="toc">
+    <p class="toc-title">本页</p>
+    <ol>
+      <li><a href="#overview">架构总览</a></li>
+      <li><a href="#form">冗余形式的选型</a></li>
+      <li><a href="#vote">表决与降级路径</a></li>
+      <li><a href="#deep">专题：飞控冗余与失效降级</a></li>
+      <li><a href="#boundary">容错边界在哪</a></li>
+    </ol>
+    <div class="sub">
+      <p class="toc-title">全站章节</p>
+      <ol>
+        <li><a href="01-scope.html">0–1 安全管理与场景定义</a></li>
+        <li><a href="02-method.html">2 安全分析方法与标准</a></li>
+        <li><a href="03-hazard.html">2 危害识别与风险评估</a></li>
+        <li><a href="04-arch.html">3 系统安全架构与冗余</a></li>
+        <li><a href="05-hw-sw.html">4–5 硬件与软件安全</a></li>
+        <li><a href="06-physical.html">6 机械、化学与电气安全</a></li>
+        <li><a href="07-vv.html">7 安全测试与验证</a></li>
+        <li><a href="08-assurance.html">8 运行安全论证</a></li>
+        <li><a href="09-evidence.html">证据与引用</a></li>
+      </ol>
+    </div>
+  </aside>
+
+  <main>
+    <div class="page-head">
+      <div class="eyebrow">04 · 步骤 3</div>
+      <h1>冗余不是堆数量，是设计「失效之后还能飞」</h1>
+      <p class="lede">
+        EH216-S 的冗余体现在三个层面：三套飞控、12 组电池、三重链路。但冗余的价值不取决于数量，
+        取决于失效后系统还能否维持可控——这一章把「容错边界」算成一个具体数字。
+      </p>
+    </div>
+
+    <section id="overview">
+      <h2><span class="num">01</span>架构总览</h2>
+      <p>下表把公开披露的冗余措施按系统归类，并标注其对应的安全目标。凡属功能要求层面的推断，均在备注中说明。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 4-1</b>　冗余措施与对应的安全目标</caption>
+          <thead>
+            <tr><th style="width:16%">系统</th><th style="width:26%">冗余措施</th><th style="width:22%">应对的危害</th><th>可信度说明</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">飞控</td><td>三套独立飞行控制系统 + 表决机制</td><td>H01 姿态失控</td><td>官网页与专用条件均明确</td></tr>
+            <tr><td class="em">能源</td><td>12 组电池分组供电，故障组可隔离</td><td>H02 推力丧失、H03 火情</td><td>12 组为公开披露，拓扑未公开</td></tr>
+            <tr><td class="em">动力</td><td>16 副旋翼、16 套电机，8 臂分布</td><td>H02、H06 部分推力丧失</td><td>官网明确</td></tr>
+            <tr><td class="em">链路</td><td>三重冗余通信架构，加密与独立密钥</td><td>H07 链路丧失、信息安全</td><td>专用条件要求 + 官网说明</td></tr>
+            <tr><td class="em">导航</td><td>多源融合与 GNSS 定位</td><td>H08 导航受扰</td><td>官网提及融合算法，细节未公开</td></tr>
+            <tr><td class="em">决策</td><td>Fail-Safe 实时评估健康状态，决定继续或迫降</td><td>H02、H06、H07</td><td>官网明确，判据未公开</td></tr>
+            <tr><td class="em">人</td><td>远程机组可在应急状态人工指挥</td><td>全部</td><td>专用条件明确</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note">
+        <span class="lbl">架构的总体特征</span>
+        <p>这是一套<strong>「多层独立、纵向贯穿」</strong>的冗余：控制层三余度、能源层多组隔离、通信层三重、决策层有自主保护、最外层还有人工接管。每一层都能独立应对某一类失效，但没有哪一层能单独应对全部——这正是分层冗余的意义。</p>
+      </div>
+    </section>
+
+    <section id="form">
+      <h2><span class="num">02</span>冗余形式的选型</h2>
+      <p>冗余结构不是随意选择，而是由「能否检测故障」和「失效是否安全」两个条件决定的。下表列出常见形式及其适用条件。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 4-2</b>　常见冗余结构对比</caption>
+          <thead>
+            <tr><th style="width:12%">结构</th><th style="width:28%">含义</th><th style="width:22%">优点</th><th style="width:22%">局限</th><th>EH216-S 适用性</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">1oo1</td><td>单通道，失效即失效</td><td>简单、轻</td><td>无容错</td><td>不用于安全关键功能</td></tr>
+            <tr><td class="em">1oo2</td><td>两通道任一动作即生效</td><td>可用性高</td><td>误动作率高</td><td>不适用（误动作对载人致命）</td></tr>
+            <tr><td class="em">2oo2</td><td>两通道同时动作才生效</td><td>安全性高</td><td>可用性低</td><td>可作辅助表决</td></tr>
+            <tr><td class="em">2oo3</td><td>三取二表决，容忍一路错误</td><td>兼顾安全与可用</td><td>依赖故障可检测</td><td><strong>飞控主通道的合理选择</strong></td></tr>
+            <tr><td class="em">1oo2D</td><td>带诊断的两通道，故障时降级</td><td>诊断覆盖高</td><td>诊断本身可能失效</td><td>可用于次要功能</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>三套飞控构成的 2oo3 表决，是载人场景下的典型选择：<strong>它能容忍一路通道给出错误输出而不影响飞行，同时保留两路正常通道继续工作。</strong>但它有一个隐含前提——三路中至多一路错误。若两路同时错误且方向一致，表决将把错误结果判为正确。这就是共因失效的杀伤点。</p>
+    </section>
+
+    <section id="vote">
+      <h2><span class="num">03</span>表决与降级路径</h2>
+      <p>表决机制必须与降级策略配套。检测到通道分歧后，系统要回答三个问题：相信谁、是否降级、降到什么状态。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 4-3</b>　故障状态与降级策略</caption>
+          <thead>
+            <tr><th style="width:20%">故障状态</th><th style="width:26%">表决结果</th><th style="width:26%">降级动作</th><th>风险处置</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>三通道一致</td><td>正常输出</td><td>无</td><td>按计划飞行</td></tr>
+            <tr><td>一路分歧</td><td>二取二通过，隔离分歧通道</td><td>保留双通道，降低包线</td><td>继续任务或提前返场</td></tr>
+            <tr><td>两路分歧且方向一致</td><td>表决可能判错</td><td>需依赖第三路自检与监控</td><td><strong>最大风险点</strong>，见下节</td></tr>
+            <tr><td>链路中断</td><td>—</td><td>进入预设失效保护程序</td><td>悬停等待 / 就近自主迫降</td></tr>
+            <tr><td>能源异常</td><td>—</td><td>隔离故障组，降低功率需求</td><td>缩短航路，就近着陆</td></tr>
+            <tr><td>不可恢复</td><td>—</td><td>触发紧急着陆程序</td><td>选择最小风险迫降区</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>表中第三行是整套架构最脆弱的一格。它意味着：<strong>2oo3 的安全性，最终取决于「能否识别出两路同向错误」</strong>。这一识别能力来自第三路的独立自检、传感器交叉校验，或地面远程机组的判断。三种手段中，前两者是自动的，第三者受链路延迟约束。</p>
+    </section>
+
+    <section id="deep">
+      <h2><span class="num">04</span>专题：飞控冗余与失效降级</h2>
+      <p>本节把第 03 章的割集 A1 与控制结构落在具体数字上：当一副旋翼、一个机臂乃至更多动力单元失效时，这架飞机还能不能飞。</p>
+
+      <h3>推力余量是容错能力的物理基础</h3>
+      <p>按最大起飞重量 620 kg、16 副旋翼计算，悬停时每副旋翼需提供约 380 N 推力。设计上必须留余量，否则无法应对风扰、爬升与失效。本文假设每副旋翼最大可用推力 500 N（约 30% 余量），据此推算不同失效情形下的悬停可行性。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 4-4</b>　不同失效情形下的推力余量（本文估算）</caption>
+          <thead>
+            <tr><th style="width:26%">失效情形</th><th class="num" style="width:14%">剩余旋翼</th><th class="num" style="width:18%">总可用推力</th><th class="num" style="width:16%">余量</th><th>能否维持悬停</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>完好</td><td class="num">16</td><td class="num">8000 N</td><td class="num">24%</td><td>能</td></tr>
+            <tr><td>单副旋翼失效</td><td class="num">15</td><td class="num">7500 N</td><td class="num">19%</td><td>能，需力矩补偿</td></tr>
+            <tr><td>整臂失效（2 副）</td><td class="num">14</td><td class="num">7000 N</td><td class="num">13%</td><td>能，但姿态裕度显著下降</td></tr>
+            <tr><td>两臂失效（4 副）</td><td class="num">12</td><td class="num">6000 N</td><td class="num">-1.4%</td><td><strong>不能</strong>，必须立即着陆</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="t-foot">说明：总需求推力 6082 N（620 kg × 9.81）。表中未计入力矩补偿带来的额外降额，实际可用余量低于表中数值。旋翼最大推力 500 N 为假设值，非公开数据。</p>
+
+      <div class="note key">
+        <span class="lbl">由此得到的三条推论</span>
+        <p><strong>其一</strong>，单副旋翼失效是可容忍的，这与「关键部件全备份」的表述一致；<strong>其二</strong>，真正的容错边界在「损失两个机臂」附近，此时推力余量由正转负，任何继续飞行的尝试都会导致高度不可维持；<strong>其三</strong>，因此 Fail-Safe 判据不能只看「剩余推力是否大于重力」，还须看姿态可控性与剩余航程——因为迫降需要额外能量。</p>
+      </div>
+
+      <h3>力矩失衡比推力不足更危险</h3>
+      <p>8 臂布局的对称性意味着：任何单点失效都会产生绕机身中心的力矩不平衡。控制系统必须通过对侧降推来恢复平衡，而降推又进一步减少总推力。这个过程是耦合的——推力余量越小，可用的补偿手段越少，姿态保持能力越差。</p>
+
+      <p>这解释了一个看似矛盾的现象：<strong>多旋翼的容错能力不体现在「能飞」，而体现在「能平稳地落下来」。</strong>损失一个机臂后，飞机或许仍可悬停，但已不具备继续执行任务的能力，只能进入就近迫降程序。安全架构的设计目标，正是保证这条「体面退场」的路径始终存在。</p>
+    </section>
+
+    <section id="boundary">
+      <h2><span class="num">05</span>容错边界与剩余风险</h2>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 4-5</b>　架构层面的剩余风险</caption>
+          <thead>
+            <tr><th style="width:26%">剩余风险</th><th style="width:30%">为何架构无法消除</th><th>补偿手段</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">同源软件共因</td><td>表决对「两路同向错误」无能为力</td><td>异构开发、独立验证、地面监控介入</td></tr>
+            <tr><td class="em">传感器共模误差</td><td>同型号传感器在同一环境下产生相同偏差</td><td>不同物理原理的传感器交叉校验</td></tr>
+            <tr><td class="em">多臂同时失效</td><td>推力余量不足，物理上不可维持</td><td>限制飞行区域、缩短航路、快速迫降</td></tr>
+            <tr><td class="em">链路完全中断</td><td>失去人工接管能力</td><td>自主失效保护程序 + 预设迫降点</td></tr>
+            <tr><td class="em">远程机组判断失误</td><td>人因无法用硬件冗余消除</td><td>训练、程序化决策、双人复核</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>五项剩余风险中，前三项属设计层面，后两项属运行层面。<strong>这构成了从「设计安全」到「运行安全」的转移点</strong>，也是第 08 章运行安全论证要承接的内容。</p>
+    </section>
+
+    <nav class="pager">
+      <a href="03-hazard.html"><span class="p-d">上一章</span><span class="p-t">← 03 危害识别与风险评估</span></a>
+      <a href="05-hw-sw.html" class="next"><span class="p-d">下一章</span><span class="p-t">05 硬件与软件安全 →</span></a>
+    </nav>
+  </main>
+</div>
+
+<footer class="foot">
+  <span>飞行汽车技术基础 · 课程作业二 · 2026</span>
+  <span><a href="09-evidence.html">证据与引用</a></span>
+</footer>
+<script src="assets/main.js"></script>
+</body>
+</html>

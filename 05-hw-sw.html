@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>05 硬件与软件安全设计 · EH216-S 安全分析</title>
+<meta name="description" content="电机、旋翼、结构、电气的硬件失效模式与保护机制，以及飞控软件、感知决策与远程机组人因的软件安全设计。">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="index.html"><b>EH216-S 安全分析</b><span>Safety Systems Engineering</span></a>
+    <nav class="topnav">
+      <a href="01-scope.html">范围</a><a href="02-method.html">方法</a><a href="03-hazard.html">危害</a>
+      <a href="04-arch.html">架构</a><a href="05-hw-sw.html">软硬件</a><a href="06-physical.html">物理安全</a>
+      <a href="07-vv.html">验证</a><a href="08-assurance.html">论证</a>
+    </nav>
+    <span class="tag-assign">作业二 · 安全分析</span>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="toc">
+    <p class="toc-title">本页</p>
+    <ol>
+      <li><a href="#hw">4 硬件失效模式</a></li>
+      <li><a href="#spfm">单点与潜伏故障</a></li>
+      <li><a href="#sw">5 软件安全设计</a></li>
+      <li><a href="#sotif">感知与预期功能安全</a></li>
+      <li><a href="#human">远程机组人因</a></li>
+    </ol>
+    <div class="sub">
+      <p class="toc-title">全站章节</p>
+      <ol>
+        <li><a href="01-scope.html">0–1 安全管理与场景定义</a></li>
+        <li><a href="02-method.html">2 安全分析方法与标准</a></li>
+        <li><a href="03-hazard.html">2 危害识别与风险评估</a></li>
+        <li><a href="04-arch.html">3 系统安全架构与冗余</a></li>
+        <li><a href="05-hw-sw.html">4–5 硬件与软件安全</a></li>
+        <li><a href="06-physical.html">6 机械、化学与电气安全</a></li>
+        <li><a href="07-vv.html">7 安全测试与验证</a></li>
+        <li><a href="08-assurance.html">8 运行安全论证</a></li>
+        <li><a href="09-evidence.html">证据与引用</a></li>
+      </ol>
+    </div>
+  </aside>
+
+  <main>
+    <div class="page-head">
+      <div class="eyebrow">05 · 步骤 4–5</div>
+      <h1>硬件靠隔离，软件靠约束</h1>
+      <p class="lede">
+        硬件安全的通用解法是「检测 — 隔离 — 降级」，因为硬件失效是随机的、可统计的。
+        软件失效不是随机的：它一旦存在就必然复现，且会在三套系统里同时发作。所以软件安全的解法不是冗余，而是开发过程的约束。
+      </p>
+    </div>
+
+    <section id="hw">
+      <h2><span class="num">01</span>硬件失效模式与保护</h2>
+      <p>下表按分系统列出主要失效模式、检测手段与保护动作。这张表是 FMEA 的浓缩版，也是维修大纲的输入。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 5-1</b>　硬件失效模式、检测与保护</caption>
+          <thead>
+            <tr><th style="width:14%">部件</th><th style="width:22%">主要失效模式</th><th style="width:26%">检测手段</th><th>保护动作</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">电机</td><td>绕组短路、轴承磨损、退磁</td><td>相电流、转速、温度、振动监测</td><td>降额运行或隔离，控制重构</td></tr>
+            <tr><td class="em">电调</td><td>功率管击穿、驱动失效</td><td>母线电流异常、MOS 温度</td><td>关断该通道，负载转移至对侧</td></tr>
+            <tr><td class="em">旋翼 / 桨叶</td><td>裂纹、疲劳断裂、异物打伤</td><td>地面检查 + 振动频谱异常</td><td>无法空中修复，按剩余推力降级</td></tr>
+            <tr><td class="em">结构 / 机臂</td><td>复材分层、连接件松动、疲劳裂纹</td><td>定期无损检测 + 应变监测</td><td>限制包线，缩短检查间隔</td></tr>
+            <tr><td class="em">电池</td><td>内短路、容量衰减、热失控</td><td>单体电压、温度、内阻、气体/压力</td><td>隔离该组，切断充放电回路</td></tr>
+            <tr><td class="em">配电</td><td>接触器粘连、线束磨损、绝缘老化</td><td>回路电流、绝缘电阻监测</td><td>分级断电，保留关键负载</td></tr>
+            <tr><td class="em">传感器</td><td>漂移、卡死、共模误差</td><td>多源交叉校验、合理性检查</td><td>剔除异常源，切换融合策略</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>一个规律值得注意：<strong>除桨叶外，几乎所有硬件失效都可以在空中被检测并隔离</strong>。桨叶是例外——它一旦断裂，没有任何软件手段可以补救，只能靠地面检查与寿命管理。这就是为什么旋翼系统的检查周期与判废标准，在载人运行中比在工业无人机中严格得多。</p>
+    </section>
+
+    <section id="spfm">
+      <h2><span class="num">02</span>单点故障与潜伏故障</h2>
+      <p>评估硬件安全架构时，两个指标比「有几个冗余」更有意义：单点故障度量（SPFM）与潜伏故障度量（LFM）。它们原本来自汽车功能安全，但其逻辑完全适用于航空。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 5-2</b>　两类故障度量的含义与本机适用</caption>
+          <thead>
+            <tr><th style="width:20%">指标</th><th style="width:26%">回答的问题</th><th style="width:24%">本机的关键点</th><th>改进方向</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">SPFM<br>单点故障度量</td><td>有多少失效会直接导致安全目标失守</td><td>单臂结构、单组配电、单一传感器</td><td>提高诊断覆盖率，消除单点</td></tr>
+            <tr><td class="em">LFM<br>潜伏故障度量</td><td>有多少失效在发生时不被发现，直到与另一故障叠加</td><td>表决通道的隐性故障、备用通道未激活</td><td>上电自检 + 周期自检 + 交叉监控</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>潜伏故障比单点故障更隐蔽，也更危险。举例：若第二套飞控长期处于「备用但未自检」状态，它的故障不会被发现；等到第一套失效、需要它接管时，才会暴露——而此时已无退路。<strong>这正是「三余度」在纸面上很美、在工程上很难的原因：冗余的有效性取决于每一个备份都被持续验证。</strong></p>
+    </section>
+
+    <section id="sw">
+      <h2><span class="num">03</span>软件安全设计</h2>
+      <p>飞控软件按 A 级开发，意味着需求追溯、覆盖率、独立验证三项都必须满足。但过程合规不等于逻辑正确，下面按功能拆解软件层面的安全设计。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 5-3</b>　软件功能、失效后果与设计约束</caption>
+          <thead>
+            <tr><th style="width:18%">软件功能</th><th style="width:24%">失效后果</th><th style="width:30%">设计约束</th><th>验证方式</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">控制律</td><td>姿态发散、振荡</td><td>包线保护、指令限幅、抗饱和</td><td>硬件在环 + 试飞包线扩展</td></tr>
+            <tr><td class="em">表决逻辑</td><td>接入错误通道</td><td>故障可检测性前置、分歧即告警</td><td>故障注入试验</td></tr>
+            <tr><td class="em">导航融合</td><td>位置漂移、误入空域</td><td>多源一致性校验、降级策略</td><td>GNSS 干扰/欺骗注入测试</td></tr>
+            <tr><td class="em">任务管理</td><td>航路错误、越界</td><td>航路点合法性校验、地理围栏</td><td>场景回放与边界用例</td></tr>
+            <tr><td class="em">健康管理</td><td>漏报故障或误报</td><td>阈值滞回、多参数联合判据</td><td>故障注入 + 运行数据回放</td></tr>
+            <tr><td class="em">失效保护</td><td>该迫降而未迫降</td><td>判据保守化、失效即触发</td><td>全场景演练</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>软件共因：最难防的一类风险</h3>
+      <p>硬件的随机失效可以用概率相乘来处理，软件不行。一段代码里的缺陷，会在每一次执行时以 100% 的概率出现——三套系统若运行同一份软件，它们的「独立性」在那一刻等于零。</p>
+
+      <div class="note warn">
+        <span class="lbl">由此产生的三个工程要求</span>
+        <p><strong>异构开发</strong>：不同团队、不同语言或不同算法实现同一功能，使同一缺陷难以在两处同时存在；<strong>独立验证</strong>：验证者不得是开发者，且不应共享同一套测试用例；<strong>多样性表决</strong>：不仅比较输出值，也比较中间量（如姿态角速度、控制量），使偏差更早暴露。</p>
+      </div>
+    </section>
+
+    <section id="sotif">
+      <h2><span class="num">04</span>感知与预期功能安全</h2>
+      <p>预期功能安全（SOTIF）处理的是「系统没有故障，但性能不足以应对场景」的风险。对低空飞行器，这类风险集中在感知与决策。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 5-4</b>　典型 SOTIF 场景与缓解</caption>
+          <thead>
+            <tr><th style="width:22%">场景</th><th style="width:26%">为何构成风险</th><th>缓解手段</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>细电线、缆索</td><td>视觉与雷达截面极小，远距离难检出</td><td>航路预先勘定、避开已知线缆走廊</td></tr>
+            <tr><td>逆光与强反光</td><td>视觉感知饱和，水面或玻璃幕墙反光</td><td>多传感器融合、时段限制</td></tr>
+            <tr><td>雨雾与低能见度</td><td>感知距离下降，同时气动效率下降</td><td>气象门槛 + 目视条件限定</td></tr>
+            <tr><td>其他低空飞行器</td><td>非合作目标，无应答机</td><td>隔离空域 + 地面统一调度</td></tr>
+            <tr><td>鸟群</td><td>突发、不可预测、相对速度高</td><td>起降场生态管理 + 感知告警</td></tr>
+            <tr><td>建筑尾流与下洗</td><td>局部扰动超出控制余量</td><td>航线避让 + 风扰估计</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>这张表里没有一项可以通过「加冗余」解决。它们的共同解法是<strong>缩小运行范围</strong>——把不可控的场景排除在 ODD 之外。这也是为什么飞行汽车的安全策略，本质上是「用运行限制换取设计简化」。</p>
+    </section>
+
+    <section id="human">
+      <h2><span class="num">05</span>远程机组人因</h2>
+      <p>机上无人后，人的角色从「操纵者」变成「监视者与决策者」。这个转变带来一类新的风险：监视型工作的注意力衰减。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 5-5</b>　远程机组的三类人因风险</caption>
+          <thead><tr><th style="width:22%">风险</th><th style="width:30%">机制</th><th>缓解措施</th></tr></thead>
+          <tbody>
+            <tr><td class="em">情境意识丧失</td><td>长时间正常飞行导致注意力下降，异常出现时反应迟缓</td><td>轮班制度、告警分级、定期情景演练</td></tr>
+            <tr><td class="em">接管延迟</td><td>从发现异常到形成处置方案存在数秒至数十秒延迟</td><td>预设处置预案、一键式操作、权限分级</td></tr>
+            <tr><td class="em">多机负荷</td><td>一人监控多架时，注意力被分散</td><td>限制人机比、自动告警优先级排序</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>专用条件把「远程机组界面」单列为七类要求之一，并要求地面控制站具备实时监控与应急接管功能<span class="ev ev-std">标准</span>。这说明监管方已经意识到：<strong>在这类航空器上，人不是备份，而是系统的一部分，其可靠性必须被设计、被验证、被限制。</strong></p>
+    </section>
+
+    <nav class="pager">
+      <a href="04-arch.html"><span class="p-d">上一章</span><span class="p-t">← 04 系统安全架构与冗余</span></a>
+      <a href="06-physical.html" class="next"><span class="p-d">下一章</span><span class="p-t">06 机械、化学与电气安全 →</span></a>
+    </nav>
+  </main>
+</div>
+
+<footer class="foot">
+  <span>飞行汽车技术基础 · 课程作业二 · 2026</span>
+  <span><a href="09-evidence.html">证据与引用</a></span>
+</footer>
+<script src="assets/main.js"></script>
+</body>
+</html>

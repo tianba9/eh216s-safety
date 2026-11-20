@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>07 安全测试与验证 · EH216-S 安全分析</title>
+<meta name="description" content="从部件到运行的 V 模型验证链、符合性方法的选择、故障注入与场景测试，以及九万架次运行证据的统计学意义。">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="index.html"><b>EH216-S 安全分析</b><span>Safety Systems Engineering</span></a>
+    <nav class="topnav">
+      <a href="01-scope.html">范围</a><a href="02-method.html">方法</a><a href="03-hazard.html">危害</a>
+      <a href="04-arch.html">架构</a><a href="05-hw-sw.html">软硬件</a><a href="06-physical.html">物理安全</a>
+      <a href="07-vv.html">验证</a><a href="08-assurance.html">论证</a>
+    </nav>
+    <span class="tag-assign">作业二 · 安全分析</span>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="toc">
+    <p class="toc-title">本页</p>
+    <ol>
+      <li><a href="#vmodel">V 模型与验证链</a></li>
+      <li><a href="#moc">符合性方法的选择</a></li>
+      <li><a href="#matrix">验证矩阵</a></li>
+      <li><a href="#inject">故障注入与场景测试</a></li>
+      <li><a href="#ops">运行证据的统计学意义</a></li>
+      <li><a href="#gap">验证的盲区</a></li>
+    </ol>
+    <div class="sub">
+      <p class="toc-title">全站章节</p>
+      <ol>
+        <li><a href="01-scope.html">0–1 安全管理与场景定义</a></li>
+        <li><a href="02-method.html">2 安全分析方法与标准</a></li>
+        <li><a href="03-hazard.html">2 危害识别与风险评估</a></li>
+        <li><a href="04-arch.html">3 系统安全架构与冗余</a></li>
+        <li><a href="05-hw-sw.html">4–5 硬件与软件安全</a></li>
+        <li><a href="06-physical.html">6 机械、化学与电气安全</a></li>
+        <li><a href="07-vv.html">7 安全测试与验证</a></li>
+        <li><a href="08-assurance.html">8 运行安全论证</a></li>
+        <li><a href="09-evidence.html">证据与引用</a></li>
+      </ol>
+    </div>
+  </aside>
+
+  <main>
+    <div class="page-head">
+      <div class="eyebrow">07 · 步骤 7</div>
+      <h1>验证的本质是「证明需求被满足」，不是「飞了很多次」</h1>
+      <p class="lede">
+        安全分析的每一步都会产出需求：三余度要能容忍一路错误、电池要能阻断热蔓延、迫降要能在剩余能量内完成。
+        验证就是逐条证明这些需求真的成立。飞行小时数不能替代这件事。
+      </p>
+    </div>
+
+    <section id="vmodel">
+      <h2><span class="num">01</span>V 模型与验证链</h2>
+      <p>左侧是设计，右侧是验证，两侧在同一层级上对话。任何一层缺少对应的验证活动，就意味着该层的需求没有被证明。</p>
+
+      <figure>
+        <div class="frame">
+          <svg viewBox="0 0 680 300" role="img" aria-label="V 模型：设计层与验证层的对应">
+            <g font-family="system-ui, sans-serif">
+              <!-- 左列：设计 -->
+              <g font-size="11" text-anchor="middle">
+                <rect x="70" y="20" width="190" height="38" fill="#e8f1f2" stroke="#0f5c6b"/><text x="165" y="44">需求定义</text>
+                <rect x="70" y="90" width="190" height="38" fill="#e8f1f2" stroke="#0f5c6b"/><text x="165" y="114">架构设计</text>
+                <rect x="70" y="160" width="190" height="38" fill="#e8f1f2" stroke="#0f5c6b"/><text x="165" y="184">详细设计</text>
+                <rect x="70" y="230" width="190" height="38" fill="#e8f1f2" stroke="#0f5c6b"/><text x="165" y="254">部件实现</text>
+              </g>
+              <!-- 右列：验证 -->
+              <g font-size="11" text-anchor="middle">
+                <rect x="420" y="20" width="190" height="38" fill="#ffffff" stroke="#15181c"/><text x="515" y="44">运行验证</text>
+                <rect x="420" y="90" width="190" height="38" fill="#ffffff" stroke="#15181c"/><text x="515" y="114">整机验证</text>
+                <rect x="420" y="160" width="190" height="38" fill="#ffffff" stroke="#15181c"/><text x="515" y="184">集成验证</text>
+                <rect x="420" y="230" width="190" height="38" fill="#ffffff" stroke="#15181c"/><text x="515" y="254">部件验证</text>
+              </g>
+              <!-- 对应虚线 -->
+              <g stroke="#a8500c" stroke-dasharray="5 3" stroke-width="1.2">
+                <line x1="260" y1="39" x2="420" y2="39"/>
+                <line x1="260" y1="109" x2="420" y2="109"/>
+                <line x1="260" y1="179" x2="420" y2="179"/>
+                <line x1="260" y1="249" x2="420" y2="249"/>
+              </g>
+              <g font-size="9" fill="#a8500c" text-anchor="middle">
+                <text x="340" y="33">确认</text><text x="340" y="103">验证</text>
+                <text x="340" y="173">验证</text><text x="340" y="243">测试</text>
+              </g>
+              <!-- 中部说明 -->
+              <text x="340" y="150" font-size="10" fill="#6d7783" text-anchor="middle">左：需求下行　→　右：证据上行</text>
+              <text x="340" y="288" font-size="9.5" fill="#9aa4ae" text-anchor="middle">任一层缺少右侧对应活动，该层需求即未被证明</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>图 7-1</b>　V 模型。左侧每一层设计都必须在右侧同一层获得证据，虚线即对应关系。
+        <span class="fig-src">依据系统工程与适航审定的通行做法（ARP4754A 的开发保证理念）重绘。</span></figcaption>
+      </figure>
+    </section>
+
+    <section id="moc">
+      <h2><span class="num">02</span>符合性方法的选择</h2>
+      <p>航空审定不使用「测试通过」这种笼统说法，而是把证明手段分为若干符合性方法。选择哪种方法，取决于需求的性质。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 7-1</b>　常用符合性方法及其适用场景</caption>
+          <thead><tr><th style="width:22%">方法</th><th style="width:30%">说明</th><th>适用需求举例</th></tr></thead>
+          <tbody>
+            <tr><td class="em">设计评审</td><td>审查图纸、架构与接口文件</td><td>三套飞控是否物理隔离、走线是否分开</td></tr>
+            <tr><td class="em">分析 / 计算</td><td>用模型推算性能与载荷</td><td>结构强度、推力余量、能量平衡</td></tr>
+            <tr><td class="em">试验室试验</td><td>部件级环境与功能试验</td><td>电池热失控触发、电机耐久、EMC</td></tr>
+            <tr><td class="em">地面试验</td><td>整机在地面的功能与结构试验</td><td>静力加载、起落架落震、坠撞</td></tr>
+            <tr><td class="em">飞行试验</td><td>真实飞行条件下的验证</td><td>性能包线、悬停稳定性、失效响应</td></tr>
+            <tr><td class="em">模拟器试验</td><td>人在环或硬件在环仿真</td><td>远程机组接管、极端场景演练</td></tr>
+            <tr><td class="em">检查</td><td>目视或量具确认</td><td>标识、间隙、装配正确性</td></tr>
+            <tr><td class="em">设备合格性</td><td>采信已有资质证明</td><td>标准件、成品设备的既有认证</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>一个常见误区是把「飞行试验」当作万能手段。事实上，<strong>灾难性失效场景不能靠真实飞行验证</strong>——没有人会为了证明「单臂失效仍可控」而真的在空中切断一个机臂，除非有充分的安全冗余与无人区域。这类需求主要靠分析 + 地面台架 + 硬件在环来完成。</p>
+    </section>
+
+    <section id="matrix">
+      <h2><span class="num">03</span>验证矩阵</h2>
+      <p>把第 04 章提出的架构需求逐条落到验证活动上，形成可执行的验证矩阵。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 7-2</b>　关键安全需求的验证方案</caption>
+          <thead>
+            <tr><th style="width:26%">安全需求</th><th style="width:24%">验证方法</th><th style="width:26%">通过判据</th><th>证据形式</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>容忍一路飞控通道错误输出</td><td>故障注入 + 硬件在环 + 试飞</td><td>注入后姿态偏差在包线内且可恢复</td><td>试验报告 + 飞行数据</td></tr>
+            <tr><td>三套飞控物理与电气独立</td><td>设计评审 + 检查</td><td>无共用电源、无共用走线路径</td><td>架构图 + 符合性说明</td></tr>
+            <tr><td>单组电池失效可隔离</td><td>地面试验 + 故障注入</td><td>隔离后其余组正常供电，无连锁</td><td>试验报告</td></tr>
+            <tr><td>热失控不跨组蔓延</td><td>试验室触发试验</td><td>单组触发热失控后，相邻组不进入热失控</td><td>试验报告 + 视频记录</td></tr>
+            <tr><td>链路中断后自主失效保护</td><td>模拟器 + 试飞</td><td>断链后按预设程序悬停或迫降，不失控</td><td>飞行数据</td></tr>
+            <tr><td>单臂失效仍可控并迫降</td><td>台架 + 硬件在环（不作实飞）</td><td>控制重构成功，剩余推力满足迫降剖面</td><td>仿真报告 + 台架数据</td></tr>
+            <tr><td>坠撞减速度在人体耐受内</td><td>落震试验 + 结构分析</td><td>规定撞击速度下乘员位置减速度低于限值</td><td>试验报告</td></tr>
+            <tr><td>远程机组可在时限内接管</td><td>模拟器 + 演练</td><td>从告警到有效接管的时间低于规定值</td><td>演练记录</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="inject">
+      <h2><span class="num">04</span>故障注入与场景测试</h2>
+      <p>对高冗余系统，最有价值的验证手段不是「正常飞」，而是「刻意让它坏」。故障注入的价值在于把纸面上的冗余变成可观测的行为。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 7-3</b>　应覆盖的故障注入项</caption>
+          <thead><tr><th style="width:22%">注入项</th><th style="width:30%">注入方式</th><th>观察重点</th></tr></thead>
+          <tbody>
+            <tr><td>单电机失效</td><td>台架切断一路电调输出</td><td>控制重构是否平滑，有无姿态突变</td></tr>
+            <tr><td>双电机失效（同臂 / 异侧）</td><td>组合注入</td><td>两种情形的差异，验证容错边界</td></tr>
+            <tr><td>单链路中断</td><td>屏蔽一路数据链</td><td>切换是否无缝，告警是否正确</td></tr>
+            <tr><td>三链路全断</td><td>屏蔽全部链路</td><td>失效保护程序的触发与执行</td></tr>
+            <tr><td>传感器偏差</td><td>注入固定偏移 / 漂移</td><td>交叉校验能否识别并剔除</td></tr>
+            <tr><td>GNSS 欺骗</td><td>注入虚假定位信号</td><td>融合算法是否拒绝，是否触发降级</td></tr>
+            <tr><td>飞控通道分歧</td><td>强制一路输出错误指令</td><td>表决是否隔离该路，是否误判</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>场景测试则应遵循「逻辑场景 → 具体场景 → 边界场景」的收敛路径：先定义参数空间（风速、载荷、温度、航线曲率），再抽样为可执行的测试用例，最后在边界值附近加密采样。<strong>难点从来不是跑通典型场景，而是证明边界已被覆盖。</strong></p>
+    </section>
+
+    <section id="ops">
+      <h2><span class="num">05</span>运行证据的统计学意义</h2>
+      <p>截至 2026 年 6 月，累计超过 9 万架次、零事故<span class="ev ev-lit">企业自述</span>。这是一个值得尊重的数字，但它能支持什么、不能支持什么，需要算清楚。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 7-4</b>　运行数据的统计效力估算</caption>
+          <thead><tr><th style="width:30%">指标</th><th class="num" style="width:22%">数值</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>累计架次</td><td class="num">90 000</td><td>企业口径，含试飞与训练</td></tr>
+            <tr><td>单架次飞行时间</td><td class="num">25 min</td><td>按满载观光任务计</td></tr>
+            <tr><td>累计飞行小时</td><td class="num">≈ 37 500 h</td><td>90 000 × 25 / 60</td></tr>
+            <tr><td>灾难性失效目标</td><td class="num">10<sup>-9</sup>/fh</td><td>运输类航空器通行量级</td></tr>
+            <tr><td>统计证明所需小时</td><td class="num">≈ 10<sup>9</sup> h</td><td>零失效条件下验证该量级所需样本</td></tr>
+            <tr style="background:#f7f5f0"><td class="em">差距</td><td class="num em">约 4 个数量级</td><td class="em">运行数据远不足以单独证明目标达成</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note key">
+        <span class="lbl">正确的解读方式</span>
+        <p>9 万架次的意义不在于证明 10<sup>-9</sup>，而在于三件事：<strong>其一</strong>，证明没有明显的系统性缺陷（否则早该暴露）；<strong>其二</strong>，为可靠性增长模型提供输入，支撑失效率的工程估计；<strong>其三</strong>，支撑运行程序与人员训练的迭代。它属于「运行安全论证」的证据，不属于「失效概率定量证明」的证据。<strong>把两者混为一谈，是安全论证中最常见的逻辑跳跃。</strong></p>
+      </div>
+    </section>
+
+    <section id="gap">
+      <h2><span class="num">06</span>验证的盲区</h2>
+      <p>任何验证计划都存在覆盖不到的地方。明确指出盲区，比宣称「已全面验证」更可信。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 7-5</b>　三类难以覆盖的验证盲区</caption>
+          <thead><tr><th style="width:22%">盲区</th><th style="width:34%">为何难以验证</th><th>可行的替代手段</th></tr></thead>
+          <tbody>
+            <tr><td class="em">多重并发故障</td><td>组合爆炸，无法穷举；实飞不可行</td><td>基于风险抽样的组合注入 + 仿真</td></tr>
+            <tr><td class="em">长周期退化</td><td>电池衰减、结构疲劳需数年运行才能显现</td><td>加速寿命试验 + 运行监测 + 定期检查</td></tr>
+            <tr><td class="em">极端气象</td><td>实飞验证危险，且难以复现</td><td>气象门槛限制 + 风洞/仿真 + 保守包线</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>这三类盲区的共同处理原则是<strong>「用运行限制替代验证」</strong>：既然无法证明在极端条件下安全，就把这些条件排除在 ODD 之外。这正是第 08 章运行安全论证的起点。</p>
+    </section>
+
+    <nav class="pager">
+      <a href="06-physical.html"><span class="p-d">上一章</span><span class="p-t">← 06 机械、化学与电气安全</span></a>
+      <a href="08-assurance.html" class="next"><span class="p-d">下一章</span><span class="p-t">08 运行安全论证 →</span></a>
+    </nav>
+  </main>
+</div>
+
+<footer class="foot">
+  <span>飞行汽车技术基础 · 课程作业二 · 2026</span>
+  <span><a href="09-evidence.html">证据与引用</a></span>
+</footer>
+<script src="assets/main.js"></script>
+</body>
+</html>

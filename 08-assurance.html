@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>08 运行安全论证 · EH216-S 安全分析</title>
+<meta name="description" content="用 GSN 目标结构化论证图整合设计、验证与运行控制三条证据链，并指出论证中的三处缺口。">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="index.html"><b>EH216-S 安全分析</b><span>Safety Systems Engineering</span></a>
+    <nav class="topnav">
+      <a href="01-scope.html">范围</a><a href="02-method.html">方法</a><a href="03-hazard.html">危害</a>
+      <a href="04-arch.html">架构</a><a href="05-hw-sw.html">软硬件</a><a href="06-physical.html">物理安全</a>
+      <a href="07-vv.html">验证</a><a href="08-assurance.html">论证</a>
+    </nav>
+    <span class="tag-assign">作业二 · 安全分析</span>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="toc">
+    <p class="toc-title">本页</p>
+    <ol>
+      <li><a href="#gsn">GSN 论证结构</a></li>
+      <li><a href="#evidence">四条证据链</a></li>
+      <li><a href="#cert">四证在论证中的作用</a></li>
+      <li><a href="#gap">三处论证缺口</a></li>
+      <li><a href="#residual">剩余风险与接受</a></li>
+    </ol>
+    <div class="sub">
+      <p class="toc-title">全站章节</p>
+      <ol>
+        <li><a href="01-scope.html">0–1 安全管理与场景定义</a></li>
+        <li><a href="02-method.html">2 安全分析方法与标准</a></li>
+        <li><a href="03-hazard.html">2 危害识别与风险评估</a></li>
+        <li><a href="04-arch.html">3 系统安全架构与冗余</a></li>
+        <li><a href="05-hw-sw.html">4–5 硬件与软件安全</a></li>
+        <li><a href="06-physical.html">6 机械、化学与电气安全</a></li>
+        <li><a href="07-vv.html">7 安全测试与验证</a></li>
+        <li><a href="08-assurance.html">8 运行安全论证</a></li>
+        <li><a href="09-evidence.html">证据与引用</a></li>
+      </ol>
+    </div>
+  </aside>
+
+  <main>
+    <div class="page-head">
+      <div class="eyebrow">08 · 步骤 8</div>
+      <h1>把所有证据串成一条可被质疑的论证</h1>
+      <p class="lede">
+        前面七章产出了一堆分析、架构与试验。安全论证要做的，是回答一个整体问题：
+        凭什么认为这架飞机在限定条件下载人是可接受的？答案必须能被逐层追问，直到落到具体证据上。
+      </p>
+    </div>
+
+    <section id="gsn">
+      <h2><span class="num">01</span>GSN 论证结构</h2>
+      <p>目标结构化论证（GSN）用「目标 — 策略 — 子目标 — 证据」四类节点组织论证。它的价值在于：任何一条主张都必须有下层支撑，不能靠形容词。</p>
+
+      <figure>
+        <div class="frame">
+          <svg viewBox="0 0 680 400" role="img" aria-label="EH216-S 运行安全论证 GSN 结构">
+            <g font-family="system-ui, sans-serif">
+              <!-- G1 -->
+              <rect x="180" y="14" width="320" height="46" fill="#15181c"/>
+              <text x="340" y="34" text-anchor="middle" font-size="11" fill="#ffffff">G1　在既定 ODD 内，载人运行的</text>
+              <text x="340" y="50" text-anchor="middle" font-size="11" fill="#ffffff">风险处于可接受水平</text>
+
+              <!-- S1 策略 -->
+              <path d="M200,74 L480,74 L470,116 L190,116 Z" fill="#f7f5f0" stroke="#8c8577"/>
+              <text x="340" y="94" text-anchor="middle" font-size="10" fill="#3d454e">S1　按「设计控制 — 验证证明 — 运行约束」</text>
+              <text x="340" y="108" text-anchor="middle" font-size="10" fill="#3d454e">三条路径共同论证</text>
+              <line x1="340" y1="60" x2="340" y2="74" stroke="#8c8577"/>
+              <line x1="340" y1="116" x2="340" y2="132" stroke="#8c8577"/>
+
+              <!-- 子目标 -->
+              <g font-size="9.6" fill="#15181c">
+                <rect x="14" y="132" width="152" height="56" fill="#e8f1f2" stroke="#0f5c6b"/>
+                <text x="26" y="152">G2　危害已被系统</text><text x="26" y="167">识别并分级</text><text x="26" y="182" font-size="8.6" fill="#6d7783">含共因与系统性</text>
+
+                <rect x="180" y="132" width="152" height="56" fill="#e8f1f2" stroke="#0f5c6b"/>
+                <text x="192" y="152">G3　架构满足失效</text><text x="192" y="167">概率与容错目标</text><text x="192" y="182" font-size="8.6" fill="#6d7783">三余度·多组·多链路</text>
+
+                <rect x="346" y="132" width="152" height="56" fill="#e8f1f2" stroke="#0f5c6b"/>
+                <text x="358" y="152">G4　安全需求已被</text><text x="358" y="167">验证确认</text><text x="358" y="182" font-size="8.6" fill="#6d7783">试验·试飞·注入</text>
+
+                <rect x="512" y="132" width="152" height="56" fill="#e8f1f2" stroke="#0f5c6b"/>
+                <text x="524" y="152">G5　运行限制被</text><text x="524" y="167">有效执行</text><text x="524" y="182" font-size="8.6" fill="#6d7783">ODD·机组·维修</text>
+              </g>
+              <!-- 策略到子目标的连线 -->
+              <g stroke="#8c8577">
+                <line x1="340" y1="132" x2="340" y2="124"/>
+                <line x1="90" y1="124" x2="588" y2="124" stroke="#8c8577"/>
+                <line x1="90" y1="124" x2="90" y2="132"/>
+                <line x1="256" y1="124" x2="256" y2="132"/>
+                <line x1="422" y1="124" x2="422" y2="132"/>
+                <line x1="588" y1="124" x2="588" y2="132"/>
+              </g>
+
+              <!-- 证据 -->
+              <g font-size="9">
+                <rect x="14" y="228" width="152" height="86" fill="#ffffff" stroke="#cfcabf"/>
+                <text x="26" y="246" fill="#0f5c6b">E1　FHA / STPA / FTA</text>
+                <text x="26" y="262" fill="#6d7783">12 项危害·控制结构</text>
+                <text x="26" y="276" fill="#6d7783">共因分析</text>
+                <text x="26" y="296" fill="#9aa4ae">本文第 03 章</text>
+
+                <rect x="180" y="228" width="152" height="86" fill="#ffffff" stroke="#cfcabf"/>
+                <text x="192" y="246" fill="#0f5c6b">E2　架构与冗余设计</text>
+                <text x="192" y="262" fill="#6d7783">三套飞控·12 组电池</text>
+                <text x="192" y="276" fill="#6d7783">三重链路·失效保护</text>
+                <text x="192" y="296" fill="#9aa4ae">本文第 04–05 章</text>
+
+                <rect x="346" y="228" width="152" height="86" fill="#ffffff" stroke="#cfcabf"/>
+                <text x="358" y="246" fill="#0f5c6b">E3　验证报告</text>
+                <text x="358" y="262" fill="#6d7783">试验·试飞·故障注入</text>
+                <text x="358" y="276" fill="#6d7783">审定符合性记录</text>
+                <text x="358" y="296" fill="#9aa4ae">本文第 07 章</text>
+
+                <rect x="512" y="228" width="152" height="86" fill="#ffffff" stroke="#cfcabf"/>
+                <text x="524" y="246" fill="#0f5c6b">E4　运行数据与程序</text>
+                <text x="524" y="262" fill="#6d7783">9 万架次·运行手册</text>
+                <text x="524" y="276" fill="#6d7783">机组训练·维修大纲</text>
+                <text x="524" y="296" fill="#9aa4ae">企业披露 + OC 审查</text>
+              </g>
+              <g stroke="#cfcabf">
+                <line x1="90" y1="188" x2="90" y2="228"/><line x1="256" y1="188" x2="256" y2="228"/>
+                <line x1="422" y1="188" x2="422" y2="228"/><line x1="588" y1="188" x2="588" y2="228"/>
+              </g>
+
+              <!-- 缺口标注 -->
+              <g stroke="#a8500c" stroke-dasharray="4 3">
+                <line x1="166" y1="160" x2="180" y2="160"/>
+              </g>
+              <text x="340" y="348" text-anchor="middle" font-size="9.6" fill="#a8500c">缺口：E1 的共因分析结论、E3 的完整报告均未公开；E4 为企业自述，未经独立审计</text>
+              <text x="340" y="370" text-anchor="middle" font-size="9.6" fill="#6d7783">四条证据链在形式上是完整的，在可核验性上是不完整的</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>图 8-1</b>　运行安全论证的 GSN 结构。G1 是顶层主张，S1 是论证策略，G2–G5 是必须同时成立的四个子目标，E1–E4 是对应的证据。
+        <span class="fig-src">依据 GSN 社区标准（Goal Structuring Notation）绘制，节点命名遵循 Goal / Strategy / Evidence 约定。</span></figcaption>
+      </figure>
+    </section>
+
+    <section id="evidence">
+      <h2><span class="num">02</span>四条证据链</h2>
+      <p>GSN 的四个子目标对应四条独立的证据链。任何一条断裂，顶层主张就不成立——这是「同时成立」而非「加权平均」。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 8-1</b>　四条证据链的强度评估</caption>
+          <thead>
+            <tr><th style="width:16%">子目标</th><th style="width:30%">证据内容</th><th style="width:16%">可核验性</th><th>薄弱点</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">G2 危害识别</td><td>FHA 12 项、STPA 控制结构、FTA 九割集</td><td>框架完整</td><td>共因分析的结论未公开，本文只能指出问题</td></tr>
+            <tr><td class="em">G3 架构达标</td><td>三余度、12 组电池、三重链路、失效保护</td><td>措施可查</td><td>定量失效概率与 SPFM/LFM 指标未公开</td></tr>
+            <tr><td class="em">G4 验证确认</td><td>试验报告、试飞数据、故障注入记录</td><td>存在但不可见</td><td>具体项目与结果属审定内部资料</td></tr>
+            <tr><td class="em">G5 运行约束</td><td>ODD、手册、训练、维修、事件报告</td><td>部分公开</td><td>9 万架次为企业自述，运行偏差无独立监督数据</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>评估的结论是：<strong>论证在形式上完整，在可核验性上不完整。</strong>这不是对该型号的否定——审定过程的细节本就属于监管与企业之间的资料，外界无法获取是常态。真正需要区分的是：哪些主张有公开证据，哪些主张只能依赖「已取证」这一事实本身。</p>
+    </section>
+
+    <section id="cert">
+      <h2><span class="num">03</span>四证在论证中的作用</h2>
+      <p>对第三方而言，四证是唯一可用的「论证已被审查」的信号。理解每张证覆盖哪一段，才能判断它能替代多少证据。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 8-2</b>　四证各自覆盖的论证范围</caption>
+          <thead><tr><th style="width:12%">证件</th><th style="width:26%">覆盖对象</th><th style="width:30%">它证明了什么</th><th>它没有证明什么</th></tr></thead>
+          <tbody>
+            <tr><td class="em">TC</td><td>型号设计</td><td>设计符合专用条件的七类要求</td><td>不保证单机质量，也不覆盖运行</td></tr>
+            <tr><td class="em">AC</td><td>单架航空器</td><td>该架航空器处于适航状态</td><td>不覆盖后续维修与改装偏差</td></tr>
+            <tr><td class="em">PC</td><td>生产体系</td><td>具备批产一致性与质量控制能力</td><td>不保证每一架都零缺陷</td></tr>
+            <tr><td class="em">OC</td><td>运营人</td><td>具备持续安全运行的人员、程序与保障能力</td><td>不覆盖具体航线的空域风险</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>四证构成一条完整的责任链：<strong>设计—单机—生产—运行</strong>。这也是为什么 OC 由运营人而非制造商持有——它锁定的是「谁在飞」，而不是「谁造的」。</p>
+    </section>
+
+    <section id="gap">
+      <h2><span class="num">04</span>三处论证缺口</h2>
+      <p>基于前面各章的分析，本文认为该型号的安全论证存在三处值得追问的缺口。它们不是「缺陷」，而是公开信息无法闭合的地方。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 8-3</b>　三处缺口及其影响</caption>
+          <thead>
+            <tr><th style="width:24%">缺口</th><th style="width:32%">为何重要</th><th>若属实的后果</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="em">① 三套飞控是否异构</td>
+              <td>同源软件会使 2oo3 在软件缺陷面前退化为 1oo1，直接影响 G3</td>
+              <td>灾难性失效概率的论证基础被削弱；需以更严格的开发过程补偿</td>
+            </tr>
+            <tr>
+              <td class="em">② 适坠性指标的量化值</td>
+              <td>专用条件新增了舱体结构防护要求，但撞击速度、减速度限值、吸能行程均未公开</td>
+              <td>无法判断 H05（坠撞致乘员致命伤）的 10<sup>-9</sup> 目标如何达成</td>
+            </tr>
+            <tr>
+              <td class="em">③ 远程机组的人机比与接管时限</td>
+              <td>人因是链路中的活性环节，其可靠性直接决定失效保护的最终有效性</td>
+              <td>多机同场运行时，接管能力可能成为新的瓶颈</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note warn">
+        <span class="lbl">对缺口的正确态度</span>
+        <p>指出缺口不等于质疑审定结论。审定的完整资料本就只在局方与企业之间流转，外界看不到是制度常态。此处列出的意义在于：<strong>如果要把这套安全论证用于新的场景（如城市通勤），这三项恰恰是最先需要补强的部分</strong>——因为新场景会放大它们的后果。</p>
+      </div>
+    </section>
+
+    <section id="residual">
+      <h2><span class="num">05</span>剩余风险与接受</h2>
+      <p>安全论证的终点不是「零风险」，而是「剩余风险已被识别且可接受」。下表列出剩余风险及接受的理由。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 8-4</b>　剩余风险及其接受依据</caption>
+          <thead>
+            <tr><th style="width:24%">剩余风险</th><th style="width:26%">控制层级</th><th>接受依据</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>极端气象下的失控</td><td>运行限制（ODD）</td><td>气象门槛与停飞制度，风险被排除而非被承受</td></tr>
+            <tr><td>多臂同时失效</td><td>设计 + 运行</td><td>概率极低 + 迫降程序 + 航线避开密集区</td></tr>
+            <tr><td>不可检测的软件缺陷</td><td>设计（过程保证）</td><td>A 级开发过程 + 独立验证 + 异构策略</td></tr>
+            <tr><td>第三方地面风险</td><td>运行 + 场地</td><td>人群隔离、航线避让、保险机制</td></tr>
+            <tr><td>人为破坏与网络攻击</td><td>信息安全</td><td>加密链路、独立密钥、地面监控</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>本报告对整机安全性的总体判断</h3>
+      <div class="verdicts">
+        <div class="verdict">
+          <span class="n">判断 1</span>
+          <h4>在既定 ODD 内，安全论证的主干成立</h4>
+          <p>危害识别完整、架构分层清晰、验证活动到位、运行约束明确。四证的存在说明这条论证链已被监管方审查通过。</p>
+        </div>
+        <div class="verdict">
+          <span class="n">判断 2</span>
+          <h4>论证的强项是功能安全，弱项是被动安全</h4>
+          <p>冗余架构与失效保护的设计逻辑严密，但坠撞保护与火情处置的量化证据最少。这与「取证优先于性能」的产品策略一致——先解决「不出事」，再解决「出事时少伤人」。</p>
+        </div>
+        <div class="verdict">
+          <span class="n">判断 3</span>
+          <h4>安全边界与商业边界是同一条线</h4>
+          <p>隔离空域、目视气象、昼间运行、人群隔离——每一条运行限制既在控制系统性风险，也在压缩市场空间。安全论证的保守程度，直接决定了它今天只能做景区观光。</p>
+        </div>
+      </div>
+
+      <div class="note key">
+        <span class="lbl">一句话总结</span>
+        <p>这架飞机的安全，不是「因为它有很多冗余」，而是「因为它被允许在很窄的条件下飞行」。冗余让它在条件内可靠，运行限制让它在条件外不出现。两者缺一不可，而后者更容易被忽视。</p>
+      </div>
+    </section>
+
+    <nav class="pager">
+      <a href="07-vv.html"><span class="p-d">上一章</span><span class="p-t">← 07 安全测试与验证</span></a>
+      <a href="09-evidence.html" class="next"><span class="p-d">下一章</span><span class="p-t">09 证据与引用 →</span></a>
+    </nav>
+  </main>
+</div>
+
+<footer class="foot">
+  <span>飞行汽车技术基础 · 课程作业二 · 2026</span>
+  <span><a href="09-evidence.html">证据与引用</a></span>
+</footer>
+<script src="assets/main.js"></script>
+</body>
+</html>
