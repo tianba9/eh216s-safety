@@ -221,7 +221,6 @@ figcaption b{color:var(--ink-2);font-weight:600;}
   .toc ol{display:flex;flex-wrap:wrap;gap:.1rem .9rem;}
   .toc a{border-left:none;padding:.15rem 0;}
   .toc a.active{background:none;text-decoration:underline;}
-  .topnav{display:none;}
   .foot{flex-direction:column;gap:.4rem;}
 }
 
@@ -343,4 +342,61 @@ figcaption b{color:var(--ink-2);font-weight:600;}
 @media (max-width: 900px) {
   .topbar-in { flex-wrap: wrap; }
   .sister-link { margin-left: auto; }
+}
+
+/* ---------- 面包屑与章节切换 ---------- */
+.crumb{
+  display:flex;align-items:center;gap:.5rem;
+  font-size:.72rem;letter-spacing:.04em;color:var(--muted);
+  margin-bottom:.85rem;
+}
+.crumb::after{content:"";height:1px;flex:1;background:var(--line);}
+.crumb a{color:var(--accent);border-bottom:1px solid rgba(15,92,107,.28);}
+.crumb a:hover{border-bottom-color:var(--accent);}
+.crumb .sep{color:var(--line-strong);}
+.crumb .cur{color:var(--ink-2);font-weight:600;}
+
+.page-head{position:relative;}
+.head-nav{
+  position:absolute;top:-.1rem;right:0;display:flex;gap:.3rem;
+  font-family:var(--mono);font-size:.72rem;
+}
+.head-nav a{
+  display:inline-flex;align-items:center;gap:.18rem;
+  padding:.26rem .52rem;border:1px solid var(--line-strong);border-radius:3px;
+  color:var(--ink-2);background:var(--paper);transition:all .14s;
+}
+.head-nav a:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft);}
+
+/* 当前所在章节的标识 */
+.topnav a.active{color:var(--accent);font-weight:600;border-bottom-color:var(--accent);}
+.toc .sub a.active{color:var(--accent);font-weight:600;}
+.toc .sub a.active::before{content:"▸ ";color:var(--accent);}
+.brand:hover b{color:var(--accent);}
+.foot a.home{color:var(--muted);border-bottom-color:var(--line-strong);}
+.foot a.home:hover{color:var(--accent);}
+
+@media (max-width:900px){
+  .topnav{
+    display:flex;flex:1 1 100%;width:auto;min-width:0;overflow-x:auto;
+    margin-left:0;gap:.95rem;padding:.2rem 0 .1rem;font-size:.78rem;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;
+  }
+  .topnav::-webkit-scrollbar{display:none;}
+  .topnav a{white-space:nowrap;}
+  .head-nav{position:static;justify-content:flex-end;margin:.1rem 0 .8rem;}
+  .crumb{font-size:.69rem;margin-bottom:.7rem;}
+}
+
+/* ---------- 移动端顶栏收拢（防横向溢出） ---------- */
+@media (max-width:900px){
+  .topbar-in{gap:.45rem;padding:.55rem 1rem;}
+  .brand{min-width:0;flex:1 1 auto;}
+  .brand b{font-size:.96rem;white-space:nowrap;}
+  .brand span{display:none;}
+  .sister-link{flex:0 0 auto;margin-left:auto;font-size:.7rem;padding:.16rem .45rem;}
+  .topnav{flex:1 1 100%;width:auto;min-width:0;overflow-x:auto;}
+  .crumb{flex-wrap:wrap;row-gap:.25rem;}
+  .head-nav{position:static;justify-content:flex-start;flex-wrap:wrap;margin:.15rem 0 .9rem;font-size:.68rem;}
+  .page-head h1{font-size:clamp(1.5rem,6vw,2rem);}
 }

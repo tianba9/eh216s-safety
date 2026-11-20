@@ -14,8 +14,9 @@
     <a class="brand" href="index.html"><b>EH216-S 安全分析</b><span>Safety Systems Engineering</span></a>
     <nav class="topnav">
       <a href="01-scope.html">范围</a><a href="02-method.html">方法</a><a href="03-hazard.html">危害</a>
-      <a href="04-arch.html">架构</a><a href="05-hw-sw.html">软硬件</a><a href="06-physical.html">物理安全</a>
-      <a href="07-vv.html">验证</a><a href="08-assurance.html">论证</a>
+      <a href="04-arch.html" class="active" aria-current="page">架构</a><a href="05-hw-sw.html">软硬件</a><a href="06-physical.html">物理安全</a>
+      <a href="07-vv.html">验证</a><a href="08-assurance.html">论证</a>      <a href="09-evidence.html">证据</a>
+
     </nav>
     <a class="sister-link" href="https://tianba9.github.io/eh216s-research/" title="切换至卷一：全方位调研与分析">卷一·调研分析 ↗</a>
   </div>
@@ -37,7 +38,7 @@
         <li><a href="01-scope.html">0–1 安全管理与场景定义</a></li>
         <li><a href="02-method.html">2 安全分析方法与标准</a></li>
         <li><a href="03-hazard.html">2 危害识别与风险评估</a></li>
-        <li><a href="04-arch.html">3 系统安全架构与冗余</a></li>
+        <li><a href="04-arch.html" class="active" aria-current="page">3 系统安全架构与冗余</a></li>
         <li><a href="05-hw-sw.html">4–5 硬件与软件安全</a></li>
         <li><a href="06-physical.html">6 机械、化学与电气安全</a></li>
         <li><a href="07-vv.html">7 安全测试与验证</a></li>
@@ -49,7 +50,8 @@
 
   <main>
     <div class="page-head">
-      <div class="eyebrow">04 · 步骤 3</div>
+      <div class="crumb"><a href="index.html">首页</a><span class="sep">›</span><span class="cur">04 系统安全架构与冗余</span></div>
+      <div class="head-nav"><a href="03-hazard.html" title="上一章：03 危害识别与风险评估" aria-label="上一章：03 危害识别与风险评估">‹ 03</a><a href="05-hw-sw.html" title="下一章：05 硬件与软件安全设计" aria-label="下一章：05 硬件与软件安全设计">05 ›</a></div>
       <h1>冗余不是堆数量，是设计「失效之后还能飞」</h1>
       <p class="lede">
         EH216-S 的冗余体现在三个层面：三套飞控、12 组电池、三重链路。但冗余的价值不取决于数量，
@@ -212,7 +214,7 @@
 </div>
 
 <footer class="foot">
-  <span>飞行汽车技术基础 2026</span>
+  <span><a class="home" href="index.html">首页</a>　·　飞行汽车技术基础 2026</span>
   <span><a href="#top" class="back-to-top">↑ 返回顶部</a>　|　<a href="09-evidence.html">证据与引用</a></span>
 </footer>
 <script src="assets/main.js"></script>
