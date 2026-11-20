@@ -17,7 +17,6 @@
       <a href="04-arch.html">架构</a><a href="05-hw-sw.html">软硬件</a><a href="06-physical.html">物理安全</a>
       <a href="07-vv.html">验证</a><a href="08-assurance.html">论证</a>
     </nav>
-    <span class="tag-assign">作业二 · 安全分析</span>
   </div>
 </header>
 
@@ -107,19 +106,19 @@
                 <text x="26" y="246" fill="#0f5c6b">E1　FHA / STPA / FTA</text>
                 <text x="26" y="262" fill="#6d7783">12 项危害·控制结构</text>
                 <text x="26" y="276" fill="#6d7783">共因分析</text>
-                <text x="26" y="296" fill="#9aa4ae">本文第 03 章</text>
+                <text x="26" y="296" fill="#9aa4ae">本报告第 03 章</text>
 
                 <rect x="180" y="228" width="152" height="86" fill="#ffffff" stroke="#cfcabf"/>
                 <text x="192" y="246" fill="#0f5c6b">E2　架构与冗余设计</text>
                 <text x="192" y="262" fill="#6d7783">三套飞控·12 组电池</text>
                 <text x="192" y="276" fill="#6d7783">三重链路·失效保护</text>
-                <text x="192" y="296" fill="#9aa4ae">本文第 04–05 章</text>
+                <text x="192" y="296" fill="#9aa4ae">本报告第 04–05 章</text>
 
                 <rect x="346" y="228" width="152" height="86" fill="#ffffff" stroke="#cfcabf"/>
                 <text x="358" y="246" fill="#0f5c6b">E3　验证报告</text>
                 <text x="358" y="262" fill="#6d7783">试验·试飞·故障注入</text>
                 <text x="358" y="276" fill="#6d7783">审定符合性记录</text>
-                <text x="358" y="296" fill="#9aa4ae">本文第 07 章</text>
+                <text x="358" y="296" fill="#9aa4ae">本报告第 07 章</text>
 
                 <rect x="512" y="228" width="152" height="86" fill="#ffffff" stroke="#cfcabf"/>
                 <text x="524" y="246" fill="#0f5c6b">E4　运行数据与程序</text>
@@ -157,7 +156,7 @@
             <tr><th style="width:16%">子目标</th><th style="width:30%">证据内容</th><th style="width:16%">可核验性</th><th>薄弱点</th></tr>
           </thead>
           <tbody>
-            <tr><td class="em">G2 危害识别</td><td>FHA 12 项、STPA 控制结构、FTA 九割集</td><td>框架完整</td><td>共因分析的结论未公开，本文只能指出问题</td></tr>
+            <tr><td class="em">G2 危害识别</td><td>FHA 12 项、STPA 控制结构、FTA 九割集</td><td>框架完整</td><td>共因分析的结论未公开，本报告只能指出问题</td></tr>
             <tr><td class="em">G3 架构达标</td><td>三余度、12 组电池、三重链路、失效保护</td><td>措施可查</td><td>定量失效概率与 SPFM/LFM 指标未公开</td></tr>
             <tr><td class="em">G4 验证确认</td><td>试验报告、试飞数据、故障注入记录</td><td>存在但不可见</td><td>具体项目与结果属审定内部资料</td></tr>
             <tr><td class="em">G5 运行约束</td><td>ODD、手册、训练、维修、事件报告</td><td>部分公开</td><td>9 万架次为企业自述，运行偏差无独立监督数据</td></tr>
@@ -190,7 +189,7 @@
 
     <section id="gap">
       <h2><span class="num">04</span>三处论证缺口</h2>
-      <p>基于前面各章的分析，本文认为该型号的安全论证存在三处值得追问的缺口。它们不是「缺陷」，而是公开信息无法闭合的地方。</p>
+      <p>基于前面各章的分析，本报告认为该型号的安全论证存在三处值得追问的缺口。它们不是「缺陷」，而是公开信息无法闭合的地方。</p>
 
       <div class="tw">
         <table>
@@ -245,6 +244,14 @@
       </div>
 
       <h3>本报告对整机安全性的总体判断</h3>
+      <div class="rating">
+        <div class="g">R2</div>
+        <div class="rb">
+          <h4>放行级别：限定场景放行</h4>
+          <p>仅在 ODD 内成立——隔离空域、目视气象、昼间运行、起降场人群隔离，且须由持 OC 的运营人执行并接受持续监督。超出 ODD 的情形未获论证，不能援引本报告结论。评级依据见第 07、08 两章。</p>
+        </div>
+      </div>
+
       <div class="verdicts">
         <div class="verdict">
           <span class="n">判断 1</span>
@@ -277,7 +284,7 @@
 </div>
 
 <footer class="foot">
-  <span>飞行汽车技术基础 · 课程作业二 · 2026</span>
+  <span>飞行汽车技术基础 2026</span>
   <span><a href="09-evidence.html">证据与引用</a></span>
 </footer>
 <script src="assets/main.js"></script>

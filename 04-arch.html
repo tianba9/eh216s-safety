@@ -17,7 +17,6 @@
       <a href="04-arch.html">架构</a><a href="05-hw-sw.html">软硬件</a><a href="06-physical.html">物理安全</a>
       <a href="07-vv.html">验证</a><a href="08-assurance.html">论证</a>
     </nav>
-    <span class="tag-assign">作业二 · 安全分析</span>
   </div>
 </header>
 
@@ -137,18 +136,18 @@
       <p>本节把第 03 章的割集 A1 与控制结构落在具体数字上：当一副旋翼、一个机臂乃至更多动力单元失效时，这架飞机还能不能飞。</p>
 
       <h3>推力余量是容错能力的物理基础</h3>
-      <p>按最大起飞重量 620 kg、16 副旋翼计算，悬停时每副旋翼需提供约 380 N 推力。设计上必须留余量，否则无法应对风扰、爬升与失效。本文假设每副旋翼最大可用推力 500 N（约 30% 余量），据此推算不同失效情形下的悬停可行性。</p>
+      <p>按最大起飞重量 620 kg、16 副旋翼计算，悬停时每副旋翼需提供约 380 N 推力。设计上必须留余量，否则无法应对风扰、爬升与失效。本报告假设每副旋翼最大可用推力 500 N（约 30% 余量），据此推算不同失效情形下的悬停可行性。</p>
 
       <div class="tw">
         <table>
-          <caption><b>表 4-4</b>　不同失效情形下的推力余量（本文估算）</caption>
+          <caption><b>表 4-4</b>　不同失效情形下的推力余量（本报告估算）</caption>
           <thead>
             <tr><th style="width:26%">失效情形</th><th class="num" style="width:14%">剩余旋翼</th><th class="num" style="width:18%">总可用推力</th><th class="num" style="width:16%">余量</th><th>能否维持悬停</th></tr>
           </thead>
           <tbody>
-            <tr><td>完好</td><td class="num">16</td><td class="num">8000 N</td><td class="num">24%</td><td>能</td></tr>
-            <tr><td>单副旋翼失效</td><td class="num">15</td><td class="num">7500 N</td><td class="num">19%</td><td>能，需力矩补偿</td></tr>
-            <tr><td>整臂失效（2 副）</td><td class="num">14</td><td class="num">7000 N</td><td class="num">13%</td><td>能，但姿态裕度显著下降</td></tr>
+            <tr><td>完好</td><td class="num">16</td><td class="num">8000 N</td><td class="num">31.5%</td><td>能</td></tr>
+            <tr><td>单副旋翼失效</td><td class="num">15</td><td class="num">7500 N</td><td class="num">23.3%</td><td>能，需力矩补偿</td></tr>
+            <tr><td>整臂失效（2 副）</td><td class="num">14</td><td class="num">7000 N</td><td class="num">15.1%</td><td>能，但姿态裕度显著下降</td></tr>
             <tr><td>两臂失效（4 副）</td><td class="num">12</td><td class="num">6000 N</td><td class="num">-1.4%</td><td><strong>不能</strong>，必须立即着陆</td></tr>
           </tbody>
         </table>
@@ -166,6 +165,21 @@
 
       <p>这解释了一个看似矛盾的现象：<strong>多旋翼的容错能力不体现在「能飞」，而体现在「能平稳地落下来」。</strong>损失一个机臂后，飞机或许仍可悬停，但已不具备继续执行任务的能力，只能进入就近迫降程序。安全架构的设计目标，正是保证这条「体面退场」的路径始终存在。</p>
     </section>
+
+      <div class="calc" id="calc-rotor">
+        <p class="calc-head">互动测算 · 失效旋翼数 → 推力余量</p>
+        <label class="calc-row">
+          <span class="lb">失效旋翼数</span>
+          <input type="range" id="rot-in" min="0" max="6" step="1" value="0" aria-label="失效旋翼数">
+          <output id="rot-v">完好</output>
+        </label>
+        <div class="calc-out">
+          <div><b id="rot-rem">16</b><span>剩余旋翼</span></div>
+          <div><b id="rot-total">8000</b><span>可用推力 N</span></div>
+          <div><b id="rot-margin">+31.5%</b><span>推力余量</span></div>
+        </div>
+        <p class="calc-note" id="rot-note">—</p>
+      </div>
 
     <section id="boundary">
       <h2><span class="num">05</span>容错边界与剩余风险</h2>
@@ -197,9 +211,10 @@
 </div>
 
 <footer class="foot">
-  <span>飞行汽车技术基础 · 课程作业二 · 2026</span>
+  <span>飞行汽车技术基础 2026</span>
   <span><a href="09-evidence.html">证据与引用</a></span>
 </footer>
 <script src="assets/main.js"></script>
+<script src="assets/calc.js"></script>
 </body>
 </html>

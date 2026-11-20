@@ -241,3 +241,52 @@ figcaption b{color:var(--ink-2);font-weight:600;}
 @media (max-width:640px){
   .kpis{grid-template-columns:repeat(2,minmax(0,1fr));}
 }
+
+/* ---------- 综合评级 ---------- */
+.rating{
+  display:flex;align-items:stretch;border:1px solid var(--line);
+  background:var(--paper);margin:1.8rem 0 2rem;
+}
+.rating .g{
+  flex:none;display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:2.6rem;line-height:1;
+  padding:0 1.5rem;background:var(--accent-soft);color:var(--accent);
+  border-right:1px solid var(--line);letter-spacing:-.02em;
+}
+.rating .rb{padding:1rem 1.3rem;}
+.rating .rb h4{margin:0 0 .35rem;font-size:.98rem;color:var(--ink);font-family:var(--serif);font-weight:600;}
+.rating .rb p{margin:0;font-size:.86rem;color:var(--ink-2);line-height:1.65;max-width:none;}
+
+/* ---------- 交互测算 ---------- */
+.calc{
+  border:1px solid var(--line);background:var(--paper);
+  padding:1.15rem 1.35rem 1.25rem;margin:1.6rem 0 2rem;
+}
+.calc-head{
+  font-size:.67rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);font-weight:700;margin-bottom:.95rem;
+}
+.calc-row{display:flex;align-items:center;gap:.9rem;font-size:.85rem;margin-bottom:.85rem;}
+.calc-row .lb{flex:none;width:7.2em;color:var(--ink-2);}
+.calc-row input[type=range]{flex:1;min-width:0;accent-color:var(--accent);height:4px;cursor:pointer;}
+.calc-row output{
+  font-family:var(--mono);font-size:.8rem;min-width:5.6em;
+  text-align:right;color:var(--accent);
+}
+.calc-out{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:var(--line);border:1px solid var(--line);margin:.3rem 0 .85rem;
+}
+.calc-out div{background:#fbfaf7;padding:.65rem .7rem;text-align:center;}
+.calc-out b{display:block;font-family:var(--serif);font-size:1.22rem;line-height:1.25;letter-spacing:-.01em;}
+.calc-out span{font-size:.68rem;color:var(--muted);}
+.calc-note{font-size:.82rem;color:var(--ink-2);margin:0;line-height:1.6;max-width:none;}
+.calc-note em{font-style:normal;color:var(--accent);font-weight:600;}
+
+@media (max-width:640px){
+  .calc-row{flex-wrap:wrap;gap:.5rem;}
+  .calc-row .lb{width:auto;}
+  .calc-out{grid-template-columns:repeat(3,1fr);}
+  .rating{flex-direction:column;}
+  .rating .g{border-right:none;border-bottom:1px solid var(--line);padding:.7rem;}
+}

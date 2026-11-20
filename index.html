@@ -17,7 +17,6 @@
       <a href="04-arch.html">架构</a><a href="05-hw-sw.html">软硬件</a><a href="06-physical.html">物理安全</a>
       <a href="07-vv.html">验证</a><a href="08-assurance.html">论证</a>
     </nav>
-    <span class="tag-assign">作业二 · 安全分析</span>
   </div>
 </header>
 
@@ -26,6 +25,7 @@
     <p class="toc-title">本页</p>
     <ol>
       <li><a href="#conclusions">五条安全结论</a></li>
+      <li><a href="#overview">研究范围与边界</a></li>
       <li><a href="#goals">安全目标</a></li>
       <li><a href="#domains">五大安全域</a></li>
       <li><a href="#route">八步法路径</a></li>
@@ -48,11 +48,11 @@
 
   <main>
     <div class="page-head">
-      <div class="eyebrow">课程作业二 · 全方位安全分析</div>
+      <div class="eyebrow">全方位安全分析</div>
       <h1>把「零事故」拆成可论证的命题</h1>
       <p class="lede">
         一架没有驾驶员的载人飞行器，把「人会犯错」这个最大的不确定性从机上移除了，同时也移除了最后一道人工兜底。
-        安全责任因此全部转移到自动化、冗余架构与地面远程机组身上。本文用系统安全工程的八步法，检验这套责任分配是否被论证充分。
+        安全责任因此全部转移到自动化、冗余架构与地面远程机组身上。本报告用系统安全工程的八步法，检验这套责任分配是否被论证充分。
       </p>
     </div>
 
@@ -84,7 +84,7 @@
         <div class="verdict">
           <span class="n">结论 03 · 证据性质</span>
           <h4>九万架次是运行证据，不是安全证明</h4>
-          <p>按灾难性失效目标 10<sup>-9</sup>/飞行小时计，要统计性地「证明」达标需 10<sup>9</sup> 小时量级的数据；9 万架次、每架次 25 分钟，累计约 3.75 万飞行小时<span class="ev ev-est">本文估算</span>。
+          <p>按灾难性失效目标 10<sup>-9</sup>/飞行小时计，要统计性地「证明」达标需 10<sup>9</sup> 小时量级的数据；9 万架次、每架次 25 分钟，累计约 3.75 万飞行小时<span class="ev ev-est">本报告估算</span>。
           它支持可靠性增长论证，不能替代失效概率的定量分析。</p>
         </div>
         <div class="verdict">
@@ -102,13 +102,37 @@
       </div>
     </section>
 
+    <section id="overview">
+      <h2><span class="num">02</span>研究范围与边界</h2>
+      <p>安全分析最容易犯的错，是从「加冗余」开始。本报告先划三条边界，再往下分析——边界决定结论的适用范围。</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>表 1</b>　三条边界：分析对象、方法、证据</caption>
+          <thead><tr><th style="width:16%">边界</th><th style="width:38%">划定内容</th><th>越界后果</th></tr></thead>
+          <tbody>
+            <tr><td class="em">对象边界</td><td>系统层：航空器本体 + 地面控制站 + 数据链路。不含运营组织、维修体系与低空基础设施</td><td>把体系问题误判为设计缺陷，或反之</td></tr>
+            <tr><td class="em">方法边界</td><td>FHA 定级、STPA 找系统性漏洞、FTA 定割集、FMEA 落部件、CCA 查共因，五者分工不互相替代</td><td>只做 FTA 会漏掉「部件全好但控制逻辑错了」的情形</td></tr>
+            <tr><td class="em">证据边界</td><td>仅用公开材料重建，属第三方独立复算；不掌握厂商的 FHA/PSSA/SSA/FMEA 与符合性验证文件</td><td>把复算结论当成审定结论引用</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>三条自我约束</h3>
+      <ul>
+        <li><strong>不做概率定量。</strong>缺失效数据与架构细节，故障树只给割集与定性排序，不给顶事件概率。</li>
+        <li><strong>不推断未披露项。</strong>整机伞、机载灭火、供电拓扑、软件是否异构，未载明者一律标注「未披露」，不推断为「没有」。</li>
+        <li><strong>不把运行数据当证明。</strong>九万架次支持可靠性增长，不替代 10⁻⁹ 的统计证明。</li>
+      </ul>
+    </section>
+
     <section id="goals">
-      <h2><span class="num">02</span>安全目标与失效概率分配</h2>
+      <h2><span class="num">03</span>安全目标与失效概率分配</h2>
       <p>安全分析的落点是可量化的目标。下表把整机安全目标逐级分配到主要功能，作为后文章节讨论架构与验证的基准。</p>
 
       <div class="tw">
         <table>
-          <caption><b>表 1</b>　整机安全目标与功能级分配（参照运输类航空器惯例）</caption>
+          <caption><b>表 2</b>　整机安全目标与功能级分配（参照运输类航空器惯例）</caption>
           <thead>
             <tr><th style="width:22%">安全目标</th><th style="width:16%">严重度</th><th style="width:16%">目标概率</th><th style="width:12%">DAL</th><th>主要控制手段</th></tr>
           </thead>
@@ -123,16 +147,16 @@
           </tbody>
         </table>
       </div>
-      <p class="t-foot">说明：概率值为本文依据运输类航空器通行做法设定的分析基准，非局方对该型号公布的具体数值。DAL 为设计保证等级，用于确定软硬件的开发严格程度。</p>
+      <p class="t-foot">说明：概率值为本报告依据运输类航空器通行做法设定的分析基准，非局方对该型号公布的具体数值。DAL 为设计保证等级，用于确定软硬件的开发严格程度。</p>
     </section>
 
     <section id="domains">
-      <h2><span class="num">03</span>五大安全域的覆盖情况</h2>
+      <h2><span class="num">04</span>五大安全域的覆盖情况</h2>
       <p>课程把智能运载工具的安全拆成五个相互耦合的域。逐域检查后可以发现，覆盖并不均衡：功能安全与信息安全证据充分，被动安全与预期功能安全最弱。</p>
 
       <div class="tw">
         <table>
-          <caption><b>表 2</b>　五大安全域在 EH216-S 上的覆盖评估</caption>
+          <caption><b>表 3</b>　五大安全域在 EH216-S 上的覆盖评估</caption>
           <thead><tr><th style="width:18%">安全域</th><th style="width:30%">核心问题</th><th style="width:22%">EH216-S 的对应措施</th><th>证据充分度</th></tr></thead>
           <tbody>
             <tr><td class="em">功能安全</td><td>电子电气故障导致的风险</td><td>三余度飞控、表决、Fail-Safe 自主决策</td><td>较充分（有审定背书）</td></tr>
@@ -146,12 +170,12 @@
     </section>
 
     <section id="route">
-      <h2><span class="num">04</span>八步法路径</h2>
+      <h2><span class="num">05</span>八步法路径</h2>
       <p>全站按课程给出的智能运载工具安全系统工程八步组织，每一步对应一页，构成从场景到论证的完整链条。</p>
 
       <div class="tw">
         <table>
-          <caption><b>表 3</b>　八步法与本站章节的对应</caption>
+          <caption><b>表 4</b>　八步法与本报告章节的对应</caption>
           <thead><tr><th style="width:8%">步骤</th><th style="width:26%">内容</th><th style="width:34%">本章产出</th><th>关键判断</th></tr></thead>
           <tbody>
             <tr><td class="em">0</td><td>安全文化与安全管理</td><td><a href="01-scope.html">01</a>：安全责任分配、组织与持续适航</td><td>责任从机上转到地面</td></tr>
@@ -169,8 +193,8 @@
 
       <div class="note key">
         <span class="lbl">姊妹篇</span>
-        <p>本站与课程作业一《EH216-S 全方位调研与分析》共用同一套事实基线。作业一回答「能不能做、卖给谁」，本站回答「凭什么安全、监管为何认」。两站可对读，站内不重复论证技术参数与市场数据。
-        <a href="https://tianba9.github.io/eh216s-research/">前往作业一 →</a></p>
+        <p>本报告与姊妹篇《EH216-S 全方位调研与分析》共用同一套事实基线。卷一的回答是「能不能做、卖给谁」，本卷回答「凭什么安全、监管为何认」。两卷可对读，卷内不重复论证技术参数与市场数据。
+        <a href="https://tianba9.github.io/eh216s-research/">前往卷一 →</a></p>
       </div>
     </section>
 
@@ -181,7 +205,7 @@
 </div>
 
 <footer class="foot">
-  <span>飞行汽车技术基础 · 课程作业二 · 2026</span>
+  <span>飞行汽车技术基础 2026</span>
   <span>研究对象：亿航智能 EH216-S　|　<a href="09-evidence.html">证据与引用</a></span>
 </footer>
 <script src="assets/main.js"></script>
