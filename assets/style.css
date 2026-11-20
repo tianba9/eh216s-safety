@@ -58,7 +58,7 @@ img,svg{max-width:100%;}
 /* ---------- 布局 ---------- */
 .shell{
   max-width:var(--maxw);margin:0 auto;padding:2.4rem 1.4rem 4rem;
-  display:grid;grid-template-columns:196px minmax(0,1fr) 172px;gap:2.4rem;
+  display:grid;grid-template-columns:196px minmax(0,1fr) 214px;gap:2.2rem;
   align-items:start;
 }
 .toc{position:sticky;top:4.2rem;font-size:.83rem;}
@@ -497,3 +497,12 @@ figcaption b{color:var(--ink-2);font-weight:600;}
   .calc input[type=range]{display:none;}
   .calc .calc-row{padding-bottom:1mm;}
 }
+
+/* 触控目标与右栏可读性 */
+.topnav a{padding:.38rem .05rem;}
+.head-nav a{min-height:34px;}
+.toc a{font-size:.76rem;}
+.toc-nav a{}
+
+/* 标题换行更均衡，避免末行孤字 */
+h1,h2{text-wrap:balance;}

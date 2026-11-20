@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>EH216-S 全方位安全分析 · 飞行汽车技术基础</title>
 <meta name="description" content="按系统安全工程八步法，对亿航 EH216-S 做危害识别、架构论证、软硬件安全设计与运行安全论证。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f5c6b'/%3E%3Ccircle cx='16' cy='16' r='3.2' fill='%23fff'/%3E%3Cg stroke='%23fff' stroke-width='2' stroke-linecap='round'%3E%3Cline x1='16' y1='5.5' x2='16' y2='9'/%3E%3Cline x1='16' y1='23' x2='16' y2='26.5'/%3E%3Cline x1='5.5' y1='16' x2='9' y2='16'/%3E%3Cline x1='23' y1='16' x2='26.5' y2='16'/%3E%3C/g%3E%3Ccircle cx='16' cy='5.5' r='1.6' fill='%23fff'/%3E%3Ccircle cx='16' cy='26.5' r='1.6' fill='%23fff'/%3E%3Ccircle cx='5.5' cy='16' r='1.6' fill='%23fff'/%3E%3Ccircle cx='26.5' cy='16' r='1.6' fill='%23fff'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body id="top">
@@ -106,7 +107,7 @@
 
       <div class="tw">
         <table>
-          <caption><b>表 1</b>　三条边界：分析对象、方法、证据</caption>
+          <caption><b>表 0-1</b>　三条边界：分析对象、方法、证据</caption>
           <thead><tr><th style="width:16%">边界</th><th style="width:38%">划定内容</th><th>越界后果</th></tr></thead>
           <tbody>
             <tr><td class="em">对象边界</td><td>系统层：航空器本体 + 地面控制站 + 数据链路。不含运营组织、维修体系与低空基础设施</td><td>把体系问题误判为设计缺陷，或反之</td></tr>
@@ -130,7 +131,7 @@
 
       <div class="tw">
         <table>
-          <caption><b>表 2</b>　整机安全目标与功能级分配（参照运输类航空器惯例）</caption>
+          <caption><b>表 0-2</b>　整机安全目标与功能级分配（参照运输类航空器惯例）</caption>
           <thead>
             <tr><th style="width:22%">安全目标</th><th style="width:16%">严重度</th><th style="width:16%">目标概率</th><th style="width:12%">DAL</th><th>主要控制手段</th></tr>
           </thead>
@@ -154,7 +155,7 @@
 
       <div class="tw">
         <table>
-          <caption><b>表 3</b>　五大安全域在 EH216-S 上的覆盖评估</caption>
+          <caption><b>表 0-3</b>　五大安全域在 EH216-S 上的覆盖评估</caption>
           <thead><tr><th style="width:18%">安全域</th><th style="width:30%">核心问题</th><th style="width:22%">EH216-S 的对应措施</th><th>证据充分度</th></tr></thead>
           <tbody>
             <tr><td class="em">功能安全</td><td>电子电气故障导致的风险</td><td>三余度飞控、表决、Fail-Safe 自主决策</td><td>较充分（有审定背书）</td></tr>
@@ -173,7 +174,7 @@
 
       <div class="tw">
         <table>
-          <caption><b>表 4</b>　八步法与本报告章节的对应</caption>
+          <caption><b>表 0-4</b>　八步法与本报告章节的对应</caption>
           <thead><tr><th style="width:8%">步骤</th><th style="width:26%">内容</th><th style="width:34%">本章产出</th><th>关键判断</th></tr></thead>
           <tbody>
             <tr><td class="em">0</td><td>安全文化与安全管理</td><td><a href="01-scope.html">01</a>：安全责任分配、组织与持续适航</td><td>责任从机上转到地面</td></tr>
