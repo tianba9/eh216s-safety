@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>03 Hazard Identification & Risk Assessment</title>
+<meta name="description" content="Five of twelve hazards are catastrophic. They are controlled by architecture, energy systems and crashworthiness — four different disciplines.">
+<link rel="icon" href="../assets/favicon.svg">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body id="top">
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="index.html"><b>EH216-S Safety Analysis</b><span>Fundamentals of Flying Vehicle Technology</span></a>
+    <nav class="topnav" aria-label="Chapter navigation">
+      <a href="index.html">Home</a>
+      <a href="01-scope.html">Scope</a>
+      <a href="02-method.html">Method</a>
+      <a href="03-hazard.html" class="active" aria-current="page">Hazard</a>
+      <a href="04-arch.html">Architecture</a>
+      <a href="05-hw-sw.html">HW & SW</a>
+      <a href="06-physical.html">Physical</a>
+      <a href="07-vv.html">V&V</a>
+      <a href="08-assurance.html">Argument</a>
+      <a href="09-evidence.html">Evidence</a>
+      <a href="10-summary.html">Summary</a>
+    </nav>
+    <a class="lang" href="../03-hazard.html" title="Switch to Chinese">中</a>
+    <a class="sister-link" href="https://tianba9.github.io/eh216s-research/en/" title="Vol. I · Research & Analysis">Vol. I · Research & Analysis ↗</a>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="toc-nav" aria-label="Site chapters">
+    <p class="toc-title">Site Chapters</p>
+    <ol>
+        <li class="nav-home"><a href="index.html">Home</a></li>
+        <li><a href="01-scope.html">01 Safety Management & Scenario Definition</a></li>
+        <li><a href="02-method.html">02 Safety Analysis Methods & Standards</a></li>
+        <li class="active"><a href="03-hazard.html">03 Hazard Identification & Risk Assessment</a></li>
+        <li><a href="04-arch.html">04 Safety Architecture & Redundancy</a></li>
+        <li><a href="05-hw-sw.html">05 Hardware & Software Safety</a></li>
+        <li><a href="06-physical.html">06 Mechanical, Chemical & Electrical Safety</a></li>
+        <li><a href="07-vv.html">07 Test & Verification</a></li>
+        <li><a href="08-assurance.html">08 Operational Safety Argument</a></li>
+        <li><a href="09-evidence.html">09 Evidence & References</a></li>
+        <li><a href="10-summary.html">10 Overall Conclusion</a></li>
+    </ol>
+  </aside>
+
+  <main id="main">
+    <div class="page-head">
+      <div class="ph-top">
+        <div class="crumb"><a href="index.html">Home</a><span class="sep">›</span><span class="cur">03 Hazard Identification & Risk Assessment</span></div>
+        <div class="head-nav">
+        <a href="02-method.html" title="Method">‹ Method</a>
+        <a href="04-arch.html" title="Architecture">Architecture ›</a>
+        </div>
+      </div>
+      <h1>Twelve Hazards, One Control Structure, One Fault Tree</h1>
+      <p class="lede">
+Five of twelve hazards are catastrophic. They are controlled by architecture, energy systems and crashworthiness — four different disciplines.
+      </p>
+    </div>
+
+    <section id="s01">
+      <h2><span class="num">01</span>FHA: Twelve Hazards</h2>
+      <p>Loss of control, total thrust loss, battery fire, mid-air collision and fatal crash injury are catastrophic. Catastrophic targets are 10⁻⁹ per flight hour.</p>
+    </section>
+    <section id="s02">
+      <h2><span class="num">02</span>STPA Control Structure</h2>
+      <p>The control chain crosses from the authority and operator through the ground station and data link to the flight controller and actuators. Unsafe control actions include wrong, late or missing commands.</p>
+    </section>
+    <section id="s03">
+      <h2><span class="num">03</span>Unsafe Control Actions</h2>
+      <p>The most dangerous case is a wrong decision made while the system believes itself healthy: a second switched-in channel that is faulty, or a late remote-crew takeover.</p>
+    </section>
+    <section id="s04">
+      <h2><span class="num">04</span>Fault Tree: Uncommanded Ground Impact</h2>
+      <p>Nine cut sets across attitude loss, thrust loss and structural failure. Three are single points that pierce redundancy.</p>
+    </section>
+    <section id="s05">
+      <h2><span class="num">05</span>Common-Cause Analysis</h2>
+      <p>Software, power, physical installation and maintenance are four shared channels. If the three flight controllers run the same code, 1oo3 collapses to 1oo1.</p>
+    </section>
+    <section id="s06">
+      <h2><span class="num">06</span>Chapter Summary</h2>
+      <p>The weakest point of 2oo3 is two channels failing in the same direction. Public material says “independent” but not whether the software is heterogeneous.</p>
+    </section>
+
+    <nav class="pager" aria-label="Chapter paging">
+      <a href="02-method.html"><span class="p-d">Previous</span><span class="p-t">← Method</span></a>
+      <a href="04-arch.html" class="next"><span class="p-d">Next</span><span class="p-t">Architecture →</span></a>
+    </nav>
+  </main>
+
+  <aside class="toc" aria-label="On this page">
+    <p class="toc-title">On This Page</p>
+    <ol>
+      <li><a href="#s01">FHA: Twelve Hazards</a></li>
+      <li><a href="#s02">STPA Control Structure</a></li>
+      <li><a href="#s03">Unsafe Control Actions</a></li>
+      <li><a href="#s04">Fault Tree: Uncommanded Ground Impact</a></li>
+      <li><a href="#s05">Common-Cause Analysis</a></li>
+      <li><a href="#s06">Chapter Summary</a></li>
+    </ol>
+  </aside>
+</div>
+
+<footer class="foot">
+  <span><a class="home" href="index.html">Home</a>　·　Fundamentals of Flying Vehicle Technology 2026</span>
+  <span>Subject: EHang EH216-S　|　<a href="#top" class="back-to-top">↑ Back to top</a></span>
+</footer>
+<script src="../assets/lang.js"></script>
+<script src="../assets/main.js"></script>
+<script src="../assets/calc.js"></script>
+</body>
+</html>

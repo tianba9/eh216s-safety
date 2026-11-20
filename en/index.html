@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EH216-S Full-Spectrum Safety Analysis</title>
+<meta name="description" content="A systems-safety assessment of the EHang EH216-S using the eight-step method: hazards, architecture, verification and the operational safety argument.">
+<link rel="icon" href="../assets/favicon.svg">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body id="top">
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="index.html"><b>EH216-S Safety Analysis</b><span>Fundamentals of Flying Vehicle Technology</span></a>
+    <nav class="topnav" aria-label="Chapter navigation">
+      <a href="index.html" class="active" aria-current="page">Home</a>
+      <a href="01-scope.html">Scope</a>
+      <a href="02-method.html">Method</a>
+      <a href="03-hazard.html">Hazard</a>
+      <a href="04-arch.html">Architecture</a>
+      <a href="05-hw-sw.html">HW & SW</a>
+      <a href="06-physical.html">Physical</a>
+      <a href="07-vv.html">V&V</a>
+      <a href="08-assurance.html">Argument</a>
+      <a href="09-evidence.html">Evidence</a>
+      <a href="10-summary.html">Summary</a>
+    </nav>
+    <a class="lang" href="../index.html" title="Switch to Chinese">中</a>
+    <a class="sister-link" href="https://tianba9.github.io/eh216s-research/en/" title="Vol. I · Research & Analysis">Vol. I · Research & Analysis ↗</a>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="toc-nav" aria-label="Site chapters">
+    <p class="toc-title">Site Chapters</p>
+    <ol>
+        <li class="nav-home"><a href="index.html">Home</a></li>
+        <li><a href="01-scope.html">01 Safety Management & Scenario Definition</a></li>
+        <li><a href="02-method.html">02 Safety Analysis Methods & Standards</a></li>
+        <li><a href="03-hazard.html">03 Hazard Identification & Risk Assessment</a></li>
+        <li><a href="04-arch.html">04 Safety Architecture & Redundancy</a></li>
+        <li><a href="05-hw-sw.html">05 Hardware & Software Safety</a></li>
+        <li><a href="06-physical.html">06 Mechanical, Chemical & Electrical Safety</a></li>
+        <li><a href="07-vv.html">07 Test & Verification</a></li>
+        <li><a href="08-assurance.html">08 Operational Safety Argument</a></li>
+        <li><a href="09-evidence.html">09 Evidence & References</a></li>
+        <li><a href="10-summary.html">10 Overall Conclusion</a></li>
+    </ol>
+  </aside>
+
+  <main id="main">
+    <div class="page-head">
+      <div class="ph-top">
+        <div class="crumb"><a href="index.html">Home</a><span class="sep">›</span><span class="cur">Home</span></div>
+        <div class="head-nav">
+        <a href="01-scope.html" title="Scope">Scope ›</a>
+        </div>
+      </div>
+      <h1>Taking “Zero Accidents” Apart</h1>
+      <p class="lede">
+Removing the pilot removes one of the largest sources of human error, and with it the last human backstop. Safety responsibility therefore shifts to automation, redundant architecture and the ground crew. This report applies the eight-step systems-safety method to test whether that redistribution is argued convincingly enough.
+      </p>
+    </div>
+
+    <section id="conclusions">
+      <h2><span class="num">01</span>Five Safety Conclusions</h2>
+      <div class="verdicts">
+        <div class="verdict"><span class="n">01 · First principle</span><h4>Removing the pilot is the first architectural decision</h4><p>It eliminates fatigue, misoperation and spatial disorientation, and removes the last in-loop backstop. Every later safety measure compensates for that choice.</p></div>
+        <div class="verdict"><span class="n">02 · Architectural weak point</span><h4>Redundancy handles random faults, not common causes</h4><p>Three flight-control channels with 2oo3 voting tolerate one wrong output. If all three share a software defect, power supply or installation zone, 1oo3 degrades to 1oo1. Common-cause analysis is the real test.</p></div>
+        <div class="verdict"><span class="n">03 · Nature of evidence</span><h4>90,000 sorties are operating evidence, not a statistical proof</h4><p>They correspond to roughly 37,500 flight hours. Demonstrating a 10⁻⁹ catastrophic-failure target statistically would need nine orders more hours. The record supports reliability growth, not probability quantification.</p></div>
+        <div class="verdict"><span class="n">04 · Hazard focus</span><h4>Loss of control, energy failure and post-crash protection dominate</h4><p>The first two are handled by architecture; the third by crashworthiness. Public quantitative data on the third is the thinnest part of the case.</p></div>
+        <div class="verdict"><span class="n">05 · Residual risk</span><h4>Most residual risk sits at the operational boundary</h4><p>Weather, segregated airspace, crowd separation and remote-crew human factors cannot be fixed by adding hardware. They are controlled through the ODD and operating procedures.</p></div>
+      </div>
+    </section>
+    <section id="overview">
+      <h2><span class="num">02</span>Scope & Boundaries</h2>
+      <p>Safety analysis usually goes wrong when it starts by adding redundancy. This report first fixes three boundaries, because boundaries determine the validity of every conclusion.</p>
+      <div class="tw"><table><caption><b>Table 0-1</b>　Three boundaries</caption><thead><tr><th>Boundary</th><th>Definition</th><th>Consequence of crossing</th></tr></thead><tbody>
+      <tr><td class="em">Object</td><td>System level: aircraft, ground control station and data link; not the operator or infrastructure</td><td>System problems misread as design defects, or the reverse</td></tr>
+      <tr><td class="em">Method</td><td>FHA grades, STPA finds systemic gaps, FTA derives cut sets, FMEA covers parts, CCA checks common causes</td><td>FTA alone misses “all parts healthy, control logic wrong”</td></tr>
+      <tr><td class="em">Evidence</td><td>Public materials only; an independent recomputation, not the manufacturer's safety case</td><td>Treating a recomputation as an authority conclusion</td></tr>
+      </tbody></table></div>
+      <h3>Three constraints</h3>
+      <ul><li><strong>No probabilistic quantification.</strong> Failure-rate data and architecture details are missing, so the fault tree yields cut sets and qualitative ranking only.</li>
+      <li><strong>No inference from silence.</strong> Where a feature is not disclosed, it is marked “undisclosed”, never “absent”.</li>
+      <li><strong>Operating data are not proof.</strong> 90,000 sorties support reliability growth, not a 10⁻⁹ demonstration.</li></ul>
+    </section>
+    <section id="goals">
+      <h2><span class="num">03</span>Safety Objectives & Probability Allocation</h2>
+      <p>The analysis needs quantitative endpoints. The table allocates a top-level objective to the major functions as a working baseline, following transport-category practice.</p>
+      <div class="tw"><table><caption><b>Table 0-2</b>　Safety objectives</caption><thead><tr><th>Objective</th><th>Severity</th><th>Target</th><th>DAL</th><th>Principal control</th></tr></thead><tbody>
+      <tr><td class="em">Loss of control</td><td>Catastrophic</td><td class="num">≤ 10⁻⁹/fh</td><td class="num">A</td><td>Triple-redundant flight control, voting, envelope protection</td></tr>
+      <tr><td class="em">Total thrust loss</td><td>Catastrophic</td><td class="num">≤ 10⁻⁹/fh</td><td class="num">A</td><td>16 distributed rotors, 12 isolated battery groups</td></tr>
+      <tr><td class="em">Uncontrolled fire</td><td>Catastrophic</td><td class="num">≤ 10⁻⁹/fh</td><td class="num">A</td><td>Runaway warning, isolation, venting, flame retardance</td></tr>
+      <tr><td class="em">Mid-air collision</td><td>Catastrophic</td><td class="num">≤ 10⁻⁹/fh</td><td class="num">B</td><td>Segregated airspace, filed routes, detect and avoid</td></tr>
+      <tr><td class="em">Partial thrust loss</td><td>Hazardous</td><td class="num">≤ 10⁻⁷/fh</td><td class="num">B</td><td>Control reconfiguration, degraded flight, diversion</td></tr>
+      <tr><td class="em">Data-link loss</td><td>Hazardous</td><td class="num">≤ 10⁻⁷/fh</td><td class="num">B</td><td>Triple link, autonomous fail-safe behaviour</td></tr>
+      <tr><td class="em">Occupant injury in a crash</td><td>Hazardous</td><td class="num">≤ 10⁻⁷/fh</td><td class="num">B</td><td>Crashworthy structure, restraints, energy-absorbing seats</td></tr>
+      </tbody></table></div>
+      <p class="t-foot">These targets are analytical baselines chosen by the author, not figures published by the authority for this specific type.</p>
+    </section>
+    <section id="domains">
+      <h2><span class="num">04</span>Coverage Across Five Safety Domains</h2>
+      <div class="tw"><table><caption><b>Table 0-3</b>　Coverage of the five domains</caption><thead><tr><th>Domain</th><th>Core question</th><th>EH216-S response</th><th>Evidence strength</th></tr></thead><tbody>
+      <tr><td class="em">Functional safety</td><td>Risk from E/E faults</td><td>Triple flight control, voting, fail-safe</td><td>Strong, certification-backed</td></tr>
+      <tr><td class="em">SOTIF</td><td>Performance limits and foreseeable misuse</td><td>ODD limits, envelope protection, weather rules</td><td>Weak; few quantitative boundaries</td></tr>
+      <tr><td class="em">Cybersecurity</td><td>External attack</td><td>Encrypted links, independent keys</td><td>Moderate; assessment not published</td></tr>
+      <tr><td class="em">Passive safety</td><td>Protecting occupants after a crash</td><td>Cabin structure and restraints</td><td><strong>Weakest</strong>; no published figures</td></tr>
+      <tr><td class="em">Behavioural safety</td><td>Interaction with other participants</td><td>Segregated airspace, filed routes, ground isolation</td><td>Moderate; relies on procedures</td></tr>
+      </tbody></table></div>
+    </section>
+    <section id="route">
+      <h2><span class="num">05</span>The Eight-Step Path</h2>
+      <div class="tw"><table><caption><b>Table 0-4</b>　Steps, questions and conclusions</caption><thead><tr><th>Step</th><th>Question</th><th>Chapter</th><th>Key judgment</th></tr></thead><tbody>
+      <tr><td class="em">0–1</td><td>Who is responsible, and what is flown</td><td><a href="01-scope.html">01</a></td><td>Responsibility is redistributed across four certificate holders</td></tr>
+      <tr><td class="em">2</td><td>Which analysis method fits</td><td><a href="02-method.html">02</a></td><td>FHA grades, STPA finds systemic gaps</td></tr>
+      <tr><td class="em">2</td><td>What can go wrong</td><td><a href="03-hazard.html">03</a></td><td>Twelve hazards, nine cut sets</td></tr>
+      <tr><td class="em">3</td><td>What happens after a failure</td><td><a href="04-arch.html">04</a></td><td>Tolerance ends at the loss of two arms</td></tr>
+      <tr><td class="em">4–5</td><td>How are hardware and software constrained</td><td><a href="05-hw-sw.html">05</a></td><td>Hardware by isolation, software by process</td></tr>
+      <tr><td class="em">6</td><td>Fire and impact</td><td><a href="06-physical.html">06</a></td><td>Runaway must not spread beyond one group</td></tr>
+      <tr><td class="em">7</td><td>How is compliance shown</td><td><a href="07-vv.html">07</a></td><td>Verification proves requirements, not flight hours</td></tr>
+      <tr><td class="em">8</td><td>Is the whole argument acceptable</td><td><a href="08-assurance.html">08</a></td><td>Release level R2, inside the ODD only</td></tr>
+      <tr><td class="em">—</td><td>Overall conclusion</td><td><a href="10-summary.html">10</a></td><td>Design controls severity; operations control frequency</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <nav class="pager" aria-label="Chapter paging">
+      <a href="01-scope.html" class="next"><span class="p-d">Next</span><span class="p-t">Scope →</span></a>
+    </nav>
+  </main>
+
+  <aside class="toc" aria-label="On this page">
+    <p class="toc-title">On This Page</p>
+    <ol>
+      <li><a href="#conclusions">Five Safety Conclusions</a></li>
+      <li><a href="#overview">Scope & Boundaries</a></li>
+      <li><a href="#goals">Safety Objectives</a></li>
+      <li><a href="#domains">Five Safety Domains</a></li>
+      <li><a href="#route">The Eight-Step Path</a></li>
+    </ol>
+  </aside>
+</div>
+
+<footer class="foot">
+  <span><a class="home" href="index.html">Home</a>　·　Fundamentals of Flying Vehicle Technology 2026</span>
+  <span>Subject: EHang EH216-S　|　<a href="#top" class="back-to-top">↑ Back to top</a></span>
+</footer>
+<script src="../assets/lang.js"></script>
+<script src="../assets/main.js"></script>
+<script src="../assets/calc.js"></script>
+</body>
+</html>
