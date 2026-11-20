@@ -445,3 +445,21 @@ figcaption b{color:var(--ink-2);font-weight:600;}
 .toc-nav .nav-home a{font-weight:600;color:var(--ink);letter-spacing:.02em;}
 .toc-nav .nav-home a:hover{color:var(--accent);background:#f7f5f0;}
 .toc-nav .nav-home a.active{color:var(--accent);background:var(--accent-soft);border-left-color:var(--accent);}
+
+/* ---------- 页头顶行：面包屑 + 章节切换（同行、可换行） ---------- */
+.ph-top{
+  display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;
+  margin-bottom:.85rem;
+}
+.ph-top .crumb{margin-bottom:0;flex:1 1 auto;min-width:0;}
+.ph-top .head-nav{position:static;top:auto;right:auto;margin:0;flex:0 0 auto;}
+.head-nav a{padding:.28rem .6rem;font-family:var(--sans);font-size:.76rem;}
+.head-nav a.hn-home{color:var(--muted);border-style:dashed;}
+.head-nav a.hn-home:hover{color:var(--accent);border-style:solid;}
+
+@media (max-width:900px){
+  .ph-top{gap:.5rem;margin-bottom:.7rem;}
+  .ph-top .crumb{flex:1 1 100%;margin-bottom:.1rem;}
+  .ph-top .head-nav{flex:1 1 100%;justify-content:flex-start;}
+  .head-nav a{font-size:.7rem;padding:.24rem .5rem;}
+}
