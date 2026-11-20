@@ -439,3 +439,9 @@ figcaption b{color:var(--ink-2);font-weight:600;}
   .toc{display:block;order:-1;position:static;border:1px solid var(--line);
        background:var(--paper);padding:.9rem 1rem;margin-bottom:.4rem;}
 }
+
+/* 左栏首页项：与章节序列以细分隔线区分 */
+.toc-nav .nav-home{margin:0 0 .55rem;padding:0 0 .55rem;border-bottom:1px solid var(--line);}
+.toc-nav .nav-home a{font-weight:600;color:var(--ink);letter-spacing:.02em;}
+.toc-nav .nav-home a:hover{color:var(--accent);background:#f7f5f0;}
+.toc-nav .nav-home a.active{color:var(--accent);background:var(--accent-soft);border-left-color:var(--accent);}
