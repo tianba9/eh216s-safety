@@ -15,10 +15,16 @@
   <div class="topbar-in">
     <a class="brand" href="index.html"><b>EH216-S 安全分析</b><span>Safety Systems Engineering</span></a>
     <nav class="topnav" aria-label="章节导航">
-      <a href="01-scope.html">范围</a><a href="02-method.html">方法</a><a href="03-hazard.html" class="active" aria-current="page">危害</a>
-      <a href="04-arch.html">架构</a><a href="05-hw-sw.html">软硬件</a><a href="06-physical.html">物理安全</a>
-      <a href="07-vv.html">验证</a><a href="08-assurance.html">论证</a>      <a href="09-evidence.html">证据</a>
-
+      <a href="01-scope.html">范围</a>
+      <a href="02-method.html">方法</a>
+      <a href="03-hazard.html" class="active" aria-current="page">危害</a>
+      <a href="04-arch.html">架构</a>
+      <a href="05-hw-sw.html">软硬件</a>
+      <a href="06-physical.html">物理安全</a>
+      <a href="07-vv.html">验证</a>
+      <a href="08-assurance.html">论证</a>
+      <a href="09-evidence.html">证据</a>
+      <a href="10-summary.html">总结</a>
     </nav>
     <a class="sister-link" href="https://tianba9.github.io/eh216s-research/" title="切换至卷一：全方位调研与分析">卷一·调研分析 ↗</a>
   </div>
@@ -28,17 +34,18 @@
 
   <aside class="toc-nav" aria-label="全站章节">
     <p class="toc-title">全站章节</p>
-                  <ol>
+                        <ol>
         <li class="nav-home"><a href="index.html">首页</a></li>
-        <li><a href="01-scope.html" title="步骤 0–1">01 安全管理与场景定义</a></li>
-        <li><a href="02-method.html" title="步骤 2">02 安全分析方法与标准体系</a></li>
-        <li><a href="03-hazard.html" class="active" aria-current="page" title="步骤 2（核心）">03 危害识别与风险评估</a></li>
-        <li><a href="04-arch.html" title="步骤 3">04 系统安全架构与冗余</a></li>
-        <li><a href="05-hw-sw.html" title="步骤 4–5">05 硬件与软件安全设计</a></li>
-        <li><a href="06-physical.html" title="步骤 6">06 机械、化学与电气安全</a></li>
-        <li><a href="07-vv.html" title="步骤 7">07 安全测试与验证</a></li>
-        <li><a href="08-assurance.html" title="步骤 8">08 运行安全论证</a></li>
-        <li><a href="09-evidence.html" title="无对应步骤">09 证据与引用</a></li>
+        <li><a href="01-scope.html">01 安全管理与场景定义</a></li>
+        <li><a href="02-method.html">02 安全分析方法与标准体系</a></li>
+        <li><a href="03-hazard.html" class="active" aria-current="page">03 危害识别与风险评估</a></li>
+        <li><a href="04-arch.html">04 系统安全架构与冗余</a></li>
+        <li><a href="05-hw-sw.html">05 硬件与软件安全设计</a></li>
+        <li><a href="06-physical.html">06 机械、化学与电气安全</a></li>
+        <li><a href="07-vv.html">07 安全测试与验证</a></li>
+        <li><a href="08-assurance.html">08 运行安全论证</a></li>
+        <li><a href="09-evidence.html">09 证据与引用</a></li>
+        <li><a href="10-summary.html">10 全文总结</a></li>
       </ol>
   </aside>
 
@@ -255,20 +262,29 @@
       </div>
     </section>
 
+    <section id="sum">
+      <h2><span class="num">06</span>本章总结</h2>
+      <div class="sum">
+        <p>12 项危害里 5 项灾难性。它们分别由架构、电池与热管理、适坠性结构控制——四类手段分属不同专业，整机安全不可能由单一团队完成。</p>
+        <p>STPA 把控制链画成跨机上的结构，五类不安全控制行为中最危险的是「系统自认为正常」时的错误决策。故障树九个割集里，三个属于单点穿透冗余。</p>
+      </div>
+    </section>
+
     <nav class="pager" aria-label="章节翻页">
-      <a href="02-method.html"><span class="p-d">上一章</span><span class="p-t">← 02 安全分析方法与标准</span></a>
+      <a href="02-method.html"><span class="p-d">上一章</span><span class="p-t">← 02 安全分析方法与标准体系</span></a>
       <a href="04-arch.html" class="next"><span class="p-d">下一章</span><span class="p-t">04 系统安全架构与冗余 →</span></a>
     </nav>
   </main>
 
   <aside class="toc" aria-label="本页目录">
     <p class="toc-title">本页</p>
-    <ol>
+        <ol>
       <li><a href="#fha">FHA：12 项危害</a></li>
       <li><a href="#stpa">STPA 控制结构</a></li>
       <li><a href="#uca">不安全控制行为</a></li>
       <li><a href="#fta">故障树：非指令坠地</a></li>
       <li><a href="#cca">共因失效分析</a></li>
+      <li><a href="#sum">本章总结</a></li>
     </ol>
   </aside>
 </div>

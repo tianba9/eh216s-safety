@@ -506,3 +506,24 @@ figcaption b{color:var(--ink-2);font-weight:600;}
 
 /* 标题换行更均衡，避免末行孤字 */
 h1,h2{text-wrap:balance;}
+
+/* ---------- 本章总结 ---------- */
+.sum{
+  border:1px solid var(--line-strong);background:#faf9f5;
+  padding:1.05rem 1.25rem;margin:1.1rem 0 0;
+}
+.sum p{font-size:.94rem;line-height:1.72;margin:0 0 .6rem;}
+.sum p:last-child{margin:0;}
+.sum strong{color:var(--ink);}
+
+/* ---------- 全文总结页 ---------- */
+.final{
+  border-top:2px solid var(--ink);border-bottom:1px solid var(--line);
+  padding:1.2rem 0;margin:1.6rem 0 2rem;
+}
+.final .q{
+  font-family:var(--serif);font-size:1.24rem;line-height:1.6;
+  margin:0;color:var(--ink);
+}
+.final .q::before{content:"「";color:var(--muted);}
+.final .q::after{content:"」";color:var(--muted);}

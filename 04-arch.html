@@ -15,10 +15,16 @@
   <div class="topbar-in">
     <a class="brand" href="index.html"><b>EH216-S 安全分析</b><span>Safety Systems Engineering</span></a>
     <nav class="topnav" aria-label="章节导航">
-      <a href="01-scope.html">范围</a><a href="02-method.html">方法</a><a href="03-hazard.html">危害</a>
-      <a href="04-arch.html" class="active" aria-current="page">架构</a><a href="05-hw-sw.html">软硬件</a><a href="06-physical.html">物理安全</a>
-      <a href="07-vv.html">验证</a><a href="08-assurance.html">论证</a>      <a href="09-evidence.html">证据</a>
-
+      <a href="01-scope.html">范围</a>
+      <a href="02-method.html">方法</a>
+      <a href="03-hazard.html">危害</a>
+      <a href="04-arch.html" class="active" aria-current="page">架构</a>
+      <a href="05-hw-sw.html">软硬件</a>
+      <a href="06-physical.html">物理安全</a>
+      <a href="07-vv.html">验证</a>
+      <a href="08-assurance.html">论证</a>
+      <a href="09-evidence.html">证据</a>
+      <a href="10-summary.html">总结</a>
     </nav>
     <a class="sister-link" href="https://tianba9.github.io/eh216s-research/" title="切换至卷一：全方位调研与分析">卷一·调研分析 ↗</a>
   </div>
@@ -28,17 +34,18 @@
 
   <aside class="toc-nav" aria-label="全站章节">
     <p class="toc-title">全站章节</p>
-                  <ol>
+                        <ol>
         <li class="nav-home"><a href="index.html">首页</a></li>
-        <li><a href="01-scope.html" title="步骤 0–1">01 安全管理与场景定义</a></li>
-        <li><a href="02-method.html" title="步骤 2">02 安全分析方法与标准体系</a></li>
-        <li><a href="03-hazard.html" title="步骤 2（核心）">03 危害识别与风险评估</a></li>
-        <li><a href="04-arch.html" class="active" aria-current="page" title="步骤 3">04 系统安全架构与冗余</a></li>
-        <li><a href="05-hw-sw.html" title="步骤 4–5">05 硬件与软件安全设计</a></li>
-        <li><a href="06-physical.html" title="步骤 6">06 机械、化学与电气安全</a></li>
-        <li><a href="07-vv.html" title="步骤 7">07 安全测试与验证</a></li>
-        <li><a href="08-assurance.html" title="步骤 8">08 运行安全论证</a></li>
-        <li><a href="09-evidence.html" title="无对应步骤">09 证据与引用</a></li>
+        <li><a href="01-scope.html">01 安全管理与场景定义</a></li>
+        <li><a href="02-method.html">02 安全分析方法与标准体系</a></li>
+        <li><a href="03-hazard.html">03 危害识别与风险评估</a></li>
+        <li><a href="04-arch.html" class="active" aria-current="page">04 系统安全架构与冗余</a></li>
+        <li><a href="05-hw-sw.html">05 硬件与软件安全设计</a></li>
+        <li><a href="06-physical.html">06 机械、化学与电气安全</a></li>
+        <li><a href="07-vv.html">07 安全测试与验证</a></li>
+        <li><a href="08-assurance.html">08 运行安全论证</a></li>
+        <li><a href="09-evidence.html">09 证据与引用</a></li>
+        <li><a href="10-summary.html">10 全文总结</a></li>
       </ol>
   </aside>
 
@@ -202,20 +209,29 @@
       <p>五项剩余风险中，前三项属设计层面，后两项属运行层面。<strong>这构成了从「设计安全」到「运行安全」的转移点</strong>，也是第 08 章运行安全论证要承接的内容。</p>
     </section>
 
+    <section id="sum">
+      <h2><span class="num">06</span>本章总结</h2>
+      <div class="sum">
+        <p>三套飞控、12 组电池、三重链路构成分层冗余。表决能容忍一路错误，前提是至多一路错误——两路同向错误时，2oo3 会判错，这是整套架构最脆弱的一格。</p>
+        <p>推力余量算到具体数字：单副与单臂失效可控，损失两臂后余量转负。<strong>容错能力不体现在「还能飞」，而体现在「能平稳落下来」。</strong></p>
+      </div>
+    </section>
+
     <nav class="pager" aria-label="章节翻页">
       <a href="03-hazard.html"><span class="p-d">上一章</span><span class="p-t">← 03 危害识别与风险评估</span></a>
-      <a href="05-hw-sw.html" class="next"><span class="p-d">下一章</span><span class="p-t">05 硬件与软件安全 →</span></a>
+      <a href="05-hw-sw.html" class="next"><span class="p-d">下一章</span><span class="p-t">05 硬件与软件安全设计 →</span></a>
     </nav>
   </main>
 
   <aside class="toc" aria-label="本页目录">
     <p class="toc-title">本页</p>
-    <ol>
+        <ol>
       <li><a href="#overview">架构总览</a></li>
       <li><a href="#form">冗余形式的选型</a></li>
       <li><a href="#vote">表决与降级路径</a></li>
       <li><a href="#deep">专题：飞控冗余与失效降级</a></li>
       <li><a href="#boundary">容错边界与剩余风险</a></li>
+      <li><a href="#sum">本章总结</a></li>
     </ol>
   </aside>
 </div>

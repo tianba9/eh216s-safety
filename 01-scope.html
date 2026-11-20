@@ -15,10 +15,16 @@
   <div class="topbar-in">
     <a class="brand" href="index.html"><b>EH216-S 安全分析</b><span>Safety Systems Engineering</span></a>
     <nav class="topnav" aria-label="章节导航">
-      <a href="01-scope.html" class="active" aria-current="page">范围</a><a href="02-method.html">方法</a><a href="03-hazard.html">危害</a>
-      <a href="04-arch.html">架构</a><a href="05-hw-sw.html">软硬件</a><a href="06-physical.html">物理安全</a>
-      <a href="07-vv.html">验证</a><a href="08-assurance.html">论证</a>      <a href="09-evidence.html">证据</a>
-
+      <a href="01-scope.html" class="active" aria-current="page">范围</a>
+      <a href="02-method.html">方法</a>
+      <a href="03-hazard.html">危害</a>
+      <a href="04-arch.html">架构</a>
+      <a href="05-hw-sw.html">软硬件</a>
+      <a href="06-physical.html">物理安全</a>
+      <a href="07-vv.html">验证</a>
+      <a href="08-assurance.html">论证</a>
+      <a href="09-evidence.html">证据</a>
+      <a href="10-summary.html">总结</a>
     </nav>
     <a class="sister-link" href="https://tianba9.github.io/eh216s-research/" title="切换至卷一：全方位调研与分析">卷一·调研分析 ↗</a>
   </div>
@@ -28,17 +34,18 @@
 
   <aside class="toc-nav" aria-label="全站章节">
     <p class="toc-title">全站章节</p>
-                  <ol>
+                        <ol>
         <li class="nav-home"><a href="index.html">首页</a></li>
-        <li><a href="01-scope.html" class="active" aria-current="page" title="步骤 0–1">01 安全管理与场景定义</a></li>
-        <li><a href="02-method.html" title="步骤 2">02 安全分析方法与标准体系</a></li>
-        <li><a href="03-hazard.html" title="步骤 2（核心）">03 危害识别与风险评估</a></li>
-        <li><a href="04-arch.html" title="步骤 3">04 系统安全架构与冗余</a></li>
-        <li><a href="05-hw-sw.html" title="步骤 4–5">05 硬件与软件安全设计</a></li>
-        <li><a href="06-physical.html" title="步骤 6">06 机械、化学与电气安全</a></li>
-        <li><a href="07-vv.html" title="步骤 7">07 安全测试与验证</a></li>
-        <li><a href="08-assurance.html" title="步骤 8">08 运行安全论证</a></li>
-        <li><a href="09-evidence.html" title="无对应步骤">09 证据与引用</a></li>
+        <li><a href="01-scope.html" class="active" aria-current="page">01 安全管理与场景定义</a></li>
+        <li><a href="02-method.html">02 安全分析方法与标准体系</a></li>
+        <li><a href="03-hazard.html">03 危害识别与风险评估</a></li>
+        <li><a href="04-arch.html">04 系统安全架构与冗余</a></li>
+        <li><a href="05-hw-sw.html">05 硬件与软件安全设计</a></li>
+        <li><a href="06-physical.html">06 机械、化学与电气安全</a></li>
+        <li><a href="07-vv.html">07 安全测试与验证</a></li>
+        <li><a href="08-assurance.html">08 运行安全论证</a></li>
+        <li><a href="09-evidence.html">09 证据与引用</a></li>
+        <li><a href="10-summary.html">10 全文总结</a></li>
       </ol>
   </aside>
 
@@ -185,20 +192,28 @@
       <p>矩阵的读法是看行与列：<strong>F3、F4、F9 三行全为实心</strong>，说明它们是跨场景的共性关键功能，应优先分配最高的设计保证等级；<strong>S3 列实心最多</strong>，说明城市场景是风险最密集的运行环境，也是 ODD 划定的重点。</p>
     </section>
 
+    <section id="sum">
+      <h2><span class="num">06</span>本章总结</h2>
+      <div class="sum">
+        <p>安全责任在四个主体之间重新分配：设计方管设计保证，制造方管批产一致性，运营人管运行，局方管审定与监督。机上无驾驶员，旅客完全被动——这条约束贯穿后续所有设计。</p>
+        <p>功能清单拆到 F1–F10，ODC 划出设计边界，场景库给出六类组合。矩阵显示 F3 姿态、F4 能源、F9 乘员保护在所有场景下都关键，S3 城市场景风险最密集。</p>
+      </div>
+    </section>
+
     <nav class="pager" aria-label="章节翻页">
-      <a href="index.html"><span class="p-d">返回</span><span class="p-t">← 首页</span></a>
-      <a href="02-method.html" class="next"><span class="p-d">下一章</span><span class="p-t">02 安全分析方法与标准 →</span></a>
+      <a href="02-method.html" class="next"><span class="p-d">下一章</span><span class="p-t">02 安全分析方法与标准体系 →</span></a>
     </nav>
   </main>
 
   <aside class="toc" aria-label="本页目录">
     <p class="toc-title">本页</p>
-    <ol>
+        <ol>
       <li><a href="#culture">安全文化与责任分配</a></li>
       <li><a href="#func">整机功能清单</a></li>
       <li><a href="#odc">运行设计条件（ODC）</a></li>
       <li><a href="#scenes">场景库</a></li>
       <li><a href="#matrix">功能—场景—危害矩阵</a></li>
+      <li><a href="#sum">本章总结</a></li>
     </ol>
   </aside>
 </div>

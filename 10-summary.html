@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>10 全文总结 · EH216-S 安全分析</title>
+<meta name="description" content="把九章的安全分析收敛成一条主线、三个结论与一个最终观点：安全=设计可控+运行受限。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f5c6b'/%3E%3Ccircle cx='16' cy='16' r='3.2' fill='%23fff'/%3E%3Cg stroke='%23fff' stroke-width='2' stroke-linecap='round'%3E%3Cline x1='16' y1='5.5' x2='16' y2='9'/%3E%3Cline x1='16' y1='23' x2='16' y2='26.5'/%3E%3Cline x1='5.5' y1='16' x2='9' y2='16'/%3E%3Cline x1='23' y1='16' x2='26.5' y2='16'/%3E%3C/g%3E%3Ccircle cx='16' cy='5.5' r='1.6' fill='%23fff'/%3E%3Ccircle cx='16' cy='26.5' r='1.6' fill='%23fff'/%3E%3Ccircle cx='5.5' cy='16' r='1.6' fill='%23fff'/%3E%3Ccircle cx='26.5' cy='16' r='1.6' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body id="top">
+<a class="skip" href="#main">跳到正文</a>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="index.html"><b>EH216-S 安全分析</b><span>Fundamentals of Flying Vehicle Technology</span></a>
+    <nav class="topnav" aria-label="章节导航">
+      <a href="01-scope.html">范围</a>
+      <a href="02-method.html">方法</a>
+      <a href="03-hazard.html">危害</a>
+      <a href="04-arch.html">架构</a>
+      <a href="05-hw-sw.html">软硬件</a>
+      <a href="06-physical.html">物理安全</a>
+      <a href="07-vv.html">验证</a>
+      <a href="08-assurance.html">论证</a>
+      <a href="09-evidence.html">证据</a>
+      <a href="10-summary.html" class="active" aria-current="page">总结</a>
+    </nav>
+    <a class="sister-link" href="https://tianba9.github.io/eh216s-research/" title="卷一·调研分析">「卷一·调研分析」↗</a>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="toc-nav" aria-label="全站章节">
+    <p class="toc-title">全站章节</p>
+          <ol>
+        <li class="nav-home"><a href="index.html">首页</a></li>
+        <li><a href="01-scope.html">01 安全管理与场景定义</a></li>
+        <li><a href="02-method.html">02 安全分析方法与标准体系</a></li>
+        <li><a href="03-hazard.html">03 危害识别与风险评估</a></li>
+        <li><a href="04-arch.html">04 系统安全架构与冗余</a></li>
+        <li><a href="05-hw-sw.html">05 硬件与软件安全设计</a></li>
+        <li><a href="06-physical.html">06 机械、化学与电气安全</a></li>
+        <li><a href="07-vv.html">07 安全测试与验证</a></li>
+        <li><a href="08-assurance.html">08 运行安全论证</a></li>
+        <li><a href="09-evidence.html">09 证据与引用</a></li>
+        <li><a href="10-summary.html" class="active" aria-current="page">10 全文总结</a></li>
+      </ol>
+  </aside>
+
+  <main id="main">
+    <div class="page-head">
+      <div class="ph-top">
+        <div class="crumb"><a href="index.html">首页</a><span class="sep">›</span><span class="cur">10 全文总结</span></div>
+        <div class="head-nav"><a href="09-evidence.html" title="上一章：09 证据与引用">‹ 09 证据与引用</a><a href="index.html" class="hn-home" title="返回首页">首页 ›</a></div>
+      </div>
+      <h1>在 ODD 之内成立，在 ODD 之外未被论证</h1>
+      <p class="lede">
+        九章拆下来，安全不是靠冗余堆出来的，而是靠两条腿站着：一条是设计上「坏了也能落」，一条是运行上「不许它去冒险」。
+        前者可由工程证明，后者只能由制度约束。忽略任一条，论证都会塌。
+      </p>
+    </div>
+
+      <section id="zhuxian">
+        <h2><span class="num">01</span>一条主线：责任先落地</h2>
+        <p>分析的顺序是：先把安全责任在四个主体间分配清楚，再定义飞什么，然后才是危害、架构、软硬件、物理、验证、论证。</p>
+        <div class="tw">
+          <table>
+            <caption><b>表 10-1</b>　七步与各自要回答的问题</caption>
+            <thead><tr><th style="width:18%">步骤</th><th style="width:34%">回答什么</th><th>结论</th></tr></thead>
+            <tbody>
+              <tr><td class="em">责任与场景</td><td>谁负责、飞什么</td><td>四证把责任分给四个主体；机上无人使旅客完全被动</td></tr>
+              <tr><td class="em">危害</td><td>最坏会怎样</td><td>12 项危害、5 项灾难性、9 个割集</td></tr>
+              <tr><td class="em">架构</td><td>坏了还能不能飞</td><td>三套飞控 + 12 组电池 + 三重链路；容错边界在两臂</td></tr>
+              <tr><td class="em">软硬件</td><td>单点如何不致命</td><td>硬件靠隔离，软件靠开发约束</td></tr>
+              <tr><td class="em">物理安全</td><td>火与撞击</td><td>热失控限单组；坠撞靠 0.3 米吸能行程</td></tr>
+              <tr><td class="em">验证</td><td>凭什么说成立</td><td>V 模型逐层证据；九万架次不是统计证明</td></tr>
+              <tr><td class="em">论证</td><td>整体是否可接受</td><td>GSN 四子目标；放行级别 R2</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="jielun">
+        <h2><span class="num">02</span>三个关键结论</h2>
+
+        <h3>一、取消驾驶员是第一性选择</h3>
+        <p>它消除了疲劳、误操作、空间失定向，同时取消了机上最后一道兜底。此后所有安全设计的任务，都是补偿这一点——这也是为什么远程机组界面与地面控制站被单列为审定要求。</p>
+
+        <h3>二、冗余解决随机失效，解决不了共因</h3>
+        <p>三套飞控的 2oo3 表决能容忍一路错误，前提是至多一路错误。若三套运行同一份软件、共享供电或同处一舱，1oo3 会在那一刻退化为 1oo1。
+        公开材料只说了「独立」，没说是异构——这是本报告最想追问的一点。</p>
+
+        <h3>三、安全的边界就是运行的边界</h3>
+        <p>隔离空域、目视气象、昼间运行、人群隔离，每一条既在控制系统性风险，也在压缩市场空间。安全论证的保守程度，直接决定了它今天只能做景区观光。</p>
+      </section>
+
+      <section id="bianjie">
+        <h2><span class="num">03</span>三处未被公开的缺口</h2>
+        <ul>
+          <li><strong>三套飞控是否异构。</strong>同源软件会让表决在缺陷面前失效，直接影响灾难性失效概率的论证基础。</li>
+          <li><strong>适坠性指标的量化值。</strong>撞击速度、减速度限值、吸能行程均未公开，无法判断坠撞致死的 10⁻⁹ 目标如何达成。</li>
+          <li><strong>远程机组的人机比与接管时限。</strong>人因是链路中的活性环节，多机运行时可能成为新瓶颈。</li>
+        </ul>
+        <p>指出缺口不是质疑审定结论。审定的完整资料本就只在局方与企业之间流转；列出来的意义在于——若要扩展到新场景，这三项是最先需要补强的部分。</p>
+      </section>
+
+      <section id="guandian">
+        <h2><span class="num">04</span>最终观点</h2>
+        <div class="final">
+          <p class="q">这架飞机的安全，不是因为它有很多冗余，而是因为它被允许在很窄的条件下飞行。冗余让它在条件内可靠，运行限制让它在条件外不出现。</p>
+        </div>
+        <div class="rating">
+          <div class="g">R2</div>
+          <div class="rb">
+            <h4>放行级别：限定场景放行</h4>
+            <p>仅在 ODD 内成立——隔离空域、目视气象、昼间运行、起降场人群隔离，且须由持 OC 的运营人执行并接受持续监督。超出 ODD 的情形未获论证，不能援引本报告结论。</p>
+          </div>
+        </div>
+        <p>如果把这份报告压缩成一句话：<strong>设计决定它出事时有多安全，运行限制决定它多久出一次事；后者更容易被忽视，也更容易被商业压力侵蚀。</strong></p>
+      </section>
+
+    <nav class="pager" aria-label="章节翻页">
+      <a href="09-evidence.html"><span class="p-d">上一章</span><span class="p-t">← 09 证据与引用</span></a>
+      <a href="index.html" class="next"><span class="p-d">返回</span><span class="p-t">首页 →</span></a>
+    </nav>
+  </main>
+
+  <aside class="toc" aria-label="本页目录">
+    <p class="toc-title">本页</p>
+            <ol>
+      <li><a href="#zhuxian">一条主线：责任先落地</a></li>
+      <li><a href="#jielun">三个关键结论</a></li>
+      <li><a href="#bianjie">三处未被公开的缺口</a></li>
+      <li><a href="#guandian">最终观点</a></li>
+    </ol>
+  </aside>
+</div>
+
+<footer class="foot">
+  <span><a class="home" href="index.html">首页</a>　·　飞行汽车技术基础 2026</span>
+  <span>研究对象：亿航智能 EH216-S　|　<a href="#top" class="back-to-top">↑ 返回顶部</a></span>
+</footer>
+<script src="assets/main.js"></script>
+</body>
+</html>

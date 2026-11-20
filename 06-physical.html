@@ -15,10 +15,16 @@
   <div class="topbar-in">
     <a class="brand" href="index.html"><b>EH216-S 安全分析</b><span>Safety Systems Engineering</span></a>
     <nav class="topnav" aria-label="章节导航">
-      <a href="01-scope.html">范围</a><a href="02-method.html">方法</a><a href="03-hazard.html">危害</a>
-      <a href="04-arch.html">架构</a><a href="05-hw-sw.html">软硬件</a><a href="06-physical.html" class="active" aria-current="page">物理安全</a>
-      <a href="07-vv.html">验证</a><a href="08-assurance.html">论证</a>      <a href="09-evidence.html">证据</a>
-
+      <a href="01-scope.html">范围</a>
+      <a href="02-method.html">方法</a>
+      <a href="03-hazard.html">危害</a>
+      <a href="04-arch.html">架构</a>
+      <a href="05-hw-sw.html">软硬件</a>
+      <a href="06-physical.html" class="active" aria-current="page">物理安全</a>
+      <a href="07-vv.html">验证</a>
+      <a href="08-assurance.html">论证</a>
+      <a href="09-evidence.html">证据</a>
+      <a href="10-summary.html">总结</a>
     </nav>
     <a class="sister-link" href="https://tianba9.github.io/eh216s-research/" title="切换至卷一：全方位调研与分析">卷一·调研分析 ↗</a>
   </div>
@@ -28,17 +34,18 @@
 
   <aside class="toc-nav" aria-label="全站章节">
     <p class="toc-title">全站章节</p>
-                  <ol>
+                        <ol>
         <li class="nav-home"><a href="index.html">首页</a></li>
-        <li><a href="01-scope.html" title="步骤 0–1">01 安全管理与场景定义</a></li>
-        <li><a href="02-method.html" title="步骤 2">02 安全分析方法与标准体系</a></li>
-        <li><a href="03-hazard.html" title="步骤 2（核心）">03 危害识别与风险评估</a></li>
-        <li><a href="04-arch.html" title="步骤 3">04 系统安全架构与冗余</a></li>
-        <li><a href="05-hw-sw.html" title="步骤 4–5">05 硬件与软件安全设计</a></li>
-        <li><a href="06-physical.html" class="active" aria-current="page" title="步骤 6">06 机械、化学与电气安全</a></li>
-        <li><a href="07-vv.html" title="步骤 7">07 安全测试与验证</a></li>
-        <li><a href="08-assurance.html" title="步骤 8">08 运行安全论证</a></li>
-        <li><a href="09-evidence.html" title="无对应步骤">09 证据与引用</a></li>
+        <li><a href="01-scope.html">01 安全管理与场景定义</a></li>
+        <li><a href="02-method.html">02 安全分析方法与标准体系</a></li>
+        <li><a href="03-hazard.html">03 危害识别与风险评估</a></li>
+        <li><a href="04-arch.html">04 系统安全架构与冗余</a></li>
+        <li><a href="05-hw-sw.html">05 硬件与软件安全设计</a></li>
+        <li><a href="06-physical.html" class="active" aria-current="page">06 机械、化学与电气安全</a></li>
+        <li><a href="07-vv.html">07 安全测试与验证</a></li>
+        <li><a href="08-assurance.html">08 运行安全论证</a></li>
+        <li><a href="09-evidence.html">09 证据与引用</a></li>
+        <li><a href="10-summary.html">10 全文总结</a></li>
       </ol>
   </aside>
 
@@ -223,21 +230,30 @@
       </div>
     </section>
 
+    <section id="sum">
+      <h2><span class="num">07</span>本章总结</h2>
+      <div class="sum">
+        <p>灾难性后果最终只有两种物理形态：火与撞击。热失控链有四个可阻断点，设计目标不是「不发生」，而是把失效限制在单组、单模组，为迫降争取时间。</p>
+        <p>坠撞的定量结论很硬：8 m/s 需要约 0.3 米吸能行程，12 m/s 时任何行程都超限——被动安全无法独立成立。无驾驶员、无灭火、舱内狭小三者叠加，火情策略只能是「不发生、不扩散」。</p>
+      </div>
+    </section>
+
     <nav class="pager" aria-label="章节翻页">
-      <a href="05-hw-sw.html"><span class="p-d">上一章</span><span class="p-t">← 05 硬件与软件安全</span></a>
+      <a href="05-hw-sw.html"><span class="p-d">上一章</span><span class="p-t">← 05 硬件与软件安全设计</span></a>
       <a href="07-vv.html" class="next"><span class="p-d">下一章</span><span class="p-t">07 安全测试与验证 →</span></a>
     </nav>
   </main>
 
   <aside class="toc" aria-label="本页目录">
     <p class="toc-title">本页</p>
-    <ol>
+        <ol>
       <li><a href="#thermal">专题 A：动力电池热失控</a></li>
       <li><a href="#chain">热失控链与阻断点</a></li>
       <li><a href="#impact">专题 B：坠撞安全</a></li>
       <li><a href="#energy">能量吸收的定量</a></li>
       <li><a href="#elec">高压电气与 EMC</a></li>
       <li><a href="#fire">防火与材料</a></li>
+      <li><a href="#sum">本章总结</a></li>
     </ol>
   </aside>
 </div>

@@ -15,10 +15,16 @@
   <div class="topbar-in">
     <a class="brand" href="index.html"><b>EH216-S 安全分析</b><span>Safety Systems Engineering</span></a>
     <nav class="topnav" aria-label="章节导航">
-      <a href="01-scope.html">范围</a><a href="02-method.html">方法</a><a href="03-hazard.html">危害</a>
-      <a href="04-arch.html">架构</a><a href="05-hw-sw.html">软硬件</a><a href="06-physical.html">物理安全</a>
-      <a href="07-vv.html" class="active" aria-current="page">验证</a><a href="08-assurance.html">论证</a>      <a href="09-evidence.html">证据</a>
-
+      <a href="01-scope.html">范围</a>
+      <a href="02-method.html">方法</a>
+      <a href="03-hazard.html">危害</a>
+      <a href="04-arch.html">架构</a>
+      <a href="05-hw-sw.html">软硬件</a>
+      <a href="06-physical.html">物理安全</a>
+      <a href="07-vv.html" class="active" aria-current="page">验证</a>
+      <a href="08-assurance.html">论证</a>
+      <a href="09-evidence.html">证据</a>
+      <a href="10-summary.html">总结</a>
     </nav>
     <a class="sister-link" href="https://tianba9.github.io/eh216s-research/" title="切换至卷一：全方位调研与分析">卷一·调研分析 ↗</a>
   </div>
@@ -28,17 +34,18 @@
 
   <aside class="toc-nav" aria-label="全站章节">
     <p class="toc-title">全站章节</p>
-                  <ol>
+                        <ol>
         <li class="nav-home"><a href="index.html">首页</a></li>
-        <li><a href="01-scope.html" title="步骤 0–1">01 安全管理与场景定义</a></li>
-        <li><a href="02-method.html" title="步骤 2">02 安全分析方法与标准体系</a></li>
-        <li><a href="03-hazard.html" title="步骤 2（核心）">03 危害识别与风险评估</a></li>
-        <li><a href="04-arch.html" title="步骤 3">04 系统安全架构与冗余</a></li>
-        <li><a href="05-hw-sw.html" title="步骤 4–5">05 硬件与软件安全设计</a></li>
-        <li><a href="06-physical.html" title="步骤 6">06 机械、化学与电气安全</a></li>
-        <li><a href="07-vv.html" class="active" aria-current="page" title="步骤 7">07 安全测试与验证</a></li>
-        <li><a href="08-assurance.html" title="步骤 8">08 运行安全论证</a></li>
-        <li><a href="09-evidence.html" title="无对应步骤">09 证据与引用</a></li>
+        <li><a href="01-scope.html">01 安全管理与场景定义</a></li>
+        <li><a href="02-method.html">02 安全分析方法与标准体系</a></li>
+        <li><a href="03-hazard.html">03 危害识别与风险评估</a></li>
+        <li><a href="04-arch.html">04 系统安全架构与冗余</a></li>
+        <li><a href="05-hw-sw.html">05 硬件与软件安全设计</a></li>
+        <li><a href="06-physical.html">06 机械、化学与电气安全</a></li>
+        <li><a href="07-vv.html" class="active" aria-current="page">07 安全测试与验证</a></li>
+        <li><a href="08-assurance.html">08 运行安全论证</a></li>
+        <li><a href="09-evidence.html">09 证据与引用</a></li>
+        <li><a href="10-summary.html">10 全文总结</a></li>
       </ol>
   </aside>
 
@@ -214,6 +221,14 @@
       <p>这三类盲区的共同处理原则是<strong>「用运行限制替代验证」</strong>：既然无法证明在极端条件下安全，就把这些条件排除在 ODD 之外。这正是第 08 章运行安全论证的起点。</p>
     </section>
 
+    <section id="sum">
+      <h2><span class="num">07</span>本章总结</h2>
+      <div class="sum">
+        <p>验证是逐条证明需求成立，不是累计飞行小时。V 模型右侧每一层都要有对应证据，缺一层就意味着该层需求未被证明；灾难性场景不能靠实飞验证。</p>
+        <p>九万架次折算约 3.75 万飞行小时，与 10⁻⁹ 的统计要求差四个数量级。它是运行证据，支持可靠性增长，不能替代失效概率的定量证明。</p>
+      </div>
+    </section>
+
     <nav class="pager" aria-label="章节翻页">
       <a href="06-physical.html"><span class="p-d">上一章</span><span class="p-t">← 06 机械、化学与电气安全</span></a>
       <a href="08-assurance.html" class="next"><span class="p-d">下一章</span><span class="p-t">08 运行安全论证 →</span></a>
@@ -222,13 +237,14 @@
 
   <aside class="toc" aria-label="本页目录">
     <p class="toc-title">本页</p>
-    <ol>
+        <ol>
       <li><a href="#vmodel">V 模型与验证链</a></li>
       <li><a href="#moc">符合性方法的选择</a></li>
       <li><a href="#matrix">验证矩阵</a></li>
       <li><a href="#inject">故障注入与场景测试</a></li>
       <li><a href="#ops">运行证据的统计学意义</a></li>
       <li><a href="#gap">验证的盲区</a></li>
+      <li><a href="#sum">本章总结</a></li>
     </ol>
   </aside>
 </div>

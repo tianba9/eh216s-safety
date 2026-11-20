@@ -15,10 +15,16 @@
   <div class="topbar-in">
     <a class="brand" href="index.html"><b>EH216-S 安全分析</b><span>Safety Systems Engineering</span></a>
     <nav class="topnav" aria-label="章节导航">
-      <a href="01-scope.html">范围</a><a href="02-method.html" class="active" aria-current="page">方法</a><a href="03-hazard.html">危害</a>
-      <a href="04-arch.html">架构</a><a href="05-hw-sw.html">软硬件</a><a href="06-physical.html">物理安全</a>
-      <a href="07-vv.html">验证</a><a href="08-assurance.html">论证</a>      <a href="09-evidence.html">证据</a>
-
+      <a href="01-scope.html">范围</a>
+      <a href="02-method.html" class="active" aria-current="page">方法</a>
+      <a href="03-hazard.html">危害</a>
+      <a href="04-arch.html">架构</a>
+      <a href="05-hw-sw.html">软硬件</a>
+      <a href="06-physical.html">物理安全</a>
+      <a href="07-vv.html">验证</a>
+      <a href="08-assurance.html">论证</a>
+      <a href="09-evidence.html">证据</a>
+      <a href="10-summary.html">总结</a>
     </nav>
     <a class="sister-link" href="https://tianba9.github.io/eh216s-research/" title="切换至卷一：全方位调研与分析">卷一·调研分析 ↗</a>
   </div>
@@ -28,17 +34,18 @@
 
   <aside class="toc-nav" aria-label="全站章节">
     <p class="toc-title">全站章节</p>
-                  <ol>
+                        <ol>
         <li class="nav-home"><a href="index.html">首页</a></li>
-        <li><a href="01-scope.html" title="步骤 0–1">01 安全管理与场景定义</a></li>
-        <li><a href="02-method.html" class="active" aria-current="page" title="步骤 2">02 安全分析方法与标准体系</a></li>
-        <li><a href="03-hazard.html" title="步骤 2（核心）">03 危害识别与风险评估</a></li>
-        <li><a href="04-arch.html" title="步骤 3">04 系统安全架构与冗余</a></li>
-        <li><a href="05-hw-sw.html" title="步骤 4–5">05 硬件与软件安全设计</a></li>
-        <li><a href="06-physical.html" title="步骤 6">06 机械、化学与电气安全</a></li>
-        <li><a href="07-vv.html" title="步骤 7">07 安全测试与验证</a></li>
-        <li><a href="08-assurance.html" title="步骤 8">08 运行安全论证</a></li>
-        <li><a href="09-evidence.html" title="无对应步骤">09 证据与引用</a></li>
+        <li><a href="01-scope.html">01 安全管理与场景定义</a></li>
+        <li><a href="02-method.html" class="active" aria-current="page">02 安全分析方法与标准体系</a></li>
+        <li><a href="03-hazard.html">03 危害识别与风险评估</a></li>
+        <li><a href="04-arch.html">04 系统安全架构与冗余</a></li>
+        <li><a href="05-hw-sw.html">05 硬件与软件安全设计</a></li>
+        <li><a href="06-physical.html">06 机械、化学与电气安全</a></li>
+        <li><a href="07-vv.html">07 安全测试与验证</a></li>
+        <li><a href="08-assurance.html">08 运行安全论证</a></li>
+        <li><a href="09-evidence.html">09 证据与引用</a></li>
+        <li><a href="10-summary.html">10 全文总结</a></li>
       </ol>
   </aside>
 
@@ -179,6 +186,14 @@
       </div>
     </section>
 
+    <section id="sum">
+      <h2><span class="num">06</span>本章总结</h2>
+      <div class="sum">
+        <p>五种方法各管一段：FHA 定级、STPA 找系统性漏洞、FTA 定割集、FMEA 落部件、CCA 查共因。顺序错了会返工，方法选错则产出一堆表格却说不出哪项设计因此改了。</p>
+        <p>为什么必须有 STPA：FTA 与 FMEA 都建立在「部件失效」上，而无人驾驶架构的高发风险是「部件全好、逻辑错了」。三条标准线的差异，也解释了专用条件为何必须新立。</p>
+      </div>
+    </section>
+
     <nav class="pager" aria-label="章节翻页">
       <a href="01-scope.html"><span class="p-d">上一章</span><span class="p-t">← 01 安全管理与场景定义</span></a>
       <a href="03-hazard.html" class="next"><span class="p-d">下一章</span><span class="p-t">03 危害识别与风险评估 →</span></a>
@@ -187,12 +202,13 @@
 
   <aside class="toc" aria-label="本页目录">
     <p class="toc-title">本页</p>
-    <ol>
+        <ol>
       <li><a href="#chain">分析链：五种方法的分工</a></li>
       <li><a href="#stpa">为什么必须有 STPA</a></li>
       <li><a href="#std">标准体系三条线</a></li>
       <li><a href="#sc">七类审定要求与方法映射</a></li>
       <li><a href="#dal">DAL 与开发严格度</a></li>
+      <li><a href="#sum">本章总结</a></li>
     </ol>
   </aside>
 </div>

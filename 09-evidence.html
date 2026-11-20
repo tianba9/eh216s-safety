@@ -15,10 +15,16 @@
   <div class="topbar-in">
     <a class="brand" href="index.html"><b>EH216-S 安全分析</b><span>Safety Systems Engineering</span></a>
     <nav class="topnav" aria-label="章节导航">
-      <a href="01-scope.html">范围</a><a href="02-method.html">方法</a><a href="03-hazard.html">危害</a>
-      <a href="04-arch.html">架构</a><a href="05-hw-sw.html">软硬件</a><a href="06-physical.html">物理安全</a>
-      <a href="07-vv.html">验证</a><a href="08-assurance.html">论证</a>      <a href="09-evidence.html" class="active" aria-current="page">证据</a>
-
+      <a href="01-scope.html">范围</a>
+      <a href="02-method.html">方法</a>
+      <a href="03-hazard.html">危害</a>
+      <a href="04-arch.html">架构</a>
+      <a href="05-hw-sw.html">软硬件</a>
+      <a href="06-physical.html">物理安全</a>
+      <a href="07-vv.html">验证</a>
+      <a href="08-assurance.html">论证</a>
+      <a href="09-evidence.html" class="active" aria-current="page">证据</a>
+      <a href="10-summary.html">总结</a>
     </nav>
     <a class="sister-link" href="https://tianba9.github.io/eh216s-research/" title="切换至卷一：全方位调研与分析">卷一·调研分析 ↗</a>
   </div>
@@ -28,17 +34,18 @@
 
   <aside class="toc-nav" aria-label="全站章节">
     <p class="toc-title">全站章节</p>
-                  <ol>
+                        <ol>
         <li class="nav-home"><a href="index.html">首页</a></li>
-        <li><a href="01-scope.html" title="步骤 0–1">01 安全管理与场景定义</a></li>
-        <li><a href="02-method.html" title="步骤 2">02 安全分析方法与标准体系</a></li>
-        <li><a href="03-hazard.html" title="步骤 2（核心）">03 危害识别与风险评估</a></li>
-        <li><a href="04-arch.html" title="步骤 3">04 系统安全架构与冗余</a></li>
-        <li><a href="05-hw-sw.html" title="步骤 4–5">05 硬件与软件安全设计</a></li>
-        <li><a href="06-physical.html" title="步骤 6">06 机械、化学与电气安全</a></li>
-        <li><a href="07-vv.html" title="步骤 7">07 安全测试与验证</a></li>
-        <li><a href="08-assurance.html" title="步骤 8">08 运行安全论证</a></li>
-        <li><a href="09-evidence.html" class="active" aria-current="page" title="无对应步骤">09 证据与引用</a></li>
+        <li><a href="01-scope.html">01 安全管理与场景定义</a></li>
+        <li><a href="02-method.html">02 安全分析方法与标准体系</a></li>
+        <li><a href="03-hazard.html">03 危害识别与风险评估</a></li>
+        <li><a href="04-arch.html">04 系统安全架构与冗余</a></li>
+        <li><a href="05-hw-sw.html">05 硬件与软件安全设计</a></li>
+        <li><a href="06-physical.html">06 机械、化学与电气安全</a></li>
+        <li><a href="07-vv.html">07 安全测试与验证</a></li>
+        <li><a href="08-assurance.html">08 运行安全论证</a></li>
+        <li><a href="09-evidence.html" class="active" aria-current="page">09 证据与引用</a></li>
+        <li><a href="10-summary.html">10 全文总结</a></li>
       </ol>
   </aside>
 
@@ -46,7 +53,7 @@
     <div class="page-head">
       <div class="ph-top">
         <div class="crumb"><a href="index.html">首页</a><span class="sep">›</span><span class="cur">09 证据与引用</span></div>
-        <div class="head-nav"><a href="08-assurance.html" title="上一章：08 运行安全论证">‹ 08 运行安全论证</a><a href="index.html" class="hn-home" title="返回首页">首页 ›</a></div>
+        <div class="head-nav"><a href="08-assurance.html" title="上一章：08 运行安全论证">‹ 08 运行安全论证</a><a href="10-summary.html" title="下一章：10 全文总结">10 全文总结 ›</a></div>
       </div>
       <h1>安全分析的证据基础</h1>
       <p class="lede">
@@ -146,19 +153,28 @@
       </div>
     </section>
 
+    <section id="sum">
+      <h2><span class="num">05</span>本章总结</h2>
+      <div class="sum">
+        <p>这一章给出全部证据、引用的标准体系、计算假设与局限声明。16 条来源按类型与可信度排列，每条注明支撑的论断；失效率数据缺失这一条，直接决定了故障树只做定性排序。</p>
+        <p>它界定了结论的适用范围：这是第三方独立复算，不是审定结论；凡未公开的配置，一律标注「未披露」而不推断为「没有」。</p>
+      </div>
+    </section>
+
     <nav class="pager" aria-label="章节翻页">
       <a href="08-assurance.html"><span class="p-d">上一章</span><span class="p-t">← 08 运行安全论证</span></a>
-      <a href="index.html" class="next"><span class="p-d">返回</span><span class="p-t">首页 →</span></a>
+      <a href="10-summary.html" class="next"><span class="p-d">下一章</span><span class="p-t">10 全文总结 →</span></a>
     </nav>
   </main>
 
   <aside class="toc" aria-label="本页目录">
     <p class="toc-title">本页</p>
-    <ol>
+        <ol>
       <li><a href="#matrix">安全证据矩阵</a></li>
       <li><a href="#std">引用的标准体系</a></li>
       <li><a href="#assume">计算假设汇总</a></li>
       <li><a href="#limit">局限声明</a></li>
+      <li><a href="#sum">本章总结</a></li>
     </ol>
   </aside>
 </div>
