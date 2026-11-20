@@ -6,7 +6,7 @@
 :root{
   --ink:#15181c;
   --ink-2:#3d454e;
-  --muted:#6d7783;
+  --muted:#68727e;
   --line:#e3e0d9;
   --line-strong:#cfcabf;
   --bg:#fbfaf7;
@@ -228,7 +228,7 @@ figcaption b{color:var(--ink-2);font-weight:600;}
 @media print{
   :root{--bg:#fff;}
   body{font-size:10.5pt;line-height:1.6;}
-  .topbar,.toc,.pager,.foot{display:none!important;}
+  .topbar,.toc,.toc-nav,.pager,.foot{display:none!important;}
   .shell{display:block;max-width:none;padding:0;}
   h2{page-break-after:avoid;break-after:avoid;}
   figure,table,.note,.verdicts{page-break-inside:avoid;break-inside:avoid;}
@@ -467,3 +467,33 @@ figcaption b{color:var(--ink-2);font-weight:600;}
 /* 章节切换按钮：不换行、不压缩 */
 .ph-top .head-nav{flex:0 0 auto;flex-wrap:wrap;justify-content:flex-end;}
 .head-nav a{white-space:nowrap;}
+
+/* ---------- 键盘可达性 ---------- */
+.skip{
+  position:absolute;left:-9999px;top:0;z-index:100;
+  background:var(--accent);color:#fff;padding:.6rem 1rem;
+  border-radius:0 0 3px 0;font-size:.85rem;
+}
+.skip:focus{left:0;}
+
+:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:2px;
+  border-radius:2px;
+}
+.topnav a:focus-visible,
+.head-nav a:focus-visible,
+.toc a:focus-visible,
+.toc-nav a:focus-visible,
+.pager a:focus-visible{outline-offset:3px;}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{transition-duration:.01ms!important;animation-duration:.01ms!important;}
+}
+
+/* 打印：互动测算收起滑块，仅留数值 */
+@media print{
+  .calc input[type=range]{display:none;}
+  .calc .calc-row{padding-bottom:1mm;}
+}

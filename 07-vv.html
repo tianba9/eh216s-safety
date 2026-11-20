@@ -8,11 +8,12 @@
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body id="top">
+<a class="skip" href="#main">跳到正文</a>
 
 <header class="topbar">
   <div class="topbar-in">
     <a class="brand" href="index.html"><b>EH216-S 安全分析</b><span>Safety Systems Engineering</span></a>
-    <nav class="topnav">
+    <nav class="topnav" aria-label="章节导航">
       <a href="01-scope.html">范围</a><a href="02-method.html">方法</a><a href="03-hazard.html">危害</a>
       <a href="04-arch.html">架构</a><a href="05-hw-sw.html">软硬件</a><a href="06-physical.html">物理安全</a>
       <a href="07-vv.html" class="active" aria-current="page">验证</a><a href="08-assurance.html">论证</a>      <a href="09-evidence.html">证据</a>
@@ -24,7 +25,7 @@
 
 <div class="shell">
 
-  <aside class="toc-nav">
+  <aside class="toc-nav" aria-label="全站章节">
     <p class="toc-title">全站章节</p>
                   <ol>
         <li class="nav-home"><a href="index.html">首页</a></li>
@@ -40,7 +41,7 @@
       </ol>
   </aside>
 
-  <main>
+  <main id="main">
     <div class="page-head">
       <div class="ph-top">
         <div class="crumb"><a href="index.html">首页</a><span class="sep">›</span><span class="cur">07 安全测试与验证</span></div>
@@ -212,13 +213,13 @@
       <p>这三类盲区的共同处理原则是<strong>「用运行限制替代验证」</strong>：既然无法证明在极端条件下安全，就把这些条件排除在 ODD 之外。这正是第 08 章运行安全论证的起点。</p>
     </section>
 
-    <nav class="pager">
+    <nav class="pager" aria-label="章节翻页">
       <a href="06-physical.html"><span class="p-d">上一章</span><span class="p-t">← 06 机械、化学与电气安全</span></a>
       <a href="08-assurance.html" class="next"><span class="p-d">下一章</span><span class="p-t">08 运行安全论证 →</span></a>
     </nav>
   </main>
 
-  <aside class="toc">
+  <aside class="toc" aria-label="本页目录">
     <p class="toc-title">本页</p>
     <ol>
       <li><a href="#vmodel">V 模型与验证链</a></li>
