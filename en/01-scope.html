@@ -20,7 +20,7 @@
       <a href="02-method.html">Method</a>
       <a href="03-hazard.html">Hazard</a>
       <a href="04-arch.html">Architecture</a>
-      <a href="05-hw-sw.html">HW & SW</a>
+      <a href="05-hw-sw.html">HW/SW</a>
       <a href="06-physical.html">Physical</a>
       <a href="07-vv.html">V&V</a>
       <a href="08-assurance.html">Argument</a>
@@ -61,33 +61,145 @@
       </div>
       <h1>Define Responsibility, Then Mission</h1>
       <p class="lede">
-Responsibility is redistributed among four certificate holders; the passenger on board is entirely passive. That constraint shapes every later design decision.
+The most common mistake in safety analysis is to begin by “adding redundancy”. The correct starting point is two things: allocate safety responsibility clearly among the organisations, and define “what is flown and where” in enough detail to be checked item by item. The former determines the management system; the latter determines the boundary of the hazard list.
       </p>
     </div>
 
-    <section id="s01">
+    <section id="culture">
       <h2><span class="num">01</span>Safety Culture & Responsibility Allocation</h2>
-      <p>Design owns the safety case, manufacturing owns consistency, the operator owns procedures, and the authority owns certification and oversight. Four certificates allocate responsibility across four parties.</p>
+      <p>With no pilot on board, the traditional “pilot–aircraft” chain of responsibility is broken. Responsibility must be reassigned, otherwise a vacuum arises in which “everyone is responsible and no one is”.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 1-1</b>　Allocation of safety responsibility for passenger-carrying unmanned operations</caption>
+          <thead><tr><th style="width:18%">Party</th><th style="width:26%">Safety responsibility borne</th><th style="width:22%">Corresponding certificate or mechanism</th><th>Consequence of failure</th></tr></thead>
+          <tbody>
+            <tr><td class="em">Designer<br>(EHang Intelligent)</td><td>Design assurance, hazard analysis, compliance verification, continuing-airworthiness documentation</td><td>TC (Type Certificate)</td><td>A design defect becomes a systemic risk, with fleet-wide common-mode failure</td></tr>
+            <tr><td class="em">Manufacturer</td><td>Batch consistency, process control, supplier management</td><td>PC (Production Certificate)</td><td>Unit quality deviation from the certified configuration</td></tr>
+            <tr><td class="em">Operator</td><td>Operations manual, crew qualifications, maintenance programme, occurrence reporting</td><td>OC (Operating Certificate)</td><td>Operations outside the ODD, human-factor failures</td></tr>
+            <tr><td class="em">Remote crew</td><td>Flight monitoring, anomaly handling, emergency takeover</td><td>Type training and authorisation</td><td>Delayed emergency response, missing the usable window</td></tr>
+            <tr><td class="em">Regulator<br>(CAAC)</td><td>Certification, continuing oversight, occurrence investigation</td><td>SC-21-002 and follow-up surveillance</td><td>Standards lag, inadequate hazard identification</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>This table reveals a key structure: <strong>the four certificates are not four independent licences, but an institutional device that allocates safety responsibility across four parties.</strong> TC locks down design, PC locks down manufacturing, AC locks down the state of each individual aircraft, and OC locks down operational capability. If any one certificate is missing, one link in the chain of responsibility is broken.</p>
+
+      <h3>Three observable indicators of safety culture</h3>
+      <ul>
+        <li><strong>Reporting culture</strong>: whether a non-punitive occurrence-reporting channel exists. Without systematic feedback, the operating data from 90,000 sorties are merely flight records, not a safety asset.</li>
+        <li><strong>Just culture</strong>: distinguishing “mistakes” from “violations”. A judgement error by the remote crew during emergency takeover should feed training improvement rather than blame.</li>
+        <li><strong>Learning culture</strong>: whether design changes after certification still undergo full hazard reassessment. Design changes during the continuing-airworthiness phase are the most easily overlooked entry point for risk.</li>
+      </ul>
+
+      <div class="note warn">
+        <span class="lbl">A structural problem</span>
+        <p>With no pilot on board, <strong>the passengers are the only people on the aircraft, yet have no means of handling any situation</strong>. This means the cabin design must assume “occupants are entirely passive”: procedures such as “please assist the crew in opening the door” cannot be used as a backstop. This is the fundamental difference from piloted aircraft in passive-safety design.</p>
+      </div>
     </section>
-    <section id="s02">
+
+    <section id="func">
       <h2><span class="num">02</span>Vehicle Function Inventory</h2>
-      <p>Ten functions F1–F10 cover take-off, autonomous route flight, attitude holding, energy distribution, health monitoring, fail-safe behaviour, communications, remote takeover, occupant protection and precision landing.</p>
+      <p>Functions are the object of hazard analysis. If functions are not described clearly, hazards cannot be enumerated. The table below breaks them down by the four groups — “flight, energy, control and support” — to an analysable level of granularity.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 1-2</b>　Vehicle function inventory and failure effects</caption>
+          <thead>
+            <tr><th style="width:8%">No.</th><th style="width:22%">Function</th><th style="width:30%">Description</th><th>Effect of loss of function</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">F1</td><td>Vertical take-off and landing</td><td>Complete vertical lift-off and landing at a vertiport, without a runway</td><td>Unable to take off or land; stranded on the ground</td></tr>
+            <tr><td class="em">F2</td><td>Autonomous route flight</td><td>Fly automatically along preset waypoints, including speed and altitude profiles</td><td>Deviation from the route, entering unintended airspace</td></tr>
+            <tr><td class="em">F3</td><td>Attitude and position keeping</td><td>Maintain attitude stability and stationary hover under wind disturbance</td><td><strong>Loss of control</strong>, the most severe</td></tr>
+            <tr><td class="em">F4</td><td>Energy distribution and isolation</td><td>Supply power from 12 battery groups in groups; isolate a faulty group</td><td>Loss of thrust or fire</td></tr>
+            <tr><td class="em">F5</td><td>Condition monitoring and diagnostics</td><td>Monitor the health of motors, batteries and sensors in real time</td><td>Faults go undetected and degrade to failure</td></tr>
+            <tr><td class="em">F6</td><td>Fail-safe and emergency landing</td><td>Decide whether to continue flying or make an autonomous diversion to the nearest site</td><td>Missing the handling window</td></tr>
+            <tr><td class="em">F7</td><td>Air–ground communications</td><td>Exchange status and commands with the ground station over a triple link</td><td>Loss of monitoring and takeover capability</td></tr>
+            <tr><td class="em">F8</td><td>Remote takeover</td><td>Manual command by the ground remote crew in an emergency</td><td>Anomalies cannot be corrected manually</td></tr>
+            <tr><td class="em">F9</td><td>Occupant protection</td><td>Restraints, cabin protection, emergency evacuation</td><td>Amplified injury in a crash</td></tr>
+            <tr><td class="em">F10</td><td>Precise positioning and guidance</td><td>Centimetre-level positioning for vertical take-off and landing</td><td>Landing deviation, collision with ground facilities</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>F3 and F4 are safety-critical functions, corresponding directly to catastrophic hazards; F6 and F7 are hazardous; the remainder are major or minor. This preliminary judgement will be quantified with FHA in Chapter 03.</p>
     </section>
-    <section id="s03">
-      <h2><span class="num">03</span>Operating Design Conditions</h2>
-      <p>Airspace, weather, vertiport, daylight, population density, communications and electromagnetic environment form the design boundary. Every condition is a limit on the safety case.</p>
+
+    <section id="odc">
+      <h2><span class="num">03</span>Operating Design Conditions (ODC)</h2>
+      <p>ODC is the input describing “under what conditions the aircraft is designed”, and is the mirror image of the ODD (the conditions permitted in operation). The clearer the design boundary, the more enforceable the operational limits.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 1-3</b>　Operating design conditions and their safety implications</caption>
+          <thead><tr><th style="width:16%">Condition class</th><th style="width:30%">Design condition</th><th>Safety implication</th></tr></thead>
+          <tbody>
+            <tr><td class="em">Airspace</td><td>Low-altitude segregated airspace, time- and zone-shared with piloted aircraft</td><td>Reduces the catastrophic hazard of “mid-air collision” to a manageable level</td></tr>
+            <tr><td class="em">Altitude</td><td>Low-altitude operation, with a specific ceiling subject to authority approval</td><td>Limits fall energy and the ground footprint</td></tr>
+            <tr><td class="em">Weather</td><td>Visual meteorological conditions, with limits on wind speed and visibility</td><td>Avoids disturbances beyond the control capability</td></tr>
+            <tr><td class="em">Vertiport</td><td>Hard, level ground, with clearance and crowd-separation distances</td><td>Controls third-party risk on the ground</td></tr>
+            <tr><td class="em">Time of day</td><td>Daylight operation</td><td>A scenario constraint relying on vision and visual sensing</td></tr>
+            <tr><td class="em">Communications</td><td>Within the coverage of the dedicated link</td><td>Ensures remote monitoring and takeover remain available</td></tr>
+            <tr><td class="em">Electromagnetic</td><td>Non-severely disturbed environment</td><td>Prevents interference with the link and navigation</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="t-foot">Note: no specific figures (such as an upper wind-speed limit or crowd-separation distance) are given in the table. No quantitative figures appear in public material, and this report does not speculate; they are listed merely as parameters to be verified later with the authority or the operator.</p>
     </section>
-    <section id="s04">
+
+    <section id="scenes">
       <h2><span class="num">04</span>Scenario Library</h2>
-      <p>Six scenarios S1–S6 range from scenic circuits to multi-aircraft operations. Urban sightseeing is the densest hazard environment.</p>
+      <p>Scenarios are not marketing categories but ways in which hazards combine. The same aircraft, in different scenarios, is exposed to different sets of hazards.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 1-4</b>　Six typical operating scenarios and their dominant hazards</caption>
+          <thead><tr><th style="width:8%">No.</th><th style="width:24%">Scenario</th><th style="width:30%">Environmental characteristics</th><th>Dominant hazards</th></tr></thead>
+          <tbody>
+            <tr><td class="em">S1</td><td>Scenic circuit sightseeing</td><td>Fixed circuit, sparse crowd below, single take-off and landing point</td><td>Ground personnel entering the rotor area during take-off and landing; low-altitude wind disturbance</td></tr>
+            <tr><td class="em">S2</td><td>Point-to-point short-haul shuttle</td><td>Between two banks or two districts, crossing water or roads</td><td>Power loss en route; difficulty selecting a diversion area</td></tr>
+            <tr><td class="em">S3</td><td>Urban landmark sightseeing</td><td>Dense buildings, complex downwash, complex electromagnetic environment</td><td>Collision with obstacles; link interference</td></tr>
+            <tr><td class="em">S4</td><td>Emergency medical transfer</td><td>Time pressure, non-standard take-off and landing points</td><td>Landing at non-standard sites; procedural shortcuts due to haste</td></tr>
+            <tr><td class="em">S5</td><td>Training and test flights</td><td>Edge of the envelope, deliberate fault injection</td><td>Deliberately created out-of-limit states</td></tr>
+            <tr><td class="em">S6</td><td>Multi-aircraft operations at one site</td><td>Simultaneous take-offs and landings at several points in one scenic area</td><td>Airspace conflicts; ground-scheduling errors</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>S3 and S6 are the two highest-risk scenarios: the former exposes the aircraft to complex building wakes and electromagnetic conditions, while the latter upgrades “single-aircraft safety” to “system safety”, requiring ground scheduling to take on the conflict-prevention role.</p>
     </section>
-    <section id="s05">
+
+    <section id="matrix">
       <h2><span class="num">05</span>Function–Scenario–Hazard Matrix</h2>
-      <p>Attitude control, energy and occupant protection are critical in every scenario; the urban scenario concentrates the most risks.</p>
+      <p>Cross-tabulating functions with scenarios shows which combinations concentrate the hazards. A mark in the matrix indicates that failure of that function in that scenario would have serious consequences.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 1-5</b>　Risk exposure of key functions across six scenarios</caption>
+          <thead>
+            <tr><th style="width:22%">Function</th><th class="num">S1</th><th class="num">S2</th><th class="num">S3</th><th class="num">S4</th><th class="num">S5</th><th class="num">S6</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>F2 Autonomous route flight</td><td class="num">○</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">○</td><td class="num">●</td></tr>
+            <tr><td>F3 Attitude and position keeping</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">●</td></tr>
+            <tr><td>F4 Energy distribution and isolation</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">●</td></tr>
+            <tr><td>F6 Fail-safe and diversion</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">○</td><td class="num">●</td></tr>
+            <tr><td>F7 Air–ground communications</td><td class="num">○</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">○</td><td class="num">●</td></tr>
+            <tr><td>F9 Occupant protection</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">●</td></tr>
+            <tr><td>F10 Precise positioning</td><td class="num">○</td><td class="num">●</td><td class="num">●</td><td class="num">●</td><td class="num">○</td><td class="num">●</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="t-foot">● indicates that failure of the function in that scenario would lead to serious consequences; ○ indicates a controllable impact. The judgement is based on the environmental complexity of the scenario and the criticality of the function in the mission profile.</p>
+
+      <p>The matrix is read by rows and columns: <strong>the rows for F3, F4 and F9 are filled throughout</strong>, indicating that they are common critical functions across all scenarios and should be assigned the highest design-assurance level first; <strong>the S3 column has the most filled cells</strong>, indicating that the urban scenario is the most hazard-dense operating environment and the focus of ODD definition.</p>
     </section>
-    <section id="s06">
+
+    <section id="sum">
       <h2><span class="num">06</span>Chapter Summary</h2>
-      <p>Define who is responsible before discussing hazards. With no pilot on board, the passenger cannot help; that assumption runs through the whole report.</p>
+      <div class="sum">
+        <p>Safety responsibility is redistributed among four parties: the designer owns design assurance, the manufacturer owns production consistency, the operator owns operations, and the regulator owns certification and oversight. With no pilot on board, passengers are entirely passive — a constraint that runs through all subsequent design.</p>
+        <p>The function inventory is broken down to F1–F10, the ODC set out the design boundary, and the scenario library gives six combinations. The matrix shows that F3 (attitude), F4 (energy) and F9 (occupant protection) are critical in every scenario, and that the S3 urban scenario is the most hazard-dense.</p>
+      </div>
     </section>
 
     <nav class="pager" aria-label="Chapter paging">
@@ -99,12 +211,12 @@ Responsibility is redistributed among four certificate holders; the passenger on
   <aside class="toc" aria-label="On this page">
     <p class="toc-title">On This Page</p>
     <ol>
-      <li><a href="#s01">Safety Culture & Responsibility Allocation</a></li>
-      <li><a href="#s02">Vehicle Function Inventory</a></li>
-      <li><a href="#s03">Operating Design Conditions</a></li>
-      <li><a href="#s04">Scenario Library</a></li>
-      <li><a href="#s05">Function–Scenario–Hazard Matrix</a></li>
-      <li><a href="#s06">Chapter Summary</a></li>
+      <li><a href="#culture">Safety Culture & Responsibility Allocation</a></li>
+      <li><a href="#func">Vehicle Function Inventory</a></li>
+      <li><a href="#odc">Operating Design Conditions</a></li>
+      <li><a href="#scenes">Scenario Library</a></li>
+      <li><a href="#matrix">Function–Scenario–Hazard Matrix</a></li>
+      <li><a href="#sum">Chapter Summary</a></li>
     </ol>
   </aside>
 </div>

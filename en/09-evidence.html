@@ -20,7 +20,7 @@
       <a href="02-method.html">Method</a>
       <a href="03-hazard.html">Hazard</a>
       <a href="04-arch.html">Architecture</a>
-      <a href="05-hw-sw.html">HW & SW</a>
+      <a href="05-hw-sw.html">HW/SW</a>
       <a href="06-physical.html">Physical</a>
       <a href="07-vv.html">V&V</a>
       <a href="08-assurance.html">Argument</a>
@@ -61,29 +61,106 @@
       </div>
       <h1>The Evidence Base</h1>
       <p class="lede">
-Sixteen safety sources, the standards referenced, the calculation assumptions and the limitations of a third-party recomputation.
+Safety conclusions place higher demands on sources than performance data: a single misquoted failure rate can invalidate the conclusions of an entire fault tree. This page lists all sources, referenced standards and calculation assumptions for readers to check.
       </p>
     </div>
 
-    <section id="s01">
+    <section id="matrix">
       <h2><span class="num">01</span>Safety Evidence Matrix</h2>
-      <p>Sources are listed by type and credibility with the claim each supports. Regulator documents and standards carry the most weight.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 9-1</b>　Safety analysis evidence matrix (16 items in total)</caption>
+          <thead>
+            <tr>
+              <th style="width:6%">No.</th><th style="width:30%">Source</th><th style="width:10%">Type</th>
+              <th style="width:10%">Credibility</th><th>Safety claim supported</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">A01</td><td>“Special Condition for the EHang EH216-S Unmanned Aircraft System” SC-21-002</td><td>Standard</td><td>Highest</td><td>Seven certification requirement categories; three independent flight-control sets; 2 occupants; operation in segregated airspace; crashworthiness, thermal runaway and triple link are new requirements</td></tr>
+            <tr><td class="em">A02</td><td>EH216-S type certificate (TC), 2023-10-13</td><td>Regulatory</td><td>Highest</td><td>Design compliance reviewed by the authority; SSA conclusions accepted</td></tr>
+            <tr><td class="em">A03</td><td>Standard airworthiness certificate (AC), 2023-12-21</td><td>Regulatory</td><td>Highest</td><td>The individual aircraft is in an airworthy condition</td></tr>
+            <tr><td class="em">A04</td><td>Production certificate (PC), 2024-04-07</td><td>Regulatory</td><td>Medium-high</td><td>Series-production quality system reviewed</td></tr>
+            <tr><td class="em">A05</td><td>Operating certificate (OC), 2025-03-28</td><td>Regulatory</td><td>High</td><td>Operator has the capability for continuing safe operation</td></tr>
+            <tr><td class="em">A06</td><td>EH216-S product page (Safety section)</td><td>Official</td><td>High</td><td>Three flight-control sets + voting; full backup of key components; Fail-Safe health assessment; encrypted communications and independent keys</td></tr>
+            <tr><td class="em">A07</td><td>Official website: 8 axes, 16 rotors, coaxial rotor pairs, carbon-fibre airframe, skid landing gear</td><td>Official</td><td>High</td><td>Configuration and structural form, used for crashworthiness and fault-tolerance analysis</td></tr>
+            <tr><td class="em">A08</td><td>90,000 cumulative sorties with zero accidents (company figures relayed by media, as of 2026-06)</td><td>Company claim</td><td>Medium</td><td>Operational reliability growth; <strong>not used for quantitative proof of failure probability</strong></td></tr>
+            <tr><td class="em">A09</td><td>Configuration description of 12 battery groups and 16 motor sets</td><td>Official/media</td><td>Medium-high</td><td>Grouped redundancy of energy and propulsion; specific power-supply topology undisclosed</td></tr>
+            <tr><td class="em">A10</td><td>Solid-state battery test flight (480 Wh/kg, 48 min 10 s)</td><td>Company test</td><td>Low-medium</td><td>Dominant effect of energy density on endurance; not in series production</td></tr>
+            <tr><td class="em">A11</td><td>SAE ARP4754A Guidelines for Development of Civil Aircraft and Systems</td><td>Standard</td><td>Highest</td><td>V-model, development assurance levels, system safety-assessment process</td></tr>
+            <tr><td class="em">A12</td><td>SAE ARP4761 Guidelines and Methods for Conducting the Safety Assessment Process on Civil Airborne Systems and Equipment</td><td>Standard</td><td>Highest</td><td>Method definitions for FHA / PSSA / SSA / FTA / CCA</td></tr>
+            <tr><td class="em">A13</td><td>RTCA DO-178C airborne software, DO-254 airborne hardware</td><td>Standard</td><td>Highest</td><td>Development and verification rigour for Levels A/B/C/D software</td></tr>
+            <tr><td class="em">A14</td><td>RTCA DO-160G Environmental Conditions and Test Procedures for Airborne Equipment</td><td>Standard</td><td>Highest</td><td>Environmental test requirements for temperature, vibration, EMC and lightning</td></tr>
+            <tr><td class="em">A15</td><td>ISO 26262 / ISO 21448 / ISO-SAE 21434</td><td>Standard</td><td>High</td><td>Analysis frameworks for functional safety, SOTIF and cybersecurity (cross-domain reference)</td></tr>
+            <tr><td class="em">A16</td><td>EASA SC-VTOL-01 Special Condition for Small-Category VTOL Aircraft</td><td>Standard</td><td>High</td><td>International comparison of the eVTOL airworthiness framework, used to assess the completeness of the domestic special condition</td></tr>
+          </tbody>
+        </table>
+      </div>
     </section>
-    <section id="s02">
+
+    <section id="std">
       <h2><span class="num">02</span>Standards Referenced</h2>
-      <p>SAE ARP4754A and ARP4761, RTCA DO-178C/254/160G, ISO 26262, ISO 21448, ISO/SAE 21434 and EASA SC-VTOL-01.</p>
+      <p>Listed in GB/T 7714 format. Access dates are not given for standards.</p>
+      <ol style="font-size:.88rem;line-height:1.8;max-width:74ch;">
+        <li>Civil Aviation Administration of China. Special Condition for the EHang EH216-S Unmanned Aircraft System: SC-21-002[S]. 2022.</li>
+        <li>SAE International. Guidelines for Development of Civil Aircraft and Systems: ARP4754A[S]. 2010.</li>
+        <li>SAE International. Guidelines and Methods for Conducting the Safety Assessment Process on Civil Airborne Systems and Equipment: ARP4761[S]. 1996.</li>
+        <li>RTCA. DO-178C Software Considerations in Airborne Systems and Equipment Certification[S]. 2011.</li>
+        <li>RTCA. DO-254 Design Assurance Guidance for Airborne Electronic Hardware[S]. 2000.</li>
+        <li>RTCA. DO-160G Environmental Conditions and Test Procedures for Airborne Equipment[S]. 2010.</li>
+        <li>ISO. ISO 26262 Road vehicles — Functional safety[S]. 2018.</li>
+        <li>ISO. ISO 21448 Road vehicles — Safety of the intended functionality[S]. 2022.</li>
+        <li>ISO/SAE. ISO/SAE 21434 Road vehicles — Cybersecurity engineering[S]. 2021.</li>
+        <li>EASA. Special Condition for Small-Category VTOL Aircraft: SC-VTOL-01[S]. 2019.</li>
+        <li>EHang Intelligent. EH216-S Passenger-Carrying Autonomous Aircraft System product page[EB/OL]. [2026-11-20]. https://www.ehang.com/ehang216s/.</li>
+        <li>EHang Holdings Limited. Form 6-K: Fiscal Year 2025 Financial Results[R]. 2026.</li>
+      </ol>
     </section>
-    <section id="s03">
+
+    <section id="assume">
       <h2><span class="num">03</span>Calculation Assumptions</h2>
-      <p>620 kg take-off mass, 16 rotors at 500 N, 40.8 kWh baseline sortie energy and a 20 g crash-tolerance reference.</p>
+      <p>All quantitative results in this report rest on the following assumptions. Conclusions may change if any assumption is replaced, so they are listed together.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 9-2</b>　List of assumptions for the quantitative analysis</caption>
+          <thead><tr><th style="width:26%">Assumption</th><th class="num" style="width:18%">Value</th><th style="width:24%">Used for</th><th>Basis</th></tr></thead>
+          <tbody>
+            <tr><td>Maximum take-off weight</td><td class="num">620 kg</td><td>All mechanical calculations</td><td>Official website value (secondary sources cite 650 kg)</td></tr>
+            <tr><td>Gravitational acceleration</td><td class="num">9.81 m/s²</td><td>Thrust and energy</td><td>Standard value</td></tr>
+            <tr><td>Maximum thrust per rotor</td><td class="num">500 N</td><td>Fault-tolerance boundary</td><td><strong>Assumed value</strong>, derived from a 30% margin</td></tr>
+            <tr><td>Required hover thrust</td><td class="num">6082 N</td><td>Thrust margin</td><td>620 × 9.81</td></tr>
+            <tr><td>Flight time per sortie</td><td class="num">25 min</td><td>Conversion to operating hours</td><td>Official website endurance</td></tr>
+            <tr><td>Human tolerance limit</td><td class="num">20 g</td><td>Crash-deceleration assessment</td><td>Common reference for short-term spinal tolerance</td></tr>
+            <tr><td>Catastrophic-failure target</td><td class="num">10<sup>-9</sup>/fh</td><td>Statistical-power estimate</td><td>Typical order for transport-category aircraft</td></tr>
+          </tbody>
+        </table>
+      </div>
     </section>
-    <section id="s04">
+
+    <section id="limit">
       <h2><span class="num">04</span>Limitations</h2>
-      <p>No internal safety case, no failure-rate data, no inference from undisclosed configurations, and no authority conclusion.</p>
+      <ul>
+        <li><strong>No internal material.</strong> This report has not obtained the type's FHA, PSSA, SSA or FMEA reports or compliance-verification documents; all analysis is reconstructed from public information, constituting an “independent third-party recomputation” and not equivalent to the manufacturer's formal safety assessment.</li>
+        <li><strong>No quantitative probability.</strong> Lacking failure-rate data and architecture details, the fault tree gives only cut sets and a qualitative ranking, not a top-event probability.</li>
+        <li><strong>No inference about undisclosed configurations.</strong> For the whole-aircraft parachute, on-board extinguishing system, power-supply topology and software heterogeneity — whatever is not stated in public material is marked “undisclosed” rather than “absent”.</li>
+        <li><strong>Operating data unaudited.</strong> The 90,000 sorties and zero accidents are company figures; this report uses them at the lowest credibility level and explains their statistical limitations in Chapter 07.</li>
+        <li><strong>Standard versions may lag.</strong> The ARP4754A, DO-178C and other standards cited here are current versions; in actual certification the authority may adopt newer or equivalent acceptable methods.</li>
+      </ul>
+
+      <div class="note">
+        <span class="lbl">On the methodological stance of this report</span>
+        <p>The value of safety analysis lies not in giving a “safe” or “unsafe” conclusion but in breaking “why it is considered safe” into questionable steps. The purpose of identifying three gaps in this report is not to challenge the certification conclusion, but to mark the places needing the most reinforcement when operating scenarios are extended.</p>
+      </div>
     </section>
-    <section id="s05">
+
+    <section id="sum">
       <h2><span class="num">05</span>Chapter Summary</h2>
-      <p>This is an independent recomputation, not an airworthiness finding. Every estimate states its assumptions and every unknown is marked as undisclosed.</p>
+      <div class="sum">
+        <p>This chapter presents all the evidence, the referenced standards, the calculation assumptions and the limitations statement. Sixteen sources are arranged by type and credibility, each noting the claim it supports; the absence of failure-rate data directly determines that the fault tree gives only a qualitative ranking.</p>
+        <p>It defines the scope of the conclusions: this is an independent third-party recomputation, not a certification finding; any undisclosed configuration is marked “undisclosed” and not inferred to be “absent”.</p>
+      </div>
     </section>
 
     <nav class="pager" aria-label="Chapter paging">
@@ -95,11 +172,11 @@ Sixteen safety sources, the standards referenced, the calculation assumptions an
   <aside class="toc" aria-label="On this page">
     <p class="toc-title">On This Page</p>
     <ol>
-      <li><a href="#s01">Safety Evidence Matrix</a></li>
-      <li><a href="#s02">Standards Referenced</a></li>
-      <li><a href="#s03">Calculation Assumptions</a></li>
-      <li><a href="#s04">Limitations</a></li>
-      <li><a href="#s05">Chapter Summary</a></li>
+      <li><a href="#matrix">Safety Evidence Matrix</a></li>
+      <li><a href="#std">Standards Referenced</a></li>
+      <li><a href="#assume">Calculation Assumptions</a></li>
+      <li><a href="#limit">Limitations</a></li>
+      <li><a href="#sum">Chapter Summary</a></li>
     </ol>
   </aside>
 </div>

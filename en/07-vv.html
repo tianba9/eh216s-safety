@@ -20,7 +20,7 @@
       <a href="02-method.html">Method</a>
       <a href="03-hazard.html">Hazard</a>
       <a href="04-arch.html">Architecture</a>
-      <a href="05-hw-sw.html">HW & SW</a>
+      <a href="05-hw-sw.html">HW/SW</a>
       <a href="06-physical.html">Physical</a>
       <a href="07-vv.html" class="active" aria-current="page">V&V</a>
       <a href="08-assurance.html">Argument</a>
@@ -61,37 +61,175 @@
       </div>
       <h1>Verification Proves Requirements, Not Flight Hours</h1>
       <p class="lede">
-Every layer of the V-model needs matching evidence. Cumulative flight hours cannot replace that.
+Every step of the safety analysis produces requirements: triple redundancy must tolerate one erroneous channel, the battery must block thermal propagation, and a diversion must be completable within the remaining energy. Verification is the act of proving these requirements one by one. Flight hours cannot substitute for this.
       </p>
     </div>
 
-    <section id="s01">
+    <section id="vmodel">
       <h2><span class="num">01</span>The V-Model & Verification Chain</h2>
-      <p>Requirements, architecture and detailed design on the left; component, integration, vehicle and operational verification on the right. A missing layer means an unproved requirement.</p>
+      <p>The left side is design, the right side verification, and the two speak to each other at the same level. If any level lacks a corresponding verification activity, the requirements at that level are unproved.</p>
+
+      <figure>
+        <div class="frame">
+          <svg viewBox="0 0 680 300" role="img" aria-label="V-model: correspondence between design and verification levels">
+            <g font-family="system-ui, sans-serif">
+              <!-- Left column: design -->
+              <g font-size="11" text-anchor="middle">
+                <rect x="70" y="20" width="190" height="38" fill="#e8f1f2" stroke="#0f5c6b"/><text x="165" y="44">Requirements definition</text>
+                <rect x="70" y="90" width="190" height="38" fill="#e8f1f2" stroke="#0f5c6b"/><text x="165" y="114">Architecture design</text>
+                <rect x="70" y="160" width="190" height="38" fill="#e8f1f2" stroke="#0f5c6b"/><text x="165" y="184">Detailed design</text>
+                <rect x="70" y="230" width="190" height="38" fill="#e8f1f2" stroke="#0f5c6b"/><text x="165" y="254">Component implementation</text>
+              </g>
+              <!-- Right column: verification -->
+              <g font-size="11" text-anchor="middle">
+                <rect x="420" y="20" width="190" height="38" fill="#ffffff" stroke="#15181c"/><text x="515" y="44">Operational verification</text>
+                <rect x="420" y="90" width="190" height="38" fill="#ffffff" stroke="#15181c"/><text x="515" y="114">Vehicle verification</text>
+                <rect x="420" y="160" width="190" height="38" fill="#ffffff" stroke="#15181c"/><text x="515" y="184">Integration verification</text>
+                <rect x="420" y="230" width="190" height="38" fill="#ffffff" stroke="#15181c"/><text x="515" y="254">Component verification</text>
+              </g>
+              <!-- Correspondence dashed lines -->
+              <g stroke="#a8500c" stroke-dasharray="5 3" stroke-width="1.2">
+                <line x1="260" y1="39" x2="420" y2="39"/>
+                <line x1="260" y1="109" x2="420" y2="109"/>
+                <line x1="260" y1="179" x2="420" y2="179"/>
+                <line x1="260" y1="249" x2="420" y2="249"/>
+              </g>
+              <g font-size="9" fill="#a8500c" text-anchor="middle">
+                <text x="340" y="33">Validation</text><text x="340" y="103">Verification</text>
+                <text x="340" y="173">Verification</text><text x="340" y="243">Test</text>
+              </g>
+              <!-- Central notes -->
+              <text x="340" y="150" font-size="10" fill="#6d7783" text-anchor="middle">Left: requirements flow down　→　Right: evidence flows up</text>
+              <text x="340" y="288" font-size="9.5" fill="#9aa4ae" text-anchor="middle">If any level lacks its matching activity on the right, that level's requirements are unproved</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Figure 7-1</b>　The V-model. Every design level on the left must obtain evidence at the same level on the right; the dashed lines mark the correspondence.
+        <span class="fig-src">Redrawn according to common practice in systems engineering and airworthiness certification (the development-assurance concept of ARP4754A).</span></figcaption>
+      </figure>
     </section>
-    <section id="s02">
+
+    <section id="moc">
       <h2><span class="num">02</span>Choosing Means of Compliance</h2>
-      <p>Eight means exist, from design review to flight test. Catastrophic scenarios cannot be verified by actually causing them.</p>
+      <p>Airworthiness certification does not use the blanket phrase “passed the test”; it divides means of proof into several means of compliance. Which one is chosen depends on the nature of the requirement.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 7-1</b>　Common means of compliance and their applicable situations</caption>
+          <thead><tr><th style="width:22%">Method</th><th style="width:30%">Description</th><th>Example applicable requirement</th></tr></thead>
+          <tbody>
+            <tr><td class="em">Design review</td><td>Examine drawings, architecture and interface documents</td><td>Whether the three flight-control sets are physically isolated and wiring separated</td></tr>
+            <tr><td class="em">Analysis / calculation</td><td>Use models to compute performance and loads</td><td>Structural strength, thrust margin, energy balance</td></tr>
+            <tr><td class="em">Laboratory test</td><td>Component-level environmental and functional tests</td><td>Battery thermal-runaway trigger, motor endurance, EMC</td></tr>
+            <tr><td class="em">Ground test</td><td>Functional and structural tests of the whole aircraft on the ground</td><td>Static loading, landing-gear drop test, crash test</td></tr>
+            <tr><td class="em">Flight test</td><td>Verification under real flight conditions</td><td>Performance envelope, hover stability, failure response</td></tr>
+            <tr><td class="em">Simulator test</td><td>Human-in-the-loop or hardware-in-the-loop simulation</td><td>Remote-crew takeover, extreme-scenario rehearsal</td></tr>
+            <tr><td class="em">Inspection</td><td>Visual or gauge confirmation</td><td>Labels, clearances, assembly correctness</td></tr>
+            <tr><td class="em">Equipment qualification</td><td>Rely on existing qualification evidence</td><td>Existing certification of standard parts and finished equipment</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>A common mistake is to treat the flight test as a universal means. In fact, <strong>catastrophic failure scenarios cannot be verified by actually flying them</strong> — no one would cut an arm in flight to prove that “single-arm failure remains controllable”, unless there were ample safety redundancy and an uninhabited area. Such requirements are met mainly by analysis + ground rig + hardware-in-the-loop.</p>
     </section>
-    <section id="s03">
+
+    <section id="matrix">
       <h2><span class="num">03</span>Verification Matrix</h2>
-      <p>Each safety requirement maps to a method and a pass criterion: voting, isolation, thermal propagation, link loss, crash deceleration and remote takeover.</p>
+      <p>The architecture requirements from Chapter 04 are mapped one by one onto verification activities, forming an executable verification matrix.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 7-2</b>　Verification plans for key safety requirements</caption>
+          <thead>
+            <tr><th style="width:26%">Safety requirement</th><th style="width:24%">Verification method</th><th style="width:26%">Pass criterion</th><th>Form of evidence</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Tolerate an erroneous output from one flight-control channel</td><td>Fault injection + hardware-in-the-loop + flight test</td><td>Attitude deviation within the envelope and recoverable after injection</td><td>Test report + flight data</td></tr>
+            <tr><td>Three flight-control sets physically and electrically independent</td><td>Design review + inspection</td><td>No shared power source, no shared routing path</td><td>Architecture diagram + compliance statement</td></tr>
+            <tr><td>A failed battery group can be isolated</td><td>Ground test + fault injection</td><td>After isolation the remaining groups supply power normally, with no cascade</td><td>Test report</td></tr>
+            <tr><td>Thermal runaway does not propagate between groups</td><td>Laboratory trigger test</td><td>After runaway is triggered in one group, adjacent groups do not enter runaway</td><td>Test report + video record</td></tr>
+            <tr><td>Autonomous fail-safe after link loss</td><td>Simulator + flight test</td><td>After link loss, hover or divert per preset programme without loss of control</td><td>Flight data</td></tr>
+            <tr><td>Single-arm failure remains controllable and permits diversion</td><td>Rig + hardware-in-the-loop (no actual flight)</td><td>Control reconfiguration succeeds and residual thrust meets the diversion profile</td><td>Simulation report + rig data</td></tr>
+            <tr><td>Crash deceleration within human tolerance</td><td>Drop test + structural analysis</td><td>At the specified impact speed, deceleration at the occupant station is below the limit</td><td>Test report</td></tr>
+            <tr><td>Remote crew can take over within the time limit</td><td>Simulator + rehearsal</td><td>Time from alert to effective takeover is below the specified value</td><td>Rehearsal record</td></tr>
+          </tbody>
+        </table>
+      </div>
     </section>
-    <section id="s04">
+
+    <section id="inject">
       <h2><span class="num">04</span>Fault Injection & Scenario Testing</h2>
-      <p>Single motor, dual motor, link loss, sensor bias, GNSS spoofing and voting disagreement must be injected deliberately.</p>
+      <p>For a highly redundant system, the most valuable verification means is not “flying normally” but “deliberately making it fail”. The value of fault injection is that it turns redundancy on paper into observable behaviour.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 7-3</b>　Fault-injection items to be covered</caption>
+          <thead><tr><th style="width:22%">Injection item</th><th style="width:30%">Method</th><th>Observation focus</th></tr></thead>
+          <tbody>
+            <tr><td>Single motor failure</td><td>Cut one ESC output on the rig</td><td>Whether control reconfiguration is smooth and attitude jumps occur</td></tr>
+            <tr><td>Dual motor failure (same arm / opposite side)</td><td>Combined injection</td><td>Differences between the two cases, verifying the fault-tolerance boundary</td></tr>
+            <tr><td>Single link loss</td><td>Shield one data link</td><td>Whether switching is seamless and alerts correct</td></tr>
+            <tr><td>All three links lost</td><td>Shield all links</td><td>Triggering and execution of the fail-safe programme</td></tr>
+            <tr><td>Sensor bias</td><td>Inject a fixed offset / drift</td><td>Whether cross-checking identifies and rejects it</td></tr>
+            <tr><td>GNSS spoofing</td><td>Inject false positioning signals</td><td>Whether the fusion algorithm rejects them and triggers degradation</td></tr>
+            <tr><td>Flight-control channel disagreement</td><td>Force one channel to output a wrong command</td><td>Whether voting isolates that channel and whether misjudgement occurs</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Scenario testing should follow a convergent path of “logical scenario → concrete scenario → boundary scenario”: first define the parameter space (wind speed, payload, temperature, route curvature), then sample it into executable test cases, and finally densify sampling near the boundaries. <strong>The difficulty has never been passing typical scenarios, but proving that the boundaries have been covered.</strong></p>
     </section>
-    <section id="s05">
+
+    <section id="ops">
       <h2><span class="num">05</span>Statistical Weight of Operating Evidence</h2>
-      <p>90,000 sorties equal roughly 37,500 flight hours — four orders below what a 10⁻⁹ demonstration requires. It is reliability-growth evidence, not proof.</p>
+      <p>As of June 2026, more than 90,000 cumulative sorties with zero accidents <span class="ev ev-lit">Company claim</span>. This is a respectable figure, but what it can and cannot support needs to be worked out.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 7-4</b>　Estimate of the statistical power of the operating data</caption>
+          <thead><tr><th style="width:30%">Metric</th><th class="num" style="width:22%">Value</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td>Cumulative sorties</td><td class="num">90 000</td><td>Company basis, including test flights and training</td></tr>
+            <tr><td>Flight time per sortie</td><td class="num">25 min</td><td>Based on a full-load sightseeing mission</td></tr>
+            <tr><td>Cumulative flight hours</td><td class="num">≈ 37 500 h</td><td>90 000 × 25 / 60</td></tr>
+            <tr><td>Catastrophic-failure target</td><td class="num">10<sup>-9</sup>/fh</td><td>Typical order for transport-category aircraft</td></tr>
+            <tr><td>Hours needed for statistical proof</td><td class="num">≈ 10<sup>9</sup> h</td><td>Sample required to demonstrate that order with zero failures</td></tr>
+            <tr style="background:#f7f5f0"><td class="em">Gap</td><td class="num em">About four orders of magnitude</td><td class="em">Operating data are far from sufficient alone to prove the target is met</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note key">
+        <span class="lbl">The correct interpretation</span>
+        <p>The significance of 90,000 sorties is not to prove 10<sup>-9</sup> but lies in three things: <strong>first</strong>, showing there is no obvious systemic defect (otherwise it should have surfaced); <strong>second</strong>, providing input to reliability-growth models and supporting engineering estimates of failure rates; <strong>third</strong>, supporting iteration of operating procedures and crew training. It belongs to the evidence of “operational safety argument”, not to the evidence of “quantitative proof of failure probability”. <strong>Confusing the two is the most common logical leap in safety argumentation.</strong></p>
+      </div>
     </section>
-    <section id="s06">
+
+    <section id="gap">
       <h2><span class="num">06</span>Blind Spots in Verification</h2>
-      <p>Concurrent failures, long-term degradation and extreme weather cannot be exhaustively tested; they are handled by ODD limits and periodic inspection.</p>
+      <p>Every verification plan has gaps in coverage. Explicitly identifying blind spots is more credible than claiming “fully verified”.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 7-5</b>　Three classes of verification blind spot that are hard to cover</caption>
+          <thead><tr><th style="width:22%">Blind spot</th><th style="width:34%">Why it is hard to verify</th><th>Feasible alternative</th></tr></thead>
+          <tbody>
+            <tr><td class="em">Multiple concurrent failures</td><td>Combinatorial explosion makes exhaustive enumeration impossible; actual flight is impracticable</td><td>Risk-based sampled combination injection + simulation</td></tr>
+            <tr><td class="em">Long-term degradation</td><td>Battery fade and structural fatigue take years of operation to appear</td><td>Accelerated life testing + operational monitoring + periodic inspection</td></tr>
+            <tr><td class="em">Extreme weather</td><td>Flight verification is dangerous and hard to reproduce</td><td>Weather-limit restrictions + wind tunnel/simulation + conservative envelope</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>The common principle for handling these three blind spots is <strong>“substituting operating limits for verification”</strong>: since safety under extreme conditions cannot be proved, those conditions are excluded from the ODD. This is precisely the starting point of the Chapter 08 operational safety argument.</p>
     </section>
-    <section id="s07">
+
+    <section id="sum">
       <h2><span class="num">07</span>Chapter Summary</h2>
-      <p>Verification answers “was each requirement met”. Flight hours answer “how often did nothing go wrong”. Confusing the two is the most common error in safety argumentation.</p>
+      <div class="sum">
+        <p>Verification proves requirements one by one, not cumulative flight hours. Every level on the right of the V-model must have matching evidence; a missing level means that level's requirements are unproved; catastrophic scenarios cannot be verified by actual flight.</p>
+        <p>Ninety thousand sorties convert to roughly 37,500 flight hours, four orders of magnitude below the statistical requirement for 10<sup>-9</sup>. It is operational evidence supporting reliability growth and cannot replace the quantitative proof of failure probability.</p>
+      </div>
     </section>
 
     <nav class="pager" aria-label="Chapter paging">
@@ -103,13 +241,13 @@ Every layer of the V-model needs matching evidence. Cumulative flight hours cann
   <aside class="toc" aria-label="On this page">
     <p class="toc-title">On This Page</p>
     <ol>
-      <li><a href="#s01">The V-Model & Verification Chain</a></li>
-      <li><a href="#s02">Choosing Means of Compliance</a></li>
-      <li><a href="#s03">Verification Matrix</a></li>
-      <li><a href="#s04">Fault Injection & Scenario Testing</a></li>
-      <li><a href="#s05">Statistical Weight of Operating Evidence</a></li>
-      <li><a href="#s06">Blind Spots in Verification</a></li>
-      <li><a href="#s07">Chapter Summary</a></li>
+      <li><a href="#vmodel">The V-Model & Verification Chain</a></li>
+      <li><a href="#moc">Choosing Means of Compliance</a></li>
+      <li><a href="#matrix">Verification Matrix</a></li>
+      <li><a href="#inject">Fault Injection & Scenario Testing</a></li>
+      <li><a href="#ops">Statistical Weight of Operating Evidence</a></li>
+      <li><a href="#gap">Blind Spots in Verification</a></li>
+      <li><a href="#sum">Chapter Summary</a></li>
     </ol>
   </aside>
 </div>

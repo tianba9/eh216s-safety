@@ -20,7 +20,7 @@
       <a href="02-method.html">Method</a>
       <a href="03-hazard.html">Hazard</a>
       <a href="04-arch.html">Architecture</a>
-      <a href="05-hw-sw.html" class="active" aria-current="page">HW & SW</a>
+      <a href="05-hw-sw.html" class="active" aria-current="page">HW/SW</a>
       <a href="06-physical.html">Physical</a>
       <a href="07-vv.html">V&V</a>
       <a href="08-assurance.html">Argument</a>
@@ -61,33 +61,134 @@
       </div>
       <h1>Hardware by Isolation, Software by Constraint</h1>
       <p class="lede">
-Hardware faults are random and statistical; software defects are deterministic and repeat across all three channels.
+The general solution for hardware safety is “detect – isolate – degrade”, because hardware failures are random and statistical. Software failures are not random: once present, they necessarily recur and will manifest in all three systems at once. Therefore the solution for software safety is not redundancy but constraints on the development process.
       </p>
     </div>
 
-    <section id="s01">
+    <section id="hw">
       <h2><span class="num">01</span>Hardware Failure Modes & Protection</h2>
-      <p>Motors, ESCs, rotors, structure, batteries and sensors each have detection and isolation paths. A broken blade is the exception: nothing in software can repair it in flight.</p>
+      <p>The table below lists the main failure modes, detection means and protective actions by subsystem. It is a condensed FMEA and also an input to the maintenance programme.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 5-1</b>　Hardware failure modes, detection and protection</caption>
+          <thead>
+            <tr><th style="width:14%">Component</th><th style="width:22%">Main failure mode</th><th style="width:26%">Detection means</th><th>Protective action</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">Motor</td><td>Winding short circuit, bearing wear, demagnetisation</td><td>Phase current, speed, temperature and vibration monitoring</td><td>Derated operation or isolation, control reconfiguration</td></tr>
+            <tr><td class="em">ESC</td><td>Power transistor breakdown, drive failure</td><td>Bus current anomaly, MOS temperature</td><td>Shut down that channel, transfer load to the opposite side</td></tr>
+            <tr><td class="em">Rotor / blade</td><td>Crack, fatigue fracture, foreign-object strike</td><td>Ground inspection + vibration-spectrum anomaly</td><td>Cannot be repaired in flight; degrade according to remaining thrust</td></tr>
+            <tr><td class="em">Structure / arm</td><td>Composite delamination, loose fasteners, fatigue crack</td><td>Periodic non-destructive testing + strain monitoring</td><td>Limit the envelope, shorten the inspection interval</td></tr>
+            <tr><td class="em">Battery</td><td>Internal short circuit, capacity fade, thermal runaway</td><td>Cell voltage, temperature, internal resistance, gas/pressure</td><td>Isolate that group, disconnect the charge/discharge circuit</td></tr>
+            <tr><td class="em">Power distribution</td><td>Contactor welding, wiring chafe, insulation ageing</td><td>Circuit current, insulation-resistance monitoring</td><td>Staged power-down, retain critical loads</td></tr>
+            <tr><td class="em">Sensor</td><td>Drift, seizure, common-mode error</td><td>Multi-source cross-validation, plausibility checks</td><td>Reject the abnormal source, switch the fusion strategy</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>One pattern is worth noting: <strong>apart from the blades, almost all hardware failures can be detected and isolated in flight</strong>. Blades are the exception — once one breaks, no software means can remedy it; only ground inspection and life management apply. That is why the inspection intervals and discard criteria for the rotor system are far stricter in passenger-carrying operations than in industrial drones.</p>
     </section>
-    <section id="s02">
+
+    <section id="spfm">
       <h2><span class="num">02</span>Single-Point & Latent Faults</h2>
-      <p>SPFM and LFM matter more than the number of backups. A dormant fault in the standby channel appears only when that channel is needed.</p>
+      <p>When assessing a hardware safety architecture, two metrics are more meaningful than “how many backups there are”: the Single-Point Fault Metric (SPFM) and the Latent Fault Metric (LFM). They originated in automotive functional safety, but their logic applies fully to aviation.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 5-2</b>　Meaning of the two fault metrics and their application to this aircraft</caption>
+          <thead>
+            <tr><th style="width:20%">Metric</th><th style="width:26%">Question answered</th><th style="width:24%">Key point for this aircraft</th><th>Direction of improvement</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">SPFM<br>Single-Point Fault Metric</td><td>How many failures would directly cause a safety objective to be lost</td><td>Single-arm structure, single power-distribution group, single sensor</td><td>Raise diagnostic coverage, eliminate single points</td></tr>
+            <tr><td class="em">LFM<br>Latent Fault Metric</td><td>How many failures go undetected when they occur, until combined with another fault</td><td>Hidden faults in voting channels, standby channel not activated</td><td>Power-on self-test + periodic self-test + cross-monitoring</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Latent faults are more insidious and more dangerous than single-point faults. For example, if the second flight-control channel remains in a “standby but not self-tested” state for a long time, its fault will not be found; it is exposed only when the first channel fails and the second is needed — by which time there is no way back. <strong>This is why “triple redundancy” looks elegant on paper but is difficult in engineering: the effectiveness of redundancy depends on every backup being continuously verified.</strong></p>
     </section>
-    <section id="s03">
+
+    <section id="sw">
       <h2><span class="num">03</span>Software Safety Design</h2>
-      <p>Requirements traceability, defensive programming, watchdogs, independent verification. Redundancy cannot fix a shared defect.</p>
+      <p>The flight-control software is developed to Level A, meaning that requirements traceability, coverage and independent verification must all be satisfied. But process compliance does not equal correct logic; the software-level safety design is broken down by function below.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 5-3</b>　Software functions, failure consequences and design constraints</caption>
+          <thead>
+            <tr><th style="width:18%">Software function</th><th style="width:24%">Failure consequence</th><th style="width:30%">Design constraint</th><th>Verification method</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">Control law</td><td>Attitude divergence, oscillation</td><td>Envelope protection, command limiting, anti-windup</td><td>Hardware-in-the-loop + flight-test envelope expansion</td></tr>
+            <tr><td class="em">Voting logic</td><td>Wrong channel connected</td><td>Fault detectability as a prerequisite, alarm on any disagreement</td><td>Fault-injection tests</td></tr>
+            <tr><td class="em">Navigation fusion</td><td>Position drift, entry into the wrong airspace</td><td>Multi-source consistency checks, degradation strategy</td><td>GNSS jamming/spoofing injection tests</td></tr>
+            <tr><td class="em">Mission management</td><td>Wrong route, boundary violation</td><td>Waypoint validity checks, geofencing</td><td>Scenario replay and boundary test cases</td></tr>
+            <tr><td class="em">Health management</td><td>Missed or false fault reports</td><td>Threshold hysteresis, multi-parameter joint criteria</td><td>Fault injection + operating-data replay</td></tr>
+            <tr><td class="em">Fail-safe</td><td>Should divert but does not</td><td>Conservative criteria, trigger on failure</td><td>Full-scenario drills</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Software common causes: the hardest class of risk to defend against</h3>
+      <p>Random hardware failures can be handled by multiplying probabilities; software cannot. A defect in a piece of code appears with 100% probability on every execution — if three systems run the same software, their “independence” equals zero at that moment.</p>
+
+      <div class="note warn">
+        <span class="lbl">Three resulting engineering requirements</span>
+        <p><strong>Heterogeneous development</strong>: different teams, languages or algorithms implement the same function, so that the same defect is unlikely to exist in two places; <strong>independent verification</strong>: the verifier must not be the developer and should not share the same test cases; <strong>diverse voting</strong>: compare not only output values but also intermediate quantities (such as attitude angular rate and control commands), so that deviations surface earlier.</p>
+      </div>
     </section>
-    <section id="s04">
+
+    <section id="sotif">
       <h2><span class="num">04</span>Perception & SOTIF</h2>
-      <p>Thin wires, glare, rain, non-cooperative aircraft and bird strikes cannot be solved by adding sensors alone; the answer is a narrower ODD.</p>
+      <p>Safety of the Intended Functionality (SOTIF) deals with the risk that “the system has no fault, but its performance is insufficient for the scenario”. For low-altitude aircraft, such risks concentrate in perception and decision-making.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 5-4</b>　Typical SOTIF scenarios and mitigation</caption>
+          <thead>
+            <tr><th style="width:22%">Scenario</th><th style="width:26%">Why it poses a risk</th><th>Mitigation</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Thin wires, cables</td><td>Extremely small visual and radar cross-section, hard to detect at range</td><td>Pre-survey the route, avoid known cable corridors</td></tr>
+            <tr><td>Backlighting and strong reflections</td><td>Visual sensing saturated, reflections from water or glass curtain walls</td><td>Multi-sensor fusion, time-of-day restrictions</td></tr>
+            <tr><td>Rain, fog and low visibility</td><td>Reduced sensing range and reduced aerodynamic efficiency at the same time</td><td>Weather limits + visual meteorological conditions only</td></tr>
+            <tr><td>Other low-altitude aircraft</td><td>Non-cooperative targets without transponders</td><td>Segregated airspace + unified ground scheduling</td></tr>
+            <tr><td>Bird flocks</td><td>Sudden, unpredictable, high relative speed</td><td>Vertiport ecological management + sensing alerts</td></tr>
+            <tr><td>Building wakes and downwash</td><td>Local disturbances beyond the control margin</td><td>Route avoidance + wind-disturbance estimation</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>None of the items in this table can be solved by “adding redundancy”. Their common solution is <strong>narrowing the operating envelope</strong> — excluding uncontrollable scenarios from the ODD. That is why the safety strategy for flying vehicles is essentially “trading operating restrictions for design simplification”.</p>
     </section>
-    <section id="s05">
+
+    <section id="human">
       <h2><span class="num">05</span>Remote-Crew Human Factors</h2>
-      <p>Vigilance decay, takeover delay and multi-aircraft workload. The human is part of the control loop and must be designed for.</p>
+      <p>With no pilot on board, the human's role changes from “operator” to “monitor and decision-maker”. This shift brings a new class of risk: vigilance decay in monitoring tasks.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 5-5</b>　Three classes of human-factor risk for the remote crew</caption>
+          <thead><tr><th style="width:22%">Risk</th><th style="width:30%">Mechanism</th><th>Mitigation</th></tr></thead>
+          <tbody>
+            <tr><td class="em">Loss of situation awareness</td><td>Long periods of normal flight reduce attention, slowing reaction to an anomaly</td><td>Shift rotation, alarm grading, regular scenario drills</td></tr>
+            <tr><td class="em">Takeover delay</td><td>A delay of seconds to tens of seconds between detecting an anomaly and forming a response</td><td>Preset response plans, one-touch operations, graded authority</td></tr>
+            <tr><td class="em">Multi-aircraft workload</td><td>Attention divided when one person monitors several aircraft</td><td>Limit the aircraft-to-operator ratio, automatic alarm prioritisation</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>The special condition lists the “remote-crew interface” as one of the seven requirement categories and requires the ground control station to provide real-time monitoring and emergency takeover functions <span class="ev ev-std">Standard</span>. This shows that the authority has recognised: <strong>on this class of aircraft, the human is not a backup but part of the system, whose reliability must be designed, verified and bounded.</strong></p>
     </section>
-    <section id="s06">
+
+    <section id="sum">
       <h2><span class="num">06</span>Chapter Summary</h2>
-      <p>Hardware safety works by detect–isolate–degrade; software safety works by process discipline. The two cannot borrow each other's methods.</p>
+      <div class="sum">
+        <p>The general solution for hardware safety is detect–isolate–degrade, because hardware failures are random and statistical. Software is different: once a defect exists it necessarily recurs and manifests in all three systems at once — so software safety relies on development constraints, not redundancy.</p>
+        <p>SPFM and LFM are more meaningful than “how many backups there are”, and latent faults often surface only when a backup is needed. None of the items in the SOTIF table can be solved by adding redundancy; the solution is always to narrow the operating envelope.</p>
+      </div>
     </section>
 
     <nav class="pager" aria-label="Chapter paging">
@@ -99,12 +200,12 @@ Hardware faults are random and statistical; software defects are deterministic a
   <aside class="toc" aria-label="On this page">
     <p class="toc-title">On This Page</p>
     <ol>
-      <li><a href="#s01">Hardware Failure Modes & Protection</a></li>
-      <li><a href="#s02">Single-Point & Latent Faults</a></li>
-      <li><a href="#s03">Software Safety Design</a></li>
-      <li><a href="#s04">Perception & SOTIF</a></li>
-      <li><a href="#s05">Remote-Crew Human Factors</a></li>
-      <li><a href="#s06">Chapter Summary</a></li>
+      <li><a href="#hw">Hardware Failure Modes & Protection</a></li>
+      <li><a href="#spfm">Single-Point & Latent Faults</a></li>
+      <li><a href="#sw">Software Safety Design</a></li>
+      <li><a href="#sotif">Perception & SOTIF</a></li>
+      <li><a href="#human">Remote-Crew Human Factors</a></li>
+      <li><a href="#sum">Chapter Summary</a></li>
     </ol>
   </aside>
 </div>

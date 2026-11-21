@@ -20,7 +20,7 @@
       <a href="02-method.html">Method</a>
       <a href="03-hazard.html">Hazard</a>
       <a href="04-arch.html">Architecture</a>
-      <a href="05-hw-sw.html">HW & SW</a>
+      <a href="05-hw-sw.html">HW/SW</a>
       <a href="06-physical.html">Physical</a>
       <a href="07-vv.html">V&V</a>
       <a href="08-assurance.html">Argument</a>
@@ -60,26 +60,68 @@
       </div>
       <h1>Valid Inside the ODD, Unargued Outside</h1>
       <p class="lede">
-Safety stands on two legs: an aircraft that can still land after failure, and an operating envelope that keeps it out of trouble.
+Taken apart over nine chapters, safety is not piled up from redundancy but stands on two legs: one is design — “it can still land after failure” — and the other is operations — “it is not allowed to take risks”. The former can be proved by engineering; the latter can only be constrained by regulation. Neglect either and the argument collapses.
       </p>
     </div>
 
-    <section id="s01">
-      <h2><span class="num">01</span>One Thread: Responsibility First</h2>
-      <p>Define responsibility, then the mission, then hazards, architecture, hardware, software, verification and the final argument.</p>
-    </section>
-    <section id="s02">
-      <h2><span class="num">02</span>Three Key Findings</h2>
-      <p>Removing the pilot is the first architectural choice. Redundancy does not solve common causes. The safety boundary is the operating boundary.</p>
-    </section>
-    <section id="s03">
-      <h2><span class="num">03</span>Three Undisclosed Gaps</h2>
-      <p>Heterogeneity of the flight controllers, quantified crashworthiness, and remote-crew ratio and takeover time.</p>
-    </section>
-    <section id="s04">
-      <h2><span class="num">04</span>Final Position</h2>
-      <p>Design controls how safe it is when something goes wrong; operating limits control how often that happens. The second is easier to overlook and easier to erode.</p>
-    </section>
+      <section id="zhuxian">
+        <h2><span class="num">01</span>One Thread: Responsibility First</h2>
+        <p>The order of analysis is: first distribute safety responsibility clearly among four parties, then define what is flown, and only then hazards, architecture, hardware and software, physical safety, verification and the argument.</p>
+        <div class="tw">
+          <table>
+            <caption><b>Table 10-1</b>　The seven steps and the question each answers</caption>
+            <thead><tr><th style="width:18%">Step</th><th style="width:34%">What it answers</th><th>Conclusion</th></tr></thead>
+            <tbody>
+              <tr><td class="em">Responsibility &amp; scenario</td><td>Who is responsible, what is flown</td><td>The four certificates distribute responsibility among four parties; no one on board makes passengers entirely passive</td></tr>
+              <tr><td class="em">Hazards</td><td>What is the worst that can happen</td><td>12 hazards, 5 catastrophic, 9 cut sets</td></tr>
+              <tr><td class="em">Architecture</td><td>Can it still fly after failure</td><td>Three flight-control sets + 12 battery groups + triple link; fault-tolerance boundary at two arms</td></tr>
+              <tr><td class="em">Hardware &amp; software</td><td>How a single point is made non-fatal</td><td>Hardware through isolation, software through development constraints</td></tr>
+              <tr><td class="em">Physical safety</td><td>Fire and impact</td><td>Thermal runaway confined to one group; crash by a 0.3 m energy-absorbing stroke</td></tr>
+              <tr><td class="em">Verification</td><td>On what grounds it holds</td><td>Level-by-level evidence in the V-model; 90,000 sorties are not statistical proof</td></tr>
+              <tr><td class="em">Argument</td><td>Whether the whole is acceptable</td><td>Four GSN sub-goals; release level R2</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="jielun">
+        <h2><span class="num">02</span>Three Key Findings</h2>
+
+        <h3>1. Removing the pilot is the first-principle choice</h3>
+        <p>It eliminates fatigue, misoperation and spatial disorientation, while also removing the last on-board backstop. The task of all subsequent safety design is to compensate for this — which is why the remote-crew interface and ground control station are listed as a separate certification requirement.</p>
+
+        <h3>2. Redundancy solves random failures, not common causes</h3>
+        <p>The 2oo3 voting of three flight-control sets can tolerate one erroneous channel, provided at most one is wrong. If the three run the same software, share a power supply or occupy the same bay, 1oo3 degrades to 1oo1 at that moment.
+        Public material says only “independent”, not “heterogeneous” — this is the point this report most wants to question.</p>
+
+        <h3>3. The safety boundary is the operating boundary</h3>
+        <p>Segregated airspace, visual meteorological conditions, daytime operation and crowd segregation — each controls systemic risk while also compressing market space. The conservatism of the safety argument directly determines that today it can only do sightseeing at scenic sites.</p>
+      </section>
+
+      <section id="bianjie">
+        <h2><span class="num">03</span>Three Undisclosed Gaps</h2>
+        <ul>
+          <li><strong>Whether the three flight-control sets are heterogeneous.</strong> Software of common origin would defeat voting in the face of a defect, directly affecting the basis for arguing catastrophic-failure probability.</li>
+          <li><strong>Quantified crashworthiness criteria.</strong> Impact speed, deceleration limits and energy-absorbing stroke are all undisclosed, so it is impossible to judge how the 10<sup>-9</sup> target for crash fatalities is met.</li>
+          <li><strong>Remote-crew ratio and takeover time limit.</strong> Human factors are the active element in the link and may become a new bottleneck when multiple aircraft operate.</li>
+        </ul>
+        <p>Identifying gaps is not challenging the certification conclusion. The full certification material circulates only between the authority and the company; the point of listing them is that, if operations are to be extended to new scenarios, these three are the parts needing reinforcement first.</p>
+      </section>
+
+      <section id="guandian">
+        <h2><span class="num">04</span>Final Position</h2>
+        <div class="final">
+          <p class="q">This aircraft is safe not because it has a lot of redundancy, but because it is allowed to fly only within narrow conditions. Redundancy makes it reliable within the conditions; operating limits keep it from being outside them.</p>
+        </div>
+        <div class="rating">
+          <div class="g">R2</div>
+          <div class="rb">
+            <h4>Release level: restricted-scope release</h4>
+            <p>Valid only within the ODD — segregated airspace, visual meteorological conditions, daytime operation, crowd segregation at the vertiport — and must be executed by an OC-holding operator under continuing oversight. Conditions outside the ODD are unargued and cannot invoke this report's conclusions.</p>
+          </div>
+        </div>
+        <p>If this report were compressed into one sentence: <strong>design determines how safe it is when something goes wrong; operating limits determine how often something goes wrong — the latter is more easily overlooked and more easily eroded by commercial pressure.</strong></p>
+      </section>
 
     <nav class="pager" aria-label="Chapter paging">
       <a href="09-evidence.html"><span class="p-d">Previous</span><span class="p-t">← Evidence</span></a>
@@ -90,10 +132,10 @@ Safety stands on two legs: an aircraft that can still land after failure, and an
   <aside class="toc" aria-label="On this page">
     <p class="toc-title">On This Page</p>
     <ol>
-      <li><a href="#s01">One Thread: Responsibility First</a></li>
-      <li><a href="#s02">Three Key Findings</a></li>
-      <li><a href="#s03">Three Undisclosed Gaps</a></li>
-      <li><a href="#s04">Final Position</a></li>
+      <li><a href="#zhuxian">One Thread: Responsibility First</a></li>
+      <li><a href="#jielun">Three Key Findings</a></li>
+      <li><a href="#bianjie">Three Undisclosed Gaps</a></li>
+      <li><a href="#guandian">Final Position</a></li>
     </ol>
   </aside>
 </div>

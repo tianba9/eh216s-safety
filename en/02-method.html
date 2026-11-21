@@ -20,7 +20,7 @@
       <a href="02-method.html" class="active" aria-current="page">Method</a>
       <a href="03-hazard.html">Hazard</a>
       <a href="04-arch.html">Architecture</a>
-      <a href="05-hw-sw.html">HW & SW</a>
+      <a href="05-hw-sw.html">HW/SW</a>
       <a href="06-physical.html">Physical</a>
       <a href="07-vv.html">V&V</a>
       <a href="08-assurance.html">Argument</a>
@@ -61,33 +61,140 @@
       </div>
       <h1>Each Method Owns One Question</h1>
       <p class="lede">
-Five methods divide the work: FHA grades, STPA finds systemic gaps, FTA derives cut sets, FMEA covers parts, CCA checks common causes.
+FHA assigns severity, FTA quantifies, FMEA covers components, STPA finds systemic gaps, and CCA examines common causes. The typical symptom of choosing the wrong method is producing a pile of tables without being able to say which design decision changed as a result.
       </p>
     </div>
 
-    <section id="s01">
-      <h2><span class="num">01</span>The Analysis Chain</h2>
-      <p>Each step feeds the next. Doing them out of order causes rework; choosing the wrong one produces tables without design consequences.</p>
+    <section id="chain">
+      <h2><span class="num">01</span>The Analysis Chain: Division of Labour</h2>
+      <p>Systems safety analysis is a chain with a definite order. The output of one step is the input of the next; reversing the order leads to rework.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 2-1</b>　Division of labour, inputs and outputs of the five methods</caption>
+          <thead>
+            <tr><th style="width:14%">Method</th><th style="width:24%">Question answered</th><th style="width:26%">Input</th><th>Output</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">FHA</td><td>Which failures are catastrophic, and what are the probability targets</td><td>Function inventory, scenario library</td><td>Hazard list, severity and probability targets, DAL</td></tr>
+            <tr><td class="em">PSSA</td><td>Can the preliminary architecture meet these targets</td><td>FHA output, candidate architectures</td><td>Architecture-level safety requirements, redundancy and monitoring requirements</td></tr>
+            <tr><td class="em">FTA</td><td>What is the probability of the top event</td><td>Architecture, failure-rate data</td><td>Top-event probability, critical cut sets, weak points</td></tr>
+            <tr><td class="em">FMEA</td><td>How does a single component failure propagate</td><td>Component list, interfaces</td><td>Failure modes, local effects, detection means</td></tr>
+            <tr><td class="em">STPA</td><td>Can the control logic become hazardous when all components work</td><td>Control structure, control algorithms</td><td>Unsafe control actions, causal scenarios</td></tr>
+            <tr><td class="em">CCA</td><td>Is redundancy pierced by a single common cause</td><td>Architecture, installation and power layout</td><td>Common-cause failure paths, isolation measures</td></tr>
+            <tr><td class="em">SSA</td><td>Summary: have all targets been met</td><td>All of the above</td><td>System safety assessment conclusion, supporting the TC</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>This chain has a particular feature on the EH216-S: <strong>the function inventory for the FHA comes from the seven requirement categories of the special condition, not from a company-defined list</strong>. This lets the authority set the boundary of hazard identification, reducing the risk of “missing a whole class of hazards”.</p>
     </section>
-    <section id="s02">
+
+    <section id="stpa">
       <h2><span class="num">02</span>Why STPA Is Required</h2>
-      <p>FTA and FMEA assume a component has failed. The high-risk cases in a pilotless, software-dense architecture occur when every component works but the control logic is unsafe.</p>
+      <p>FTA and FMEA are both built on the concept of “failure”: a component breaks, and the system malfunctions. But many of the main risks of a passenger-carrying unmanned aircraft do not come from component failure; they come from <strong>the control logic issuing an unsafe command in a particular situation</strong> — when all components are sound.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 2-2</b>　Differences in coverage between traditional methods and STPA</caption>
+          <thead><tr><th style="width:26%">Situation</th><th style="width:20%">Detectable by FTA / FMEA</th><th>Detectable by STPA</th></tr></thead>
+          <tbody>
+            <tr><td>Motor bearing wear leading to thrust loss</td><td>Yes (component failure)</td><td>Yes (but not its strength)</td></tr>
+            <tr><td>All three flight-control channels affected by the same software defect</td><td>No (no component failure)</td><td>Yes (identifies common cause and missing feedback)</td></tr>
+            <tr><td>Remote crew misjudging under link delay and issuing a wrong command</td><td>No (human factors outside the model)</td><td>Yes (the controller includes the human)</td></tr>
+            <tr><td>Autopilot continuously correcting under a strong crosswind until the actuator saturates</td><td>No (all components normal)</td><td>Yes (inappropriate control action)</td></tr>
+            <tr><td>Ground station issuing conflicting commands in a multi-aircraft scenario</td><td>No (system-level interaction)</td><td>Yes (hierarchical control structure)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>The last four situations are precisely the high-incidence zone of a “pilotless + highly automated” architecture. Therefore Chapter 03 builds an STPA control structure for the EH216-S and lists the unsafe control actions item by item.</p>
+
+      <div class="note">
+        <span class="lbl">Basis for choosing methods</span>
+        <p>When a system is dominated by mechanical and electronic components with enumerable failure modes, FTA/FMEA are sufficient; when a system contains software-intensive autonomous decisions and the human is out of the loop or the loop delay is large, STPA must be added. The EH216-S belongs to the latter.</p>
+      </div>
     </section>
-    <section id="s03">
+
+    <section id="std">
       <h2><span class="num">03</span>Three Standards Traditions</h2>
-      <p>Aviation (ARP4754A, ARP4761, DO-178C), automotive (ISO 26262, 21448, 21434) and the type-specific condition SC-21-002. Existing rules assume a pilot, so a new condition was required.</p>
+      <p>The safety standards for flying vehicles come from three traditions that cannot simply replace one another. Understanding their differences explains why this type must follow the “special condition” route.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 2-3</b>　The three standards traditions and what they apply to</caption>
+          <thead><tr><th style="width:14%">Tradition</th><th style="width:30%">Representative standards</th><th style="width:26%">Applies to</th><th>Relevance to this type</th></tr></thead>
+          <tbody>
+            <tr><td class="em">Aviation</td><td>SAE ARP4754A / ARP4761, RTCA DO-178C, DO-254, DO-160G</td><td>Development, safety assessment, hardware/software and environmental testing of civil aircraft and systems</td><td>The backbone of aircraft- and system-level safety analysis</td></tr>
+            <tr><td class="em">Automotive</td><td>ISO 26262, ISO 21448, ISO/SAE 21434</td><td>Functional safety, SOTIF and cybersecurity of road vehicles</td><td>Provides transferable analytical frameworks and terminology</td></tr>
+            <tr><td class="em">Specific</td><td>SC-21-002 special condition</td><td>Unmanned passenger-carrying aircraft systems</td><td>The statutory certification basis for this type</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><strong>Why can't existing standards be used directly?</strong> Because traditional airworthiness regulations assume “a pilot on board”. Once the pilot is removed, the three objects — “remote-crew interface”, “data link” and “ground control station” — have no corresponding clauses in the old rules and must be newly established. The special condition was created precisely for this — it is the world's first airworthiness technical framework for unmanned passenger-carrying aircraft.</p>
     </section>
-    <section id="s04">
+
+    <section id="sc">
       <h2><span class="num">04</span>Seven Requirement Categories & Methods</h2>
-      <p>Flight performance, structure and crashworthiness, propulsion, systems, remote-crew interface, data link and ground station each need a distinct form of evidence.</p>
+      <p>SC-21-002 divides certification requirements into seven categories. Each requires a specific form of evidence, and this mapping table is the analytical backbone of the whole site.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 2-4</b>　Correspondence between the seven requirement categories and the analysis methods</caption>
+          <thead>
+            <tr><th style="width:6%">No.</th><th style="width:22%">Requirement category</th><th style="width:30%">Core requirement (summarised from public material)</th><th>Principal means of demonstration</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">1</td><td>Flight performance</td><td>Hover stability, emergency landing capability, envelope limits</td><td>Performance flight tests + envelope verification + simulation</td></tr>
+            <tr><td class="em">2</td><td>Structure, design and construction</td><td>Structural strength and stiffness; <strong>new structural-protection (crashworthiness) requirements for the unmanned passenger cabin</strong></td><td>Static and fatigue tests + crash tests + structural analysis</td></tr>
+            <tr><td class="em">3</td><td>Powerplant</td><td><strong>Battery-system thermal-runaway protection and redundant power-supply requirements</strong></td><td>FTA + FMEA + thermal-runaway initiation and propagation tests</td></tr>
+            <tr><td class="em">4</td><td>Systems and equipment</td><td>System safety and <strong>continuing airworthiness (verification criteria for autonomous diagnosis and maintenance systems)</strong></td><td>FHA + SSA + FMEA + diagnostic-function verification</td></tr>
+            <tr><td class="em">5</td><td>Remote-crew interface and other information</td><td>Interface design, flight manual, continuing-airworthiness documentation</td><td>Human-factors evaluation + interface verification + document review</td></tr>
+            <tr><td class="em">6</td><td>Data link</td><td><strong>Triple-redundant communication architecture and anti-interference criteria</strong></td><td>FTA + link-failure tests + EMC tests</td></tr>
+            <tr><td class="em">7</td><td>Ground control station</td><td>Real-time monitoring and emergency takeover functions</td><td>Functional verification + failure drills + human factors</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Three bolded entries deserve attention: <strong>crashworthiness, thermal runaway and the triple-redundant link</strong>. These are hard requirements absent from traditional unmanned-aircraft certification, added because of “carrying people”, and are the focus of Chapters 04 and 06 of this report.</p>
+
+      <div class="note key">
+        <span class="lbl">An overlooked detail</span>
+        <p>Category 4 includes “continuing airworthiness (verification criteria for autonomous diagnosis and maintenance systems)”. This means <strong>the self-diagnostic capability itself must be verified</strong> — it is not enough to claim “the system can find its own faults”; one must show which faults it can find and what its missed-detection rate is. On traditional aircraft this is usually covered by maintenance programmes and manual inspection; under an unmanned architecture it is partly transferred to the on-board system.</p>
+      </div>
     </section>
-    <section id="s05">
+
+    <section id="dal">
       <h2><span class="num">05</span>DAL & Development Rigor</h2>
-      <p>Level A requires MC/DC coverage and independent verification. Three channels must be developed by independent teams or the independence argument fails.</p>
+      <p>The Development Assurance Level (DAL) determines the rigour of hardware and software development and verification. The higher the level, the stricter the required independence, coverage and documentation.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 2-5</b>　DAL and hardware/software development requirements</caption>
+          <thead><tr><th style="width:10%">DAL</th><th style="width:22%">Failure consequence</th><th style="width:30%">Software requirement (DO-178C analogue)</th><th>Hardware requirement (DO-254 analogue)</th></tr></thead>
+          <tbody>
+            <tr><td class="em">A</td><td>Catastrophic</td><td>MC/DC coverage, independent verification, formal methods optional</td><td>Full lifecycle, independent verification</td></tr>
+            <tr><td class="em">B</td><td>Hazardous</td><td>Decision coverage, independent verification</td><td>Full lifecycle</td></tr>
+            <tr><td class="em">C</td><td>Major</td><td>Statement coverage, requirements traceability</td><td>Partial lifecycle</td></tr>
+            <tr><td class="em">D</td><td>Minor</td><td>Basic traceability</td><td>Basic verification</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>According to the safety-objective allocation in Chapter 01 of this report, <strong>flight control, energy management and fire control must reach Level A</strong>, meaning their software must meet the highest coverage and independent-verification requirements. This also explains why the three flight-control channels must be developed by independent teams with independent tool chains — otherwise they cannot pass the Level A independence review, and the acceptability of common-cause failure cannot be argued.</p>
+
+      <div class="note warn">
+        <span class="lbl">Limitations of this report's method</span>
+        <p>Without a failure-rate database and internal architecture data, the FTA in this report can only be semi-quantitative: it gives cut sets and critical paths, not precise probabilities. A quantitative treatment would require the manufacturer's FMEA data and operating statistics from similar types.</p>
+      </div>
     </section>
-    <section id="s06">
+
+    <section id="sum">
       <h2><span class="num">06</span>Chapter Summary</h2>
-      <p>Methods are not interchangeable. FTA without STPA misses “all parts healthy, logic wrong”; redundancy without CCA misses a single shared cause.</p>
+      <div class="sum">
+        <p>The five methods each own one part: FHA grades severity, STPA finds systemic gaps, FTA derives cut sets, FMEA covers components, and CCA checks common causes. The wrong order causes rework; the wrong method produces a pile of tables without saying which design changed as a result.</p>
+        <p>Why STPA is required: FTA and FMEA are built on “component failure”, whereas the high-incidence risk of an unmanned architecture is “all components sound, logic wrong”. The differences among the three standards traditions also explain why a special condition had to be established.</p>
+      </div>
     </section>
 
     <nav class="pager" aria-label="Chapter paging">
@@ -99,12 +206,12 @@ Five methods divide the work: FHA grades, STPA finds systemic gaps, FTA derives 
   <aside class="toc" aria-label="On this page">
     <p class="toc-title">On This Page</p>
     <ol>
-      <li><a href="#s01">The Analysis Chain</a></li>
-      <li><a href="#s02">Why STPA Is Required</a></li>
-      <li><a href="#s03">Three Standards Traditions</a></li>
-      <li><a href="#s04">Seven Requirement Categories & Methods</a></li>
-      <li><a href="#s05">DAL & Development Rigor</a></li>
-      <li><a href="#s06">Chapter Summary</a></li>
+      <li><a href="#chain">The Analysis Chain</a></li>
+      <li><a href="#stpa">Why STPA Is Required</a></li>
+      <li><a href="#std">Three Standards Traditions</a></li>
+      <li><a href="#sc">Seven Requirement Categories & Methods</a></li>
+      <li><a href="#dal">DAL & Development Rigor</a></li>
+      <li><a href="#sum">Chapter Summary</a></li>
     </ol>
   </aside>
 </div>

@@ -20,7 +20,7 @@
       <a href="02-method.html">Method</a>
       <a href="03-hazard.html">Hazard</a>
       <a href="04-arch.html">Architecture</a>
-      <a href="05-hw-sw.html">HW & SW</a>
+      <a href="05-hw-sw.html">HW/SW</a>
       <a href="06-physical.html">Physical</a>
       <a href="07-vv.html">V&V</a>
       <a href="08-assurance.html" class="active" aria-current="page">Argument</a>
@@ -61,33 +61,236 @@
       </div>
       <h1>An Argument That Can Be Challenged</h1>
       <p class="lede">
-GSN splits the case into four goals that must all hold; one broken chain collapses the top-level claim.
+The first seven chapters produced analyses, architecture and tests. The safety argument must answer one overall question: on what grounds is this aircraft considered acceptable for carrying people under defined conditions? The answer must withstand layer-by-layer questioning until it reaches concrete evidence.
       </p>
     </div>
 
-    <section id="s01">
+    <section id="gsn">
       <h2><span class="num">01</span>GSN Argument Structure</h2>
-      <p>Goal, strategy, four sub-goals and four evidence sets. Hazards identified, architecture meets targets, requirements verified, operations controlled.</p>
+      <p>Goal Structuring Notation (GSN) organises an argument with four node types: goal — strategy — sub-goal — evidence. Its value lies in the fact that every claim must have lower-level support and cannot rely on adjectives.</p>
+
+      <figure>
+        <div class="frame">
+          <svg viewBox="0 0 680 400" role="img" aria-label="GSN structure of the EH216-S operational safety argument">
+            <g font-family="system-ui, sans-serif">
+              <!-- G1 -->
+              <rect x="180" y="14" width="320" height="46" fill="#15181c"/>
+              <text x="340" y="34" text-anchor="middle" font-size="11" fill="#ffffff">G1　Within the defined ODD, the risk of</text>
+              <text x="340" y="50" text-anchor="middle" font-size="11" fill="#ffffff">passenger operations is acceptable</text>
+
+              <!-- S1 strategy -->
+              <path d="M200,74 L480,74 L470,116 L190,116 Z" fill="#f7f5f0" stroke="#8c8577"/>
+              <text x="340" y="94" text-anchor="middle" font-size="10" fill="#3d454e">S1　Argued jointly along three paths:</text>
+              <text x="340" y="108" text-anchor="middle" font-size="10" fill="#3d454e">design control — verification — operating constraints</text>
+              <line x1="340" y1="60" x2="340" y2="74" stroke="#8c8577"/>
+              <line x1="340" y1="116" x2="340" y2="132" stroke="#8c8577"/>
+
+              <!-- Sub-goals -->
+              <g font-size="9.6" fill="#15181c">
+                <rect x="14" y="132" width="152" height="56" fill="#e8f1f2" stroke="#0f5c6b"/>
+                <text x="26" y="152">G2　Hazards have been</text><text x="26" y="167">identified and classified</text><text x="26" y="182" font-size="8.6" fill="#6d7783">incl. common cause &amp; systemic</text>
+
+                <rect x="180" y="132" width="152" height="56" fill="#e8f1f2" stroke="#0f5c6b"/>
+                <text x="192" y="152">G3　Architecture meets failure-</text><text x="192" y="167">probability &amp; tolerance targets</text><text x="192" y="182" font-size="8.6" fill="#6d7783">triple redundancy · groups · links</text>
+
+                <rect x="346" y="132" width="152" height="56" fill="#e8f1f2" stroke="#0f5c6b"/>
+                <text x="358" y="152">G4　Safety requirements have</text><text x="358" y="167">been verified</text><text x="358" y="182" font-size="8.6" fill="#6d7783">test · flight test · injection</text>
+
+                <rect x="512" y="132" width="152" height="56" fill="#e8f1f2" stroke="#0f5c6b"/>
+                <text x="524" y="152">G5　Operating limits are</text><text x="524" y="167">effectively enforced</text><text x="524" y="182" font-size="8.6" fill="#6d7783">ODD · crew · maintenance</text>
+              </g>
+              <!-- Strategy-to-sub-goal lines -->
+              <g stroke="#8c8577">
+                <line x1="340" y1="132" x2="340" y2="124"/>
+                <line x1="90" y1="124" x2="588" y2="124" stroke="#8c8577"/>
+                <line x1="90" y1="124" x2="90" y2="132"/>
+                <line x1="256" y1="124" x2="256" y2="132"/>
+                <line x1="422" y1="124" x2="422" y2="132"/>
+                <line x1="588" y1="124" x2="588" y2="132"/>
+              </g>
+
+              <!-- Evidence -->
+              <g font-size="9">
+                <rect x="14" y="228" width="152" height="86" fill="#ffffff" stroke="#cfcabf"/>
+                <text x="26" y="246" fill="#0f5c6b">E1　FHA / STPA / FTA</text>
+                <text x="26" y="262" fill="#6d7783">12 hazards · control structure</text>
+                <text x="26" y="276" fill="#6d7783">common-cause analysis</text>
+                <text x="26" y="296" fill="#9aa4ae">Chapter 03 of this report</text>
+
+                <rect x="180" y="228" width="152" height="86" fill="#ffffff" stroke="#cfcabf"/>
+                <text x="192" y="246" fill="#0f5c6b">E2　Architecture &amp; redundancy</text>
+                <text x="192" y="262" fill="#6d7783">3 flight ctrl · 12 battery groups</text>
+                <text x="192" y="276" fill="#6d7783">triple link · fail-safe</text>
+                <text x="192" y="296" fill="#9aa4ae">Chapters 04–05 of this report</text>
+
+                <rect x="346" y="228" width="152" height="86" fill="#ffffff" stroke="#cfcabf"/>
+                <text x="358" y="246" fill="#0f5c6b">E3　Verification reports</text>
+                <text x="358" y="262" fill="#6d7783">test · flight test · fault injection</text>
+                <text x="358" y="276" fill="#6d7783">certification compliance records</text>
+                <text x="358" y="296" fill="#9aa4ae">Chapter 07 of this report</text>
+
+                <rect x="512" y="228" width="152" height="86" fill="#ffffff" stroke="#cfcabf"/>
+                <text x="524" y="246" fill="#0f5c6b">E4　Operating data &amp; procedures</text>
+                <text x="524" y="262" fill="#6d7783">90,000 sorties · operating manual</text>
+                <text x="524" y="276" fill="#6d7783">crew training · maintenance</text>
+                <text x="524" y="296" fill="#9aa4ae">company disclosure + OC review</text>
+              </g>
+              <g stroke="#cfcabf">
+                <line x1="90" y1="188" x2="90" y2="228"/><line x1="256" y1="188" x2="256" y2="228"/>
+                <line x1="422" y1="188" x2="422" y2="228"/><line x1="588" y1="188" x2="588" y2="228"/>
+              </g>
+
+              <!-- Gap annotation -->
+              <g stroke="#a8500c" stroke-dasharray="4 3">
+                <line x1="166" y1="160" x2="180" y2="160"/>
+              </g>
+              <text x="340" y="348" text-anchor="middle" font-size="9.6" fill="#a8500c">Gap: E1's common-cause conclusions and E3's full reports are not public; E4 is a company claim, not independently audited</text>
+              <text x="340" y="370" text-anchor="middle" font-size="9.6" fill="#6d7783">The four evidence chains are formally complete but incomplete in verifiability</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Figure 8-1</b>　GSN structure of the operational safety argument. G1 is the top-level claim, S1 the strategy, G2–G5 the four sub-goals that must all hold, and E1–E4 the corresponding evidence.
+        <span class="fig-src">Drawn according to the GSN community standard (Goal Structuring Notation); node names follow the Goal / Strategy / Evidence convention.</span></figcaption>
+      </figure>
     </section>
-    <section id="s02">
+
+    <section id="evidence">
       <h2><span class="num">02</span>Four Evidence Chains</h2>
-      <p>Formally complete, but not equally verifiable from outside. This is normal for a third-party review and is marked throughout.</p>
+      <p>The four GSN sub-goals correspond to four independent evidence chains. If any one breaks, the top-level claim fails — this is “all must hold”, not a “weighted average”.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 8-1</b>　Assessment of the strength of the four evidence chains</caption>
+          <thead>
+            <tr><th style="width:16%">Sub-goal</th><th style="width:30%">Evidence content</th><th style="width:16%">Verifiability</th><th>Weak point</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">G2 hazard identification</td><td>12 FHA items, STPA control structure, nine FTA cut sets</td><td>Framework complete</td><td>Common-cause analysis conclusions not public; this report can only identify the issue</td></tr>
+            <tr><td class="em">G3 architecture meets targets</td><td>Triple redundancy, 12 battery groups, triple link, fail-safe</td><td>Measures inspectable</td><td>Quantitative failure probability and SPFM/LFM metrics not public</td></tr>
+            <tr><td class="em">G4 verification</td><td>Test reports, flight-test data, fault-injection records</td><td>Exist but not visible</td><td>Specific items and results are internal certification material</td></tr>
+            <tr><td class="em">G5 operating constraints</td><td>ODD, manual, training, maintenance, occurrence reports</td><td>Partly public</td><td>90,000 sorties are a company claim; no independent oversight data on operating deviations</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>The assessment concludes: <strong>the argument is formally complete but incomplete in verifiability.</strong> This is not a rejection of the type — certification details belong between the regulator and the company, and external access is the norm. What must be distinguished is: which claims have public evidence, and which can only rely on the mere fact of “having been certified”.</p>
     </section>
-    <section id="s03">
+
+    <section id="cert">
       <h2><span class="num">03</span>What Each Certificate Proves</h2>
-      <p>TC covers design, AC the individual aircraft, PC production consistency, OC the operator. Four certificates distribute responsibility across four parties.</p>
+      <p>For a third party, the four certificates are the only available signal that “the argument has been reviewed”. Understanding which segment each certificate covers is necessary to judge how much evidence it can replace.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 8-2</b>　Scope of the argument covered by each of the four certificates</caption>
+          <thead><tr><th style="width:12%">Certificate</th><th style="width:26%">Object covered</th><th style="width:30%">What it proves</th><th>What it does not prove</th></tr></thead>
+          <tbody>
+            <tr><td class="em">TC</td><td>Type design</td><td>The design meets the seven categories of the special condition</td><td>Does not guarantee individual-aircraft quality and does not cover operations</td></tr>
+            <tr><td class="em">AC</td><td>Individual aircraft</td><td>That aircraft is in an airworthy condition</td><td>Does not cover subsequent maintenance or modification deviations</td></tr>
+            <tr><td class="em">PC</td><td>Production system</td><td>Has series-production consistency and quality-control capability</td><td>Does not guarantee every aircraft is defect-free</td></tr>
+            <tr><td class="em">OC</td><td>Operator</td><td>Has the personnel, procedures and support capability for continuing safe operation</td><td>Does not cover airspace risk on specific routes</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>The four certificates form a complete chain of responsibility: <strong>design — individual aircraft — production — operation</strong>. This is also why the OC is held by the operator rather than the manufacturer — it fixes “who is flying”, not “who built it”.</p>
     </section>
-    <section id="s04">
+
+    <section id="gap">
       <h2><span class="num">04</span>Three Gaps in the Argument</h2>
-      <p>Are the three flight controllers heterogeneous? What are the quantified crashworthiness limits? What is the remote-crew ratio and takeover time?</p>
+      <p>Based on the analyses in the preceding chapters, this report identifies three gaps in this type's safety argument that deserve questioning. They are not “defects” but points that public information cannot close.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 8-3</b>　The three gaps and their impact</caption>
+          <thead>
+            <tr><th style="width:24%">Gap</th><th style="width:32%">Why it matters</th><th>Consequence if true</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="em">① Are the three flight-control sets heterogeneous</td>
+              <td>Software of common origin would degrade 2oo3 to 1oo1 in the face of a software defect, directly affecting G3</td>
+              <td>The basis for arguing catastrophic-failure probability is weakened; must be compensated by a stricter development process</td>
+            </tr>
+            <tr>
+              <td class="em">② Quantified crashworthiness criteria</td>
+              <td>The special condition added cabin structural-protection requirements, but impact speed, deceleration limits and energy-absorbing stroke are all undisclosed</td>
+              <td>Cannot judge how the 10<sup>-9</sup> target for H05 (fatal occupant injury in a crash) is met</td>
+            </tr>
+            <tr>
+              <td class="em">③ Remote-crew ratio and takeover time limit</td>
+              <td>Human factors are the active element in the link, and their reliability directly determines the ultimate effectiveness of the fail-safe</td>
+              <td>When multiple aircraft operate in the same area, takeover capability may become a new bottleneck</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note warn">
+        <span class="lbl">The right attitude towards the gaps</span>
+        <p>Identifying gaps is not the same as challenging the certification conclusion. The full certification material circulates only between the authority and the company, and external invisibility is the institutional norm. The point of listing them here is: <strong>if this safety argument is to be used for new scenarios (such as urban commuting), these three are precisely the parts needing reinforcement first</strong> — because new scenarios amplify their consequences.</p>
+      </div>
     </section>
-    <section id="s05">
+
+    <section id="residual">
       <h2><span class="num">05</span>Residual Risk & Acceptance</h2>
-      <p>Weather, multi-arm failure, latent software defects, third-party ground risk and cyberattack are accepted under ODD limits and operating controls.</p>
+      <p>The endpoint of a safety argument is not “zero risk” but “residual risk has been identified and accepted”. The table below lists the residual risks and the reasons for their acceptance.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 8-4</b>　Residual risks and the basis for their acceptance</caption>
+          <thead>
+            <tr><th style="width:24%">Residual risk</th><th style="width:26%">Control level</th><th>Basis for acceptance</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Loss of control in extreme weather</td><td>Operating limits (ODD)</td><td>Weather thresholds and grounding rules; risk is excluded rather than borne</td></tr>
+            <tr><td>Simultaneous multi-arm failure</td><td>Design + operations</td><td>Extremely low probability + diversion procedure + routing to avoid dense areas</td></tr>
+            <tr><td>Undetectable software defects</td><td>Design (process assurance)</td><td>Level A development process + independent verification + heterogeneous strategy</td></tr>
+            <tr><td>Third-party ground risk</td><td>Operations + site</td><td>Crowd segregation, route avoidance, insurance mechanisms</td></tr>
+            <tr><td>Sabotage and cyberattack</td><td>Information security</td><td>Encrypted links, independent keys, ground monitoring</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Overall judgement of whole-aircraft safety in this report</h3>
+      <div class="rating">
+        <div class="g">R2</div>
+        <div class="rb">
+          <h4>Release level: restricted-scope release</h4>
+          <p>Valid only within the ODD — segregated airspace, visual meteorological conditions, daytime operation, crowd segregation at the vertiport — and must be executed by an OC-holding operator under continuing oversight. Conditions outside the ODD are unargued and cannot invoke this report's conclusions. The basis for the rating is in Chapters 07 and 08.</p>
+        </div>
+      </div>
+
+      <div class="verdicts">
+        <div class="verdict">
+          <span class="n">Judgement 1</span>
+          <h4>Within the defined ODD, the main body of the safety argument holds</h4>
+          <p>Hazard identification is complete, the architecture is clearly layered, verification activities are in place and operating constraints are explicit. The existence of the four certificates shows that this argument chain has been reviewed and accepted by the regulator.</p>
+        </div>
+        <div class="verdict">
+          <span class="n">Judgement 2</span>
+          <h4>The argument's strength is functional safety; its weakness is passive safety</h4>
+          <p>The design logic of redundant architecture and fail-safe is rigorous, but quantitative evidence for crash protection and fire response is the thinnest. This is consistent with the product strategy of “certification before performance” — first solve “nothing goes wrong”, then solve “less harm when something goes wrong”.</p>
+        </div>
+        <div class="verdict">
+          <span class="n">Judgement 3</span>
+          <h4>The safety boundary and the commercial boundary are the same line</h4>
+          <p>Segregated airspace, visual meteorological conditions, daytime operation and crowd segregation — each operating limit both controls systemic risk and compresses market space. The conservatism of the safety argument directly determines that today it can only do sightseeing at scenic sites.</p>
+        </div>
+      </div>
+
+      <div class="note key">
+        <span class="lbl">In one sentence</span>
+        <p>This aircraft is safe not “because it has a lot of redundancy” but “because it is allowed to fly only within narrow conditions”. Redundancy makes it reliable within the conditions; operating limits keep it from being outside them. Both are indispensable, and the latter is more easily overlooked.</p>
+      </div>
     </section>
-    <section id="s06">
+
+    <section id="sum">
       <h2><span class="num">06</span>Chapter Summary</h2>
-      <p>Release level R2: valid inside the ODD, unargued outside it. Pointing out gaps is not a challenge to certification; it marks where extension would be weakest.</p>
+      <div class="sum">
+        <p>GSN splits the argument into four sub-goals that must all hold; if any one breaks, the top-level claim fails. The four evidence chains are formally complete but incomplete in verifiability — normal for a third-party view and the reason this report repeatedly marks items as “undisclosed”.</p>
+        <p>Three gaps deserve questioning: whether the three flight-control sets are heterogeneous, the quantified crashworthiness criteria, and the remote-crew ratio and takeover time limit. Release level R2, valid only within the ODD.</p>
+      </div>
     </section>
 
     <nav class="pager" aria-label="Chapter paging">
@@ -99,12 +302,12 @@ GSN splits the case into four goals that must all hold; one broken chain collaps
   <aside class="toc" aria-label="On this page">
     <p class="toc-title">On This Page</p>
     <ol>
-      <li><a href="#s01">GSN Argument Structure</a></li>
-      <li><a href="#s02">Four Evidence Chains</a></li>
-      <li><a href="#s03">What Each Certificate Proves</a></li>
-      <li><a href="#s04">Three Gaps in the Argument</a></li>
-      <li><a href="#s05">Residual Risk & Acceptance</a></li>
-      <li><a href="#s06">Chapter Summary</a></li>
+      <li><a href="#gsn">GSN Argument Structure</a></li>
+      <li><a href="#evidence">Four Evidence Chains</a></li>
+      <li><a href="#cert">What Each Certificate Proves</a></li>
+      <li><a href="#gap">Three Gaps in the Argument</a></li>
+      <li><a href="#residual">Residual Risk & Acceptance</a></li>
+      <li><a href="#sum">Chapter Summary</a></li>
     </ol>
   </aside>
 </div>

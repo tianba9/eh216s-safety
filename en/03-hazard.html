@@ -20,7 +20,7 @@
       <a href="02-method.html">Method</a>
       <a href="03-hazard.html" class="active" aria-current="page">Hazard</a>
       <a href="04-arch.html">Architecture</a>
-      <a href="05-hw-sw.html">HW & SW</a>
+      <a href="05-hw-sw.html">HW/SW</a>
       <a href="06-physical.html">Physical</a>
       <a href="07-vv.html">V&V</a>
       <a href="08-assurance.html">Argument</a>
@@ -61,33 +61,216 @@
       </div>
       <h1>Twelve Hazards, One Control Structure, One Fault Tree</h1>
       <p class="lede">
-Five of twelve hazards are catastrophic. They are controlled by architecture, energy systems and crashworthiness — four different disciplines.
+The output of hazard analysis is not a long table but three judgements: which hazards are unacceptable, which control links may issue wrong commands, and which failure paths bypass redundancy. This chapter presents these three in turn.
       </p>
     </div>
 
-    <section id="s01">
+    <section id="fha">
       <h2><span class="num">01</span>FHA: Twelve Hazards</h2>
-      <p>Loss of control, total thrust loss, battery fire, mid-air collision and fatal crash injury are catastrophic. Catastrophic targets are 10⁻⁹ per flight hour.</p>
+      <p>Severity is divided into five levels following transport-category practice: catastrophic, hazardous, major, minor and no safety effect. Probability targets decrease with severity; catastrophic items take 10<sup>-9</sup> per flight hour.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 3-1</b>　Functional Hazard Assessment (FHA)</caption>
+          <thead>
+            <tr><th style="width:7%">No.</th><th style="width:24%">Hazard</th><th style="width:9%">Phase</th><th style="width:10%">Severity</th><th style="width:11%">Target probability</th><th>Control approach</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">H01</td><td>Loss of attitude control in flight</td><td>Cruise</td><td>Catastrophic</td><td class="num">10<sup>-9</sup></td><td>Triple-redundant flight control + voting + envelope protection</td></tr>
+            <tr><td class="em">H02</td><td>Total thrust loss</td><td>All phases</td><td>Catastrophic</td><td class="num">10<sup>-9</sup></td><td>16-rotor distributed propulsion + 12 isolated battery groups</td></tr>
+            <tr><td class="em">H03</td><td>Fire from battery thermal runaway</td><td>All phases</td><td>Catastrophic</td><td class="num">10<sup>-9</sup></td><td>Thermal-runaway warning, isolation between groups, venting and flame retardance</td></tr>
+            <tr><td class="em">H04</td><td>Collision with an obstacle or another aircraft</td><td>Cruise</td><td>Catastrophic</td><td class="num">10<sup>-9</sup></td><td>Segregated airspace + filed routes + detect and avoid</td></tr>
+            <tr><td class="em">H05</td><td>Fatal injury to occupants in a crash</td><td>Landing</td><td>Catastrophic</td><td class="num">10<sup>-9</sup></td><td>Crashworthy structure + restraints + energy absorption</td></tr>
+            <tr><td class="em">H06</td><td>Partial thrust loss leading to uncontrollable yaw</td><td>All phases</td><td>Hazardous</td><td class="num">10<sup>-7</sup></td><td>Control reconfiguration + degraded flight + diversion to the nearest site</td></tr>
+            <tr><td class="em">H07</td><td>Data-link loss</td><td>Cruise</td><td>Hazardous</td><td class="num">10<sup>-7</sup></td><td>Triple link + autonomous fail-safe on link loss</td></tr>
+            <tr><td class="em">H08</td><td>Navigation interference or spoofing causing deviation</td><td>Cruise</td><td>Hazardous</td><td class="num">10<sup>-7</sup></td><td>Multi-source navigation fusion + consistency checks</td></tr>
+            <tr><td class="em">H09</td><td>Strong wind disturbance beyond control capability</td><td>Take-off / cruise</td><td>Hazardous</td><td class="num">10<sup>-7</sup></td><td>Weather limits + wind estimation + envelope limits</td></tr>
+            <tr><td class="em">H10</td><td>Ground personnel entering the rotor area during take-off and landing</td><td>Take-off / landing</td><td>Hazardous</td><td class="num">10<sup>-7</sup></td><td>Site isolation + ground guidance + pre-take-off confirmation</td></tr>
+            <tr><td class="em">H11</td><td>Unplanned landing causing injury to third parties on the ground</td><td>All phases</td><td>Major</td><td class="num">10<sup>-5</sup></td><td>Diversion-area selection + routing to avoid densely populated areas</td></tr>
+            <tr><td class="em">H12</td><td>Occupants not restrained or accidentally opening the door</td><td>All phases</td><td>Major</td><td class="num">10<sup>-5</sup></td><td>Restraint monitoring + door interlocks + pre-take-off checks</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Of the five catastrophic hazards, <strong>H01 and H02 are controlled by architecture, H03 by the battery system and thermal management, H04 by airspace and operations, and H05 by structural crashworthiness</strong>. The four classes of control belong to entirely different professional disciplines — which explains why whole-aircraft safety cannot be accomplished by a single team.</p>
     </section>
-    <section id="s02">
+
+    <section id="stpa">
       <h2><span class="num">02</span>STPA Control Structure</h2>
-      <p>The control chain crosses from the authority and operator through the ground station and data link to the flight controller and actuators. Unsafe control actions include wrong, late or missing commands.</p>
+      <p>The first step in STPA is to describe the system as a hierarchical control structure: who commands whom and who feeds back status to whom. The particular feature of the EH216-S is that the control chain crosses two physical spaces — “on board” and “on the ground”.</p>
+
+      <figure>
+        <div class="frame">
+          <svg viewBox="0 0 680 250" role="img" aria-label="EH216-S hierarchical control structure">
+            <defs>
+              <marker id="a2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+                <path d="M0,0 L7,3 L0,6 z" fill="#0f5c6b"/>
+              </marker>
+              <marker id="a3" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+                <path d="M0,0 L7,3 L0,6 z" fill="#a8500c"/>
+              </marker>
+            </defs>
+            <g font-family="system-ui, sans-serif">
+              <!-- Control boxes -->
+              <g font-size="11" text-anchor="middle">
+                <rect x="14" y="60" width="96" height="46" fill="#ffffff" stroke="#15181c"/><text x="62" y="80">Authority</text><text x="62" y="96" font-size="9.5" fill="#6d7783">Airspace &amp; certification</text>
+                <rect x="122" y="60" width="96" height="46" fill="#ffffff" stroke="#15181c"/><text x="170" y="80">Operator</text><text x="170" y="96" font-size="9.5" fill="#6d7783">Operations &amp; maintenance</text>
+                <rect x="230" y="60" width="96" height="46" fill="#e8f1f2" stroke="#0f5c6b"/><text x="278" y="80">Remote crew</text><text x="278" y="96" font-size="9.5" fill="#6d7783">Monitoring · emergency takeover</text>
+                <rect x="338" y="60" width="96" height="46" fill="#e8f1f2" stroke="#0f5c6b"/><text x="386" y="80">Ground control station</text><text x="386" y="96" font-size="9.5" fill="#6d7783">Scheduling · link</text>
+                <rect x="446" y="60" width="96" height="46" fill="#e8f1f2" stroke="#0f5c6b"/><text x="494" y="80">On-board flight control</text><text x="494" y="96" font-size="9.5" fill="#6d7783">Triple-redundancy voting</text>
+                <rect x="554" y="60" width="112" height="46" fill="#ffffff" stroke="#15181c"/><text x="610" y="80">Actuators</text><text x="610" y="96" font-size="9.5" fill="#6d7783">Motors · ESCs · rotors</text>
+              </g>
+              <!-- Forward control -->
+              <g stroke="#0f5c6b" stroke-width="1.4" fill="none">
+                <line x1="110" y1="83" x2="120" y2="83" marker-end="url(#a2)"/>
+                <line x1="218" y1="83" x2="228" y2="83" marker-end="url(#a2)"/>
+                <line x1="326" y1="83" x2="336" y2="83" marker-end="url(#a2)"/>
+                <line x1="434" y1="83" x2="444" y2="83" marker-end="url(#a2)"/>
+                <line x1="542" y1="83" x2="552" y2="83" marker-end="url(#a2)"/>
+              </g>
+              <text x="386" y="42" text-anchor="middle" font-size="10" fill="#0f5c6b">Forward control: commands and authorisation</text>
+              <!-- Feedback -->
+              <path d="M610,106 L610,150 L278,150 L278,110" fill="none" stroke="#a8500c" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#a3)"/>
+              <text x="430" y="166" text-anchor="middle" font-size="10" fill="#a8500c">Feedback: status · alerts · health (returned via the data link)</text>
+              <!-- Aircraft -->
+              <rect x="470" y="188" width="190" height="42" fill="#f7f5f0" stroke="#cfcabf"/>
+              <text x="565" y="206" text-anchor="middle" font-size="11" fill="#3d454e">Aircraft + external environment</text>
+              <text x="565" y="221" text-anchor="middle" font-size="9.5" fill="#6d7783">Wind · obstacles · crowds · electromagnetic</text>
+              <line x1="610" y1="106" x2="610" y2="186" stroke="#cfcabf" stroke-width="1" stroke-dasharray="2 2"/>
+              <text x="640" y="150" font-size="9" fill="#9aa4ae">Effect</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Figure 3-1</b>　The hierarchical control structure of the EH216-S. Control commands run left to right and feedback right to left; <strong>the whole chain crosses on-board and ground domains, and delay or distortion at any link creates new risk</strong>.
+        <span class="fig-src">Drawn according to the special condition's system definition of “aircraft + ground control station + data link” and the remote-crew responsibilities.</span></figcaption>
+      </figure>
     </section>
-    <section id="s03">
+
+    <section id="uca">
       <h2><span class="num">03</span>Unsafe Control Actions</h2>
-      <p>The most dangerous case is a wrong decision made while the system believes itself healthy: a second switched-in channel that is faulty, or a late remote-crew takeover.</p>
+      <p>The core of STPA is to ask, for each control action, under what circumstances “providing it”, “not providing it”, “providing it too early”, “too late” or “for too long” leads to a hazard. The table below lists five typical cases.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 3-2</b>　Typical Unsafe Control Actions (UCA) and causal scenarios</caption>
+          <thead>
+            <tr><th style="width:8%">No.</th><th style="width:22%">Control action</th><th style="width:18%">Unsafe type</th><th style="width:26%">Causal scenario</th><th>Consequence</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">U1</td><td>Providing thrust command</td><td>Duration too long</td><td>Continuous correction under wind disturbance, no degradation even after actuator saturation</td><td>Motor overload, attitude divergence</td></tr>
+            <tr><td class="em">U2</td><td>Terminating flight / triggering diversion</td><td>Not provided</td><td>Fail-Safe criteria too broad, health state misjudged as normal</td><td>Continuing to fly with a fault</td></tr>
+            <tr><td class="em">U3</td><td>Switching flight-control channel</td><td>Improperly provided</td><td>Voting logic selects the wrong channel under dual-channel failure</td><td>Faulty channel connected, loss of attitude control</td></tr>
+            <tr><td class="em">U4</td><td>Issuing a route change remotely</td><td>Provided too late</td><td>Link delay combined with inadequate crew situation awareness</td><td>Entering a no-fly zone or obstacle area</td></tr>
+            <tr><td class="em">U5</td><td>Take-off clearance</td><td>Provided too early</td><td>Ground checks incomplete, occupants not restrained</td><td>Door opening, occupant injury</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>U2 and U3 are the two most concerning because both occur while the “system believes itself normal”. Traditional FMEA cannot find such problems — all components pass self-checks. <strong>This is precisely why STPA exists: it analyses defects in the control logic, not damage to components.</strong></p>
     </section>
-    <section id="s04">
+
+    <section id="fta">
       <h2><span class="num">04</span>Fault Tree: Uncommanded Ground Impact</h2>
-      <p>Nine cut sets across attitude loss, thrust loss and structural failure. Three are single points that pierce redundancy.</p>
+      <p>Taking “uncommanded ground impact of the aircraft” as the top event, three intermediate events are developed below it. Under each intermediate event the dominant cut sets are listed as a check list for architecture design.</p>
+
+      <figure>
+        <div class="frame">
+          <svg viewBox="0 0 680 340" role="img" aria-label="Fault tree for uncommanded ground impact of the aircraft">
+            <g font-family="system-ui, sans-serif">
+              <!-- Top event -->
+              <rect x="240" y="18" width="200" height="38" fill="#15181c"/>
+              <text x="340" y="42" text-anchor="middle" font-size="12" fill="#ffffff">Uncommanded ground impact of the aircraft</text>
+              <line x1="340" y1="56" x2="340" y2="76" stroke="#6d7783"/>
+              <!-- OR gate -->
+              <path d="M320,76 Q340,96 360,76 Q340,66 320,76 Z" fill="#ffffff" stroke="#6d7783"/>
+              <text x="340" y="113" text-anchor="middle" font-size="9" fill="#6d7783">OR</text>
+              <line x1="340" y1="96" x2="340" y2="108" stroke="#6d7783"/>
+              <!-- Distribution bus -->
+              <line x1="135" y1="108" x2="545" y2="108" stroke="#6d7783"/>
+              <g stroke="#6d7783">
+                <line x1="135" y1="108" x2="135" y2="126"/>
+                <line x1="340" y1="108" x2="340" y2="126"/>
+                <line x1="545" y1="108" x2="545" y2="126"/>
+              </g>
+              <!-- Intermediate events -->
+              <g font-size="11" text-anchor="middle">
+                <rect x="40" y="126" width="190" height="34" fill="#fbf0e6" stroke="#a8500c"/><text x="135" y="148">Loss of attitude control</text>
+                <rect x="245" y="126" width="190" height="34" fill="#fbf0e6" stroke="#a8500c"/><text x="340" y="148">Total loss of thrust</text>
+                <rect x="450" y="126" width="190" height="34" fill="#fbf0e6" stroke="#a8500c"/><text x="545" y="148">Structural failure</text>
+              </g>
+              <g stroke="#cfcabf">
+                <line x1="135" y1="160" x2="135" y2="180"/>
+                <line x1="340" y1="160" x2="340" y2="180"/>
+                <line x1="545" y1="160" x2="545" y2="180"/>
+              </g>
+              <!-- Cut-set boxes -->
+              <g font-size="9.8" fill="#3d454e">
+                <rect x="40" y="180" width="190" height="126" fill="#ffffff" stroke="#cfcabf"/>
+                <text x="52" y="198">Cut set A1  Three-channel common-cause failure</text>
+                <text x="52" y="215" fill="#6d7783">Common software defect / shared power supply</text>
+                <text x="52" y="240">Cut set A2  Sensor validation failure</text>
+                <text x="52" y="257" fill="#6d7783">Common-mode error undetected</text>
+                <text x="52" y="282">Cut set A3  Actuator jam</text>
+                <text x="52" y="299" fill="#6d7783">No independent position monitoring</text>
+
+                <rect x="245" y="180" width="190" height="126" fill="#ffffff" stroke="#cfcabf"/>
+                <text x="257" y="198">Cut set B1  Cascading battery-group failure</text>
+                <text x="257" y="215" fill="#6d7783">Thermal runaway spreading between groups</text>
+                <text x="257" y="240">Cut set B2  Main power-distribution failure</text>
+                <text x="257" y="257" fill="#6d7783">Single-point convergence not isolated</text>
+                <text x="257" y="282">Cut set B3  Thrust command zeroed</text>
+                <text x="257" y="299" fill="#6d7783">Abnormal control-law output</text>
+
+                <rect x="450" y="180" width="190" height="126" fill="#ffffff" stroke="#cfcabf"/>
+                <text x="462" y="198">Cut set C1  Arm fatigue crack</text>
+                <text x="462" y="215" fill="#6d7783">Not detected within the inspection interval</text>
+                <text x="462" y="240">Cut set C2  Blade detachment strike</text>
+                <text x="462" y="257" fill="#6d7783">Affecting an adjacent arm</text>
+                <text x="462" y="282">Cut set C3  Cabin collapse after impact</text>
+                <text x="462" y="299" fill="#6d7783">Insufficient energy absorption causing occupant injury</text>
+              </g>
+              <text x="340" y="330" text-anchor="middle" font-size="9.5" fill="#9aa4ae">Simplified tree: only dominant cut sets are developed; not a complete fault tree</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Figure 3-2</b>　Fault tree for “uncommanded ground impact” (simplified). Of the nine cut sets, <strong>A1, A2 and B1 are of the type “a single point can pierce redundancy”</strong> and are the priority items for architecture design.
+        <span class="fig-src">Constructed by this report from public architecture descriptions, without manufacturer failure data; therefore only a qualitative ranking is given.</span></figcaption>
+      </figure>
+
+      <p>The value of the fault tree lies not in the diagram itself but in the three questions it forces: are the three flight-control channels truly independent? Can thermal propagation really be blocked between the 12 battery groups? Can an arm crack be detected before the next flight? These three questions point to Chapters 04, 06 and 07 respectively.</p>
     </section>
-    <section id="s05">
+
+    <section id="cca">
       <h2><span class="num">05</span>Common-Cause Analysis</h2>
-      <p>Software, power, physical installation and maintenance are four shared channels. If the three flight controllers run the same code, 1oo3 collapses to 1oo1.</p>
+      <p>The enemy of redundancy is not random failure but common cause. If the three systems share any single element, 1oo3 degrades to 1oo1 at that moment.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 3-3</b>　Four common-cause channels and isolation measures</caption>
+          <thead>
+            <tr><th style="width:16%">Common-cause channel</th><th style="width:30%">Specific manifestation</th><th style="width:28%">Isolation measure</th><th>Verifiability</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">Shared software origin</td><td>Three flight-control channels run the same code; the same defect is triggered simultaneously</td><td>Heterogeneous development, independent teams, independent tool chains, diverse algorithms</td><td>Verifiable through development-process review</td></tr>
+            <tr><td class="em">Shared power supply</td><td>Three systems fed from one bus; one short circuit removes all power</td><td>Independent power sources and distribution channels, physically separated wiring</td><td>Verifiable through architecture diagrams and fault injection</td></tr>
+            <tr><td class="em">Physical environment</td><td>Three sensors in one bay, simultaneously heated, vibrated and exposed to moisture</td><td>Separate-bay installation, vibration isolation, higher environmental-protection rating</td><td>Verifiable through environmental testing</td></tr>
+            <tr><td class="em">Maintenance error</td><td>The same incorrect procedure applied to three identical components</td><td>Error-proofing, independent inspection, differentiated procedures</td><td>Verifiable through maintenance-programme review</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note warn">
+        <span class="lbl">The most critical gap</span>
+        <p>Public material states “three independent flight-control systems” and “full backup of key components” <span class="ev ev-off">Official</span>, but <strong>does not disclose whether the three systems use heterogeneous software</strong>. If the software is of common origin, “independence” solves only random hardware failures, not software common causes — and software defects are precisely the risk hardest to detect statistically in a Level A system. This should be the first-priority question for the manufacturer or the authority.</p>
+      </div>
     </section>
-    <section id="s06">
+
+    <section id="sum">
       <h2><span class="num">06</span>Chapter Summary</h2>
-      <p>The weakest point of 2oo3 is two channels failing in the same direction. Public material says “independent” but not whether the software is heterogeneous.</p>
+      <div class="sum">
+        <p>Of the 12 hazards, 5 are catastrophic. They are controlled respectively by architecture, by the battery and thermal management, and by crashworthy structure — these four classes of means belong to different professions, so whole-aircraft safety cannot be accomplished by a single team.</p>
+        <p>STPA draws the control chain as a structure spanning on-board and ground; of the five classes of unsafe control action, the most dangerous is a wrong decision made while the “system believes itself normal”. Of the nine cut sets in the fault tree, three are single points that pierce redundancy.</p>
+      </div>
     </section>
 
     <nav class="pager" aria-label="Chapter paging">
@@ -99,12 +282,12 @@ Five of twelve hazards are catastrophic. They are controlled by architecture, en
   <aside class="toc" aria-label="On this page">
     <p class="toc-title">On This Page</p>
     <ol>
-      <li><a href="#s01">FHA: Twelve Hazards</a></li>
-      <li><a href="#s02">STPA Control Structure</a></li>
-      <li><a href="#s03">Unsafe Control Actions</a></li>
-      <li><a href="#s04">Fault Tree: Uncommanded Ground Impact</a></li>
-      <li><a href="#s05">Common-Cause Analysis</a></li>
-      <li><a href="#s06">Chapter Summary</a></li>
+      <li><a href="#fha">FHA: Twelve Hazards</a></li>
+      <li><a href="#stpa">STPA Control Structure</a></li>
+      <li><a href="#uca">Unsafe Control Actions</a></li>
+      <li><a href="#fta">Fault Tree: Uncommanded Ground Impact</a></li>
+      <li><a href="#cca">Common-Cause Analysis</a></li>
+      <li><a href="#sum">Chapter Summary</a></li>
     </ol>
   </aside>
 </div>

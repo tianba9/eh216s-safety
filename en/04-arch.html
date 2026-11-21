@@ -20,7 +20,7 @@
       <a href="02-method.html">Method</a>
       <a href="03-hazard.html">Hazard</a>
       <a href="04-arch.html" class="active" aria-current="page">Architecture</a>
-      <a href="05-hw-sw.html">HW & SW</a>
+      <a href="05-hw-sw.html">HW/SW</a>
       <a href="06-physical.html">Physical</a>
       <a href="07-vv.html">V&V</a>
       <a href="08-assurance.html">Argument</a>
@@ -61,33 +61,163 @@
       </div>
       <h1>Redundancy Is Designing What Happens After Failure</h1>
       <p class="lede">
-Three flight-control channels, twelve battery groups and three data links form layered redundancy. Its value lies in what happens after a failure.
+The redundancy of the EH216-S appears at three levels: three flight-control channels, 12 battery groups and three data links. But the value of redundancy does not depend on the count; it depends on whether the system can remain controllable after a failure — this chapter turns the “fault-tolerance boundary” into a concrete number.
       </p>
     </div>
 
-    <section id="s01">
+    <section id="overview">
       <h2><span class="num">01</span>Architecture Overview</h2>
-      <p>Control, energy and communications are each redundant; fail-safe logic and a remote crew form the outer layers. No single layer covers every failure.</p>
+      <p>The table below groups the publicly disclosed redundancy measures by system and notes the corresponding safety objectives. Any inference at the level of functional requirements is explained in the remarks.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 4-1</b>　Redundancy measures and the corresponding safety objectives</caption>
+          <thead>
+            <tr><th style="width:16%">System</th><th style="width:26%">Redundancy measure</th><th style="width:22%">Hazard addressed</th><th>Credibility note</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">Flight control</td><td>Three independent flight-control systems + voting mechanism</td><td>H01 loss of attitude control</td><td>Stated on the official website and in the special condition</td></tr>
+            <tr><td class="em">Energy</td><td>12 battery groups supplying power in groups, faulty group isolatable</td><td>H02 thrust loss, H03 fire</td><td>12 groups publicly disclosed; topology not disclosed</td></tr>
+            <tr><td class="em">Propulsion</td><td>16 rotors, 16 motors, distributed across 8 arms</td><td>H02, H06 partial thrust loss</td><td>Stated on the official website</td></tr>
+            <tr><td class="em">Data link</td><td>Triple-redundant communication architecture, encryption and independent keys</td><td>H07 link loss, cybersecurity</td><td>Required by the special condition + stated on the website</td></tr>
+            <tr><td class="em">Navigation</td><td>Multi-source fusion and GNSS positioning</td><td>H08 navigation interference</td><td>Fusion algorithms mentioned on the website; details not disclosed</td></tr>
+            <tr><td class="em">Decision-making</td><td>Fail-Safe evaluates health in real time and decides whether to continue or divert</td><td>H02, H06, H07</td><td>Stated on the website; criteria not disclosed</td></tr>
+            <tr><td class="em">Human</td><td>Remote crew can take manual command in an emergency</td><td>All</td><td>Explicit in the special condition</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note">
+        <span class="lbl">Overall character of the architecture</span>
+        <p>This is a redundancy scheme of <strong>“multiple independent layers, running vertically through the system”</strong>: triple redundancy at the control layer, multiple isolated groups at the energy layer, triple at the communications layer, autonomous protection at the decision layer, and manual takeover at the outermost layer. Each layer can independently handle one class of failure, but no single layer can handle them all — that is the meaning of layered redundancy.</p>
+      </div>
     </section>
-    <section id="s02">
+
+    <section id="form">
       <h2><span class="num">02</span>Choosing a Redundancy Scheme</h2>
-      <p>2oo3 voting balances safety and availability, but only if at most one channel is wrong. Two channels failing in the same direction defeats the vote.</p>
+      <p>A redundancy scheme is not chosen arbitrarily; it is determined by two conditions: “can the fault be detected” and “is the failure safe”. The table below lists common schemes and the conditions under which they apply.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 4-2</b>　Comparison of common redundancy schemes</caption>
+          <thead>
+            <tr><th style="width:12%">Scheme</th><th style="width:28%">Meaning</th><th style="width:22%">Advantage</th><th style="width:22%">Limitation</th><th>Applicability to the EH216-S</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">1oo1</td><td>Single channel; a failure is a failure</td><td>Simple, light</td><td>No fault tolerance</td><td>Not used for safety-critical functions</td></tr>
+            <tr><td class="em">1oo2</td><td>Either of two channels acting takes effect</td><td>High availability</td><td>High spurious-operation rate</td><td>Not applicable (spurious operation is fatal with people on board)</td></tr>
+            <tr><td class="em">2oo2</td><td>Both channels must act for the output to take effect</td><td>High safety</td><td>Low availability</td><td>Can serve as auxiliary voting</td></tr>
+            <tr><td class="em">2oo3</td><td>Two-out-of-three voting; tolerates one wrong channel</td><td>Balances safety and availability</td><td>Depends on faults being detectable</td><td><strong>The reasonable choice for the main flight-control channel</strong></td></tr>
+            <tr><td class="em">1oo2D</td><td>Two channels with diagnostics; degrades on fault</td><td>High diagnostic coverage</td><td>Diagnostics themselves can fail</td><td>Can be used for secondary functions</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>The 2oo3 vote formed by three flight-control channels is the typical choice for a passenger-carrying application: <strong>it can tolerate one channel producing a wrong output without affecting the flight, while retaining two healthy channels to continue working.</strong> But it has an implicit premise — at most one of the three is wrong. If two are wrong at the same time and in the same direction, the vote will judge the wrong result to be correct. That is the killing point of common-cause failure.</p>
     </section>
-    <section id="s03">
+
+    <section id="vote">
       <h2><span class="num">03</span>Voting & Degradation Paths</h2>
-      <p>A single disagreeing channel is isolated; a link loss triggers autonomous fail-safe behaviour; unrecoverable states trigger an emergency landing.</p>
+      <p>The voting mechanism must be paired with a degradation strategy. After a channel disagreement is detected, the system must answer three questions: whom to trust, whether to degrade, and to what state to degrade.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 4-3</b>　Fault states and degradation strategies</caption>
+          <thead>
+            <tr><th style="width:20%">Fault state</th><th style="width:26%">Voting result</th><th style="width:26%">Degradation action</th><th>Risk handling</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>All three channels agree</td><td>Normal output</td><td>None</td><td>Fly as planned</td></tr>
+            <tr><td>One channel disagrees</td><td>Two-out-of-two passes; disagreeing channel isolated</td><td>Retain two channels, reduce the envelope</td><td>Continue the mission or return early</td></tr>
+            <tr><td>Two channels disagree in the same direction</td><td>The vote may be wrong</td><td>Must rely on the third channel's self-check and monitoring</td><td><strong>Greatest risk point</strong>, see the next section</td></tr>
+            <tr><td>Link interruption</td><td>—</td><td>Enter the preset fail-safe procedure</td><td>Hover and wait / autonomous diversion to the nearest site</td></tr>
+            <tr><td>Energy anomaly</td><td>—</td><td>Isolate the faulty group, reduce power demand</td><td>Shorten the route, land at the nearest site</td></tr>
+            <tr><td>Unrecoverable</td><td>—</td><td>Trigger the emergency landing procedure</td><td>Select the minimum-risk diversion area</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>The third row of the table is the most fragile cell of the whole architecture. It means: <strong>the safety of 2oo3 ultimately depends on “whether two same-direction errors can be identified”</strong>. This capability comes from the third channel's independent self-check, cross-validation of sensors, or the judgement of the ground remote crew. Of the three means, the first two are automatic and the third is constrained by link delay.</p>
     </section>
-    <section id="s04">
-      <h2><span class="num">04</span>Focus: Flight-Control Redundancy</h2>
-      <p>With 500 N available per rotor, single-rotor and single-arm failures remain controllable. Losing two arms leaves 6,000 N against a 6,082 N demand — the tolerance boundary.</p>
+
+    <section id="deep">
+      <h2><span class="num">04</span>Focus: Flight-Control Redundancy & Degradation</h2>
+      <p>This section puts cut set A1 and the control structure of Chapter 03 into concrete numbers: when one rotor, one arm or even more propulsion units fail, can the aircraft still fly?</p>
+
+      <h3>Thrust margin is the physical basis of fault tolerance</h3>
+      <p>At a maximum take-off weight of 620 kg with 16 rotors, each rotor must provide about 380 N of thrust in hover. A margin must be designed in, otherwise wind disturbance, climb and failures cannot be handled. This report assumes a maximum available thrust of 500 N per rotor (about 30% margin) and uses this to estimate hover feasibility under different failure cases.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 4-4</b>　Thrust margin under different failure cases (author's estimate)</caption>
+          <thead>
+            <tr><th style="width:26%">Failure case</th><th class="num" style="width:14%">Remaining rotors</th><th class="num" style="width:18%">Total available thrust</th><th class="num" style="width:16%">Margin</th><th>Can hover be maintained</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Intact</td><td class="num">16</td><td class="num">8000 N</td><td class="num">31.5%</td><td class="t-ok">Yes</td></tr>
+            <tr><td>Single rotor failure</td><td class="num">15</td><td class="num">7500 N</td><td class="num">23.3%</td><td class="t-warn">Yes, with torque compensation</td></tr>
+            <tr><td>One arm lost (2 rotors)</td><td class="num">14</td><td class="num">7000 N</td><td class="num">15.1%</td><td class="t-warn">Yes, but attitude margin falls significantly</td></tr>
+            <tr><td>Two arms lost (4 rotors)</td><td class="num">12</td><td class="num">6000 N</td><td class="num">-1.4%</td><td class="t-no"><strong>No</strong>, immediate landing required</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="t-foot">Note: total thrust demand is 6,082 N (620 kg × 9.81). The table does not include the extra derating caused by torque compensation, so the actual usable margin is lower than the figures shown. The 500 N maximum rotor thrust is an assumption, not published data.</p>
+
+      <div class="note key">
+        <span class="lbl">Three inferences from this</span>
+        <p><strong>First</strong>, a single rotor failure is tolerable, consistent with the statement of “full backup of key components”; <strong>second</strong>, the real fault-tolerance boundary is near “the loss of two arms”, where the thrust margin turns from positive to negative and any attempt to continue flying will make height unsustainable; <strong>third</strong>, therefore the Fail-Safe criterion cannot look only at “whether remaining thrust exceeds weight” but must also consider attitude controllability and remaining range — because a diversion needs extra energy.</p>
+      </div>
+
+      <h3>Torque imbalance is more dangerous than insufficient thrust</h3>
+      <p>The symmetry of the eight-arm layout means that any single-point failure creates a moment imbalance about the centre of the fuselage. The control system must restore balance by reducing thrust on the opposite side, which further reduces total thrust. This process is coupled — the smaller the thrust margin, the fewer the available compensation means and the worse the attitude-holding capability.</p>
+
+      <p>This explains an apparently contradictory phenomenon: <strong>the fault tolerance of a multirotor is not shown by “being able to fly” but by “being able to land smoothly”.</strong> After losing one arm, the aircraft may still hover, but it no longer has the capability to continue the mission and must enter the nearest-diversion procedure. The design goal of the safety architecture is precisely to ensure that this “dignified exit” path always exists.</p>
     </section>
-    <section id="s05">
+
+      <div class="calc" id="calc-rotor">
+        <p class="calc-head">Interactive calculation · Failed rotors → thrust margin</p>
+        <label class="calc-row">
+          <span class="lb">Failed rotors</span>
+          <input type="range" id="rot-in" min="0" max="6" step="1" value="0" aria-label="Number of failed rotors">
+          <output id="rot-v">Intact</output>
+        </label>
+        <div class="calc-out">
+          <div><b id="rot-rem">16</b><span>Remaining rotors</span></div>
+          <div><b id="rot-total">8000</b><span>Available thrust N</span></div>
+          <div><b id="rot-margin">+31.5%</b><span>Thrust margin</span></div>
+        </div>
+        <p class="calc-note" id="rot-note">—</p>
+      </div>
+
+    <section id="boundary">
       <h2><span class="num">05</span>Fault-Tolerance Boundary & Residual Risk</h2>
-      <p>Tolerance is not “still flying” but “landing under control”. Common-cause and human factors remain outside what hardware can solve.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 4-5</b>　Residual risk at the architecture level</caption>
+          <thead>
+            <tr><th style="width:26%">Residual risk</th><th style="width:30%">Why architecture cannot eliminate it</th><th>Compensating means</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">Common cause from shared software</td><td>Voting can do nothing about “two channels wrong in the same direction”</td><td>Heterogeneous development, independent verification, ground-monitoring intervention</td></tr>
+            <tr><td class="em">Sensor common-mode error</td><td>Sensors of the same type produce the same bias in the same environment</td><td>Cross-validation of sensors based on different physical principles</td></tr>
+            <tr><td class="em">Multiple arms failing together</td><td>Insufficient thrust margin, physically unsustainable</td><td>Restrict the flight area, shorten the route, divert quickly</td></tr>
+            <tr><td class="em">Complete link interruption</td><td>Manual takeover capability is lost</td><td>Autonomous fail-safe procedure + preset diversion points</td></tr>
+            <tr><td class="em">Remote-crew judgement error</td><td>Human factors cannot be eliminated by hardware redundancy</td><td>Training, procedural decisions, two-person review</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Of the five residual risks, the first three are at the design level and the last two at the operational level. <strong>This forms the transition point from “designed safety” to “operational safety”</strong>, and is what the operational safety argument in Chapter 08 must take up.</p>
     </section>
-    <section id="s06">
+
+    <section id="sum">
       <h2><span class="num">06</span>Chapter Summary</h2>
-      <p>Redundancy is not a count. The exception path must be designed, detected and verified, or the extra channels are decorative.</p>
+      <div class="sum">
+        <p>Three flight-control channels, 12 battery groups and three data links form layered redundancy. Voting can tolerate one wrong channel, on the premise that at most one is wrong — when two are wrong in the same direction, 2oo3 will decide wrongly, the most fragile cell of the whole architecture.</p>
+        <p>The thrust margin is worked out in concrete numbers: single-rotor and single-arm failures are controllable, and the margin turns negative after the loss of two arms. <strong>Fault tolerance is not shown by “still being able to fly” but by “being able to land smoothly”.</strong></p>
+      </div>
     </section>
 
     <nav class="pager" aria-label="Chapter paging">
@@ -99,12 +229,12 @@ Three flight-control channels, twelve battery groups and three data links form l
   <aside class="toc" aria-label="On this page">
     <p class="toc-title">On This Page</p>
     <ol>
-      <li><a href="#s01">Architecture Overview</a></li>
-      <li><a href="#s02">Choosing a Redundancy Scheme</a></li>
-      <li><a href="#s03">Voting & Degradation Paths</a></li>
-      <li><a href="#s04">Focus: Flight-Control Redundancy</a></li>
-      <li><a href="#s05">Fault-Tolerance Boundary & Residual Risk</a></li>
-      <li><a href="#s06">Chapter Summary</a></li>
+      <li><a href="#overview">Architecture Overview</a></li>
+      <li><a href="#form">Choosing a Redundancy Scheme</a></li>
+      <li><a href="#vote">Voting & Degradation Paths</a></li>
+      <li><a href="#deep">Focus: Flight-Control Redundancy</a></li>
+      <li><a href="#boundary">Fault-Tolerance Boundary & Residual Risk</a></li>
+      <li><a href="#sum">Chapter Summary</a></li>
     </ol>
   </aside>
 </div>

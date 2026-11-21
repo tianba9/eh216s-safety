@@ -20,7 +20,7 @@
       <a href="02-method.html">Method</a>
       <a href="03-hazard.html">Hazard</a>
       <a href="04-arch.html">Architecture</a>
-      <a href="05-hw-sw.html">HW & SW</a>
+      <a href="05-hw-sw.html">HW/SW</a>
       <a href="06-physical.html" class="active" aria-current="page">Physical</a>
       <a href="07-vv.html">V&V</a>
       <a href="08-assurance.html">Argument</a>
@@ -61,37 +61,184 @@
       </div>
       <h1>The Two Worst Outcomes: Fire and Impact</h1>
       <p class="lede">
-Catastrophic consequences take two physical forms. Thermal runaway has four break points; crash energy has a hard numerical limit.
+The catastrophic consequences of a passenger-carrying aircraft ultimately take just two physical forms — fire and impact. This chapter analyses both paths in depth: how thermal runaway spreads from a single cell to the whole aircraft, and how much energy the structure must absorb in a crash. Both are given numerically derivable figures.
       </p>
     </div>
 
-    <section id="s01">
+    <section id="thermal">
       <h2><span class="num">01</span>Focus A: Battery Thermal Runaway</h2>
-      <p>Triggers are mechanical, electrical or thermal. The chain runs from cell heating to separator melt, runaway, venting and spread to neighbouring groups.</p>
+      <p>The special condition explicitly sets out <strong>thermal-runaway protection and redundant power-supply requirements for the battery system</strong> under the “powerplant” category <span class="ev ev-std">Standard</span>. This is not a generic statement — it takes “the battery will burn” as a given premise and requires a design that is “not fatal even when it burns”.</p>
+
+      <h3>Three classes of trigger</h3>
+      <div class="tw">
+        <table>
+          <caption><b>Table 6-1</b>　Three classes of thermal-runaway trigger and their characteristics</caption>
+          <thead><tr><th style="width:16%">Type</th><th style="width:30%">Specific trigger</th><th style="width:24%">Characteristic</th><th>Likelihood on this aircraft</th></tr></thead>
+          <tbody>
+            <tr><td class="em">Mechanical</td><td>Collision deformation, penetration, crushing in a crash</td><td>Instantaneous, local, accompanied by structural damage</td><td>Most likely in take-off and landing accidents and forced landings</td></tr>
+            <tr><td class="em">Electrical</td><td>Overcharge, over-discharge, internal short circuit, external short circuit</td><td>Gradual, detectable in advance by the BMS</td><td>Highest risk during charging</td></tr>
+            <tr><td class="em">Thermal</td><td>External high temperature, cooling failure, heat transfer from neighbouring cells</td><td>Has a temperature-rise precursor, can be warned in advance</td><td>Accumulates during continuous high-frequency operations in summer</td></tr>
+          </tbody>
+        </table>
+      </div>
     </section>
-    <section id="s02">
+
+    <section id="chain">
       <h2><span class="num">02</span>Runaway Chain & Break Points</h2>
-      <p>Early warning, cell isolation, group-level barriers and directed venting. The goal is not “never happens” but “never leaves one group”.</p>
+      <p>Thermal runaway is not an instantaneous event but a reaction chain with a definite sequence. The opportunity for safety design lies in every breakable link along the chain.</p>
+
+      <figure>
+        <div class="frame">
+          <svg viewBox="0 0 680 300" role="img" aria-label="Battery thermal-runaway chain and break points">
+            <g font-family="system-ui, sans-serif">
+              <!-- Chain -->
+              <g font-size="10.5" text-anchor="middle">
+                <rect x="14" y="60" width="92" height="52" fill="#ffffff" stroke="#15181c"/>
+                <text x="60" y="80">Trigger</text><text x="60" y="96" font-size="9" fill="#6d7783">Internal short / crush</text>
+
+                <rect x="130" y="60" width="92" height="52" fill="#ffffff" stroke="#15181c"/>
+                <text x="176" y="80">Cell heating</text><text x="176" y="96" font-size="9" fill="#6d7783">80–120 ℃</text>
+
+                <rect x="246" y="60" width="92" height="52" fill="#fbf0e6" stroke="#a8500c"/>
+                <text x="292" y="80">Separator melt</text><text x="292" y="96" font-size="9" fill="#8a5a2a">Internal short intensifies</text>
+
+                <rect x="362" y="60" width="92" height="52" fill="#fbf0e6" stroke="#a8500c"/>
+                <text x="408" y="80">Thermal runaway</text><text x="408" y="96" font-size="9" fill="#8a5a2a">Vent opening · ejection</text>
+
+                <rect x="478" y="60" width="92" height="52" fill="#f5e3d8" stroke="#a8500c"/>
+                <text x="524" y="80">Module propagation</text><text x="524" y="96" font-size="9" fill="#8a5a2a">Heat to adjacent cells</text>
+
+                <rect x="594" y="60" width="72" height="52" fill="#9b2226"/>
+                <text x="630" y="80" fill="#ffffff">Vehicle-wide fire</text><text x="630" y="96" font-size="9" fill="#f3d6d6">Unacceptable</text>
+              </g>
+              <!-- Arrows -->
+              <g stroke="#9aa4ae" stroke-width="1.2">
+                <line x1="106" y1="86" x2="126" y2="86"/><line x1="222" y1="86" x2="242" y2="86"/>
+                <line x1="338" y1="86" x2="358" y2="86"/><line x1="454" y1="86" x2="474" y2="86"/>
+                <line x1="570" y1="86" x2="590" y2="86"/>
+              </g>
+              <!-- Break points -->
+              <g stroke="#0f5c6b" stroke-width="1.4" stroke-dasharray="4 3">
+                <line x1="118" y1="46" x2="118" y2="126"/>
+                <line x1="334" y1="46" x2="334" y2="126"/>
+                <line x1="466" y1="46" x2="466" y2="126"/>
+                <line x1="582" y1="46" x2="582" y2="126"/>
+              </g>
+              <g font-size="9.5" fill="#0f5c6b" text-anchor="middle">
+                <text x="118" y="40">① Early warning</text>
+                <text x="334" y="40">② Cell isolation</text>
+                <text x="466" y="40">③ Inter-group barrier</text>
+                <text x="582" y="40">④ Pressure relief & extraction</text>
+              </g>
+              <!-- Notes below -->
+              <g font-size="9.5" fill="#6d7783">
+                <text x="118" y="148" text-anchor="middle">Temperature-rise rate / voltage drop</text>
+                <text x="118" y="162" text-anchor="middle">Sudden internal-resistance change</text>
+                <text x="334" y="148" text-anchor="middle">Fusing and disconnection</text>
+                <text x="334" y="162" text-anchor="middle">Disconnect that group's circuit</text>
+                <text x="466" y="148" text-anchor="middle">Thermal barrier / spacing</text>
+                <text x="466" y="162" text-anchor="middle">Flame-retardant partition</text>
+                <text x="582" y="148" text-anchor="middle">Directed venting</text>
+                <text x="582" y="162" text-anchor="middle">Avoid accumulation in the cabin</text>
+              </g>
+              <!-- 12-group fault-tolerance note -->
+              <rect x="14" y="200" width="652" height="80" fill="#f7f5f0" stroke="#cfcabf"/>
+              <text x="30" y="222" font-size="10.5" fill="#3d454e">Link to the architecture: the battery is divided into 12 power-supply groups, so after one group fails the remaining 11 can still sustain flight;</text>
+              <text x="30" y="240" font-size="10.5" fill="#3d454e">available energy falls to 91.7% and range drops by about 8% — enough to support a diversion to the nearest site.</text>
+              <text x="30" y="262" font-size="10.5" fill="#a8500c">The real danger is not a single-group failure but runaway breaching the inter-group barrier and forming a multi-group chain.</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Figure 6-1</b>　The thermal-runaway chain and four break points. The design goal is not “no thermal runaway” but <strong>confining the failure to one group and one module, and buying time for a diversion</strong>.
+        <span class="fig-src">Drawn according to the general mechanism of lithium-ion battery thermal runaway; the temperature range is an industry reference value, not measured data for this model.</span></figcaption>
+      </figure>
+
+      <div class="note warn">
+        <span class="lbl">Three questions most in need of verification</span>
+        <p>① Is a physical thermal barrier installed between groups, or is spacing alone relied upon? ② Is there a directed venting channel that ejects matter outside the aircraft rather than into the cabin? ③ How many seconds of warning does the BMS provide — a figure that directly determines whether the pilot (here, the remote crew and the autonomous system) still has a window to respond. No public data are available for any of the three.</p>
+      </div>
     </section>
-    <section id="s03">
+
+    <section id="impact">
       <h2><span class="num">03</span>Focus B: Crash Safety</h2>
-      <p>Structure must absorb impact energy without exceeding human tolerance. At 8 m/s about 0.3 m of crush distance is required.</p>
+      <p>The special condition specifically adds <strong>structural-protection (crashworthiness) requirements for the unmanned passenger cabin</strong> under the “structure, design and construction” category <span class="ev ev-std">Standard</span>. This requirement does not exist in conventional UAV certification, because a UAV has no occupants to protect.</p>
+
+      <p>The core tension that crashworthiness design must resolve is: <strong>at the same impact speed, the deceleration borne by the occupant depends on the stroke over which the structure deforms.</strong> The longer the stroke, the lower the deceleration and the lighter the injury. But a multirotor has no wings and no fuselage longerons, so the space available for deformation is extremely limited — this is the third penalty imposed by the configuration.</p>
     </section>
-    <section id="s04">
+
+    <section id="energy">
       <h2><span class="num">04</span>Energy Absorption, Quantified</h2>
-      <p>At 12 m/s no practical stroke keeps deceleration within tolerance. Passive safety therefore cannot stand alone.</p>
+      <p>Kinetic energy is calculated for a vertical impact at a 620 kg all-up mass, and the mean deceleration for a given deformation stroke is derived in reverse. The short-term human tolerance limit is about 20 g (in the spinal direction), from which the minimum required energy-absorbing stroke can be judged.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 6-2</b>　Kinetic energy and deceleration in a vertical crash (author's estimate)</caption>
+          <thead>
+            <tr><th class="num" style="width:16%">Impact speed</th><th class="num" style="width:18%">Kinetic energy</th><th class="num" style="width:20%">Stroke 0.1 m</th><th class="num" style="width:20%">Stroke 0.3 m</th><th>Assessment</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="num">3 m/s</td><td class="num">2.8 kJ</td><td class="num">4.6 g</td><td class="num">1.5 g</td><td>Acceptable</td></tr>
+            <tr><td class="num">5 m/s</td><td class="num">7.8 kJ</td><td class="num">12.7 g</td><td class="num">4.2 g</td><td>Near the limit at 0.1 m</td></tr>
+            <tr><td class="num">8 m/s</td><td class="num">19.8 kJ</td><td class="num">32.6 g</td><td class="num">10.9 g</td><td>Exceeds the limit at 0.1 m; more stroke required</td></tr>
+            <tr><td class="num">12 m/s</td><td class="num">44.6 kJ</td><td class="num">73.4 g</td><td class="num">24.5 g</td><td><strong>Exceeds the limit for both strokes</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="t-foot">Formulae: E = ½mv², a = v²/(2s). g = 9.81 m/s². The assessment baseline is the short-term tolerance of about 20 g in the spinal direction; the actual limit varies with exposure time and restraint type.</p>
+
+      <div class="note key">
+        <span class="lbl">What this table shows</span>
+        <p>To keep an 8 m/s vertical impact within human tolerance, <strong>the energy-absorbing stroke must approach 0.3 m</strong>. On a multirotor only 1.93 m tall with a compact cabin, a 0.3 m crush zone means the lower fuselage must be deliberately designed as a crushable structure and the seats decoupled from the airframe. This cannot be solved by adding a block of foam; it is a design decision at the overall-layout level.</p>
+        <p>More notable is the 12 m/s row: <strong>once impact speed exceeds a certain threshold, no stroke can keep deceleration within the safe range</strong>. The only remaining protection is to avoid hitting the ground at that speed — through fail-safe design, diversion-area selection and envelope limits. This is the quantitative proof that “passive safety cannot stand alone”.</p>
+      </div>
+
+      <h3>An obvious omission</h3>
+      <p>General aviation and some eVTOL types fit a whole-aircraft parachute as a last resort “when attitude cannot be controlled”. No public material indicates that the EH216-S has a whole-aircraft parachute, nor any ejection-seat-type solution. <strong>This cannot be read directly as “absent”, but at least shows that the means has not been disclosed as a selling point.</strong> If there is indeed no whole-aircraft parachute, then crash safety rests entirely on the threefold combination of “controlled diversion + energy-absorbing structure + restraint system”, placing correspondingly higher reliability demands on the fail-safe.</p>
     </section>
-    <section id="s05">
+
+    <section id="elec">
       <h2><span class="num">05</span>High-Voltage Electrical & EMC</h2>
-      <p>Insulation, interlocks, fusing and electromagnetic compatibility. Sixteen switching power stages make self-interference a real risk.</p>
+      <p>The all-electric architecture introduces two risks not native to conventional aircraft: high-voltage electric shock and electromagnetic interference.</p>
+
+      <div class="tw">
+        <table>
+          <caption><b>Table 6-3</b>　Electrical safety requirements and measures</caption>
+          <thead><tr><th style="width:20%">Risk</th><th style="width:30%">Mechanism</th><th>Protective measures</th></tr></thead>
+          <tbody>
+            <tr><td class="em">High-voltage shock</td><td>High DC bus voltage; the airframe remains live after maintenance and forced landings</td><td>High-voltage interlocks, insulation monitoring, automatic power-down after an incident, warning labels</td></tr>
+            <tr><td class="em">Arcing and short circuits</td><td>Vibration causes wiring-harness chafing; contactor welding</td><td>Graded fusing, harness securing and abrasion-resistant sleeving, short-circuit protection</td></tr>
+            <tr><td class="em">Electromagnetic interference</td><td>Switching noise from the 16 motors and ESCs couples into one another</td><td>Shielding, filtering, earthing design; DO-160G-type environmental testing</td></tr>
+            <tr><td class="em">External interference</td><td>Strong electromagnetic environments disturb the data link and navigation</td><td>Anti-interference design, frequency hopping, multi-link redundancy</td></tr>
+            <tr><td class="em">Static electricity and lightning</td><td>Low-altitude flight can still encounter lightning or static accumulation</td><td>Bonding and discharge design, weather limits to avoid thunderstorms</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The special condition requires the data link to meet <strong>anti-interference standards and a triple-redundant communications architecture</strong> <span class="ev ev-std">Standard</span>, effectively elevating EMC from a “design recommendation” to a “certification requirement”. For an aircraft whose control commands are entirely carried over the link, interference with the link is equivalent to loss of control.</p>
     </section>
-    <section id="s06">
+
+    <section id="fire">
       <h2><span class="num">06</span>Fire Protection & Materials</h2>
-      <p>With no pilot, no disclosed extinguishing system and a small cabin, the only viable fire strategy is preventing propagation.</p>
+      <p>Fire-protection requirements for a passenger cabin differ fundamentally from those for a UAV: the latter need only protect equipment, while the former must protect the occupants' escape or survival until landing in a fire.</p>
+
+      <ul>
+        <li><strong>Material flame retardance</strong>: cabin interior, seats and harness sleeving must meet flame-retardance and low-smoke-toxicity requirements. Multirotors make extensive use of carbon-fibre composites, whose combustion behaviour differs from metal structures and requires dedicated assessment.</li>
+        <li><strong>Smoke toxicity and visibility</strong>: the cabin is cramped, so even a small amount of smoke can seriously impair occupants' judgement and breathing. Smoke-extraction path design is more critical than extinguishing capability.</li>
+        <li><strong>Extinguishing means</strong>: no public information shows an on-board extinguishing system. If indeed absent, fire response relies entirely on “isolation + landing as soon as possible”, making early interruption of thermal runaway the only effective line of defence.</li>
+        <li><strong>Emergency evacuation</strong>: the gull-wing door design facilitates rapid egress, but whether it can be mechanically opened from inside after a power loss, and whether occupants can operate it themselves, are key items requiring verification — especially given the premise that occupants are entirely passive.</li>
+      </ul>
+
+      <div class="note">
+        <span class="lbl">An inference from one design logic</span>
+        <p>The combination of “no pilot + no extinguishing system + a cramped cabin” means this aircraft's fire-safety strategy can only be <strong>“never occurs, never exceeds one group”</strong>, rather than “extinguish after it occurs”. This explains why the special condition writes thermal-runaway protection directly into the powerplant requirements — it is the only viable line of defence.</p>
+      </div>
     </section>
-    <section id="s07">
+
+    <section id="sum">
       <h2><span class="num">07</span>Chapter Summary</h2>
-      <p>Fire must be contained within one group; impact must remain below the speed where structure can no longer protect the occupant. Both have quantitative limits.</p>
+      <div class="sum">
+        <p>Catastrophic consequences ultimately take just two physical forms: fire and impact. The thermal-runaway chain has four break points; the design goal is not “non-occurrence” but confining the failure to one group and one module, buying time for a diversion.</p>
+        <p>The quantitative conclusion on crash is hard: 8 m/s requires about 0.3 m of energy-absorbing stroke, while at 12 m/s any stroke exceeds the limit — passive safety cannot stand alone. With no pilot, no extinguishing system and a cramped cabin combined, the fire strategy can only be “no occurrence, no propagation”.</p>
+      </div>
     </section>
 
     <nav class="pager" aria-label="Chapter paging">
@@ -103,13 +250,13 @@ Catastrophic consequences take two physical forms. Thermal runaway has four brea
   <aside class="toc" aria-label="On this page">
     <p class="toc-title">On This Page</p>
     <ol>
-      <li><a href="#s01">Focus A: Battery Thermal Runaway</a></li>
-      <li><a href="#s02">Runaway Chain & Break Points</a></li>
-      <li><a href="#s03">Focus B: Crash Safety</a></li>
-      <li><a href="#s04">Energy Absorption, Quantified</a></li>
-      <li><a href="#s05">High-Voltage Electrical & EMC</a></li>
-      <li><a href="#s06">Fire Protection & Materials</a></li>
-      <li><a href="#s07">Chapter Summary</a></li>
+      <li><a href="#thermal">Focus A: Battery Thermal Runaway</a></li>
+      <li><a href="#chain">Runaway Chain & Break Points</a></li>
+      <li><a href="#impact">Focus B: Crash Safety</a></li>
+      <li><a href="#energy">Energy Absorption, Quantified</a></li>
+      <li><a href="#elec">High-Voltage Electrical & EMC</a></li>
+      <li><a href="#fire">Fire Protection & Materials</a></li>
+      <li><a href="#sum">Chapter Summary</a></li>
     </ol>
   </aside>
 </div>
