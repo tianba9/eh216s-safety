@@ -27,7 +27,7 @@
       <a href="09-evidence.html">Evidence</a>
       <a href="10-summary.html">Summary</a>
     </nav>
-    <a class="lang" href="../index.html" title="Switch to Chinese">中文</a>
+    <a class="lang" href="../index.html" title="Switch to Chinese" aria-label="Switch to Chinese">中文</a>
     <a class="sister-link" href="https://tianba9.github.io/eh216s-research/en/" title="Vol. I · Research & Analysis">Vol. I · Research & Analysis ↗</a>
   </div>
 </header>
@@ -79,31 +79,31 @@ A pilotless passenger-carrying aircraft removes “human error” — the greate
       <div class="verdicts">
         <div class="verdict">
           <span class="n">Conclusion 01 · Design premise</span>
-          <h4>Removing the pilot is the first-principles choice for the whole safety architecture</h4>
+          <h3>Removing the pilot is the first-principles choice for the whole safety architecture</h3>
           <p>There are no flight controls on board; the aircraft flies the entire route automatically along a preset path, while the ground remote crew only monitors and takes over in an emergency <span class="ev ev-std">Standard</span>.
           This choice eliminates human failures such as fatigue, misoperation and spatial disorientation, at the cost of removing the last “human-in-the-loop” backstop. Every safety design must compensate for this.</p>
         </div>
         <div class="verdict">
           <span class="n">Conclusion 02 · Architectural weak point</span>
-          <h4>Triple redundancy addresses random failures but not common-cause failures</h4>
-          <p>Three independent flight-control channels with a voting mechanism can reduce the probability of a single random failure to a very low level <span class="ev ev-off">Official</span>.
+          <h3>Triple redundancy addresses random failures but not common-cause failures</h3>
+          <p>Three independent flight-control channels with a voting mechanism can reduce the probability of a single-point random failure to a very low level <span class="ev ev-off">Official</span>.
           But if the three systems share the same software, the same power supply or the same installation area, 1oo3 degrades to 1oo1. Common Cause Analysis (CCA) is the real test of this architecture, and no conclusion on it appears in the public material.</p>
         </div>
         <div class="verdict">
           <span class="n">Conclusion 03 · Nature of evidence</span>
-          <h4>90,000 sorties are operating evidence, not a safety proof</h4>
+          <h3>90,000 sorties are operating evidence, not a safety proof</h3>
           <p>At the catastrophic-failure target of 10<sup>-9</sup> per flight hour, statistically “proving” compliance would require data on the order of 10<sup>9</sup> hours; 90,000 sorties at 25 minutes each amount to roughly 37,500 flight hours <span class="ev ev-est">Author's estimate</span>.
           This supports a reliability-growth argument but cannot replace a quantitative analysis of failure probability.</p>
         </div>
         <div class="verdict">
           <span class="n">Conclusion 04 · Hazard focus</span>
-          <h4>The three most severe hazards: loss of control in flight, energy failure, and post-crash occupant protection</h4>
+          <h3>The three most severe hazards: loss of control in flight, energy failure, and post-crash occupant protection</h3>
           <p>The first two are controlled by architecture (redundancy, isolation, degradation), and the third by crashworthiness design. The special condition does add structural-protection requirements for the unmanned passenger cabin <span class="ev ev-std">Standard</span>,
           but public information contains the fewest quantitative figures on energy-absorbing structures, restraint systems and whole-aircraft recovery measures, making this the weakest link in the safety argument.</p>
         </div>
         <div class="verdict">
           <span class="n">Conclusion 05 · Risk attribution</span>
-          <h4>Residual risk lies mainly at the operational boundary, not in the hardware</h4>
+          <h3>Residual risk lies mainly at the operational boundary, not in the hardware</h3>
           <p>Weather, segregated airspace, crowd separation at the vertiport and remote-crew human factors cannot be solved by adding redundancy; they can only be controlled through ODD definition and operating procedures.
           They determine whether “designed safety” can be converted into “operational safety”.</p>
         </div>
@@ -121,7 +121,7 @@ A pilotless passenger-carrying aircraft removes “human error” — the greate
           <tbody>
             <tr><td class="em">Object boundary</td><td>System level: the aircraft itself + ground control station + data link. Excludes the operating organisation, maintenance system and low-altitude infrastructure</td><td>Misjudging a system problem as a design defect, or the reverse</td></tr>
             <tr><td class="em">Method boundary</td><td>FHA assigns severity, STPA finds systemic gaps, FTA derives cut sets, FMEA covers components, CCA checks common causes; the five have distinct roles and do not replace one another</td><td>FTA alone misses the case where “all parts are healthy but the control logic is wrong”</td></tr>
-            <tr><td class="em">Evidence boundary</td><td>Reconstructed solely from public material, an independent third-party recomputation; the manufacturer's FHA/PSSA/SSA/FMEA and compliance-verification documents are not available</td><td>Citing a recomputation result as an authority conclusion</td></tr>
+            <tr><td class="em">Evidence boundary</td><td>Reconstructed solely from public material, an independent third-party recomputation; the manufacturer's FHA/PSSA/SSA/FMEA and compliance-verification documents are not available</td><td>Citing a recomputation result as a certification conclusion</td></tr>
           </tbody>
         </table>
       </div>
@@ -230,6 +230,5 @@ A pilotless passenger-carrying aircraft removes “human error” — the greate
 </footer>
 <script src="../assets/lang.js"></script>
 <script src="../assets/main.js"></script>
-<script src="../assets/calc.js"></script>
 </body>
 </html>

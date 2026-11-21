@@ -37,7 +37,7 @@
     var m = first.nodeValue.match(/^\s*(\d+(?:\.\d+)?)/);
     if (!m) return;
 
-    var from = m.group(1);
+    var from = m[1];
     var target = parseFloat(from);
     var decimals = (from.split('.')[1] || '').length;
     var suffix = first.nodeValue.slice(m[0].length);

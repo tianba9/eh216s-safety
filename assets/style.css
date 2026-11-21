@@ -6,7 +6,7 @@
 :root{
   --ink:#15181c;
   --ink-2:#3d454e;
-  --muted:#68727e;
+  --muted:#616b77;
   --line:#e3e0d9;
   --line-strong:#cfcabf;
   --bg:#fbfaf7;
@@ -194,7 +194,7 @@ figcaption b{color:var(--ink-2);font-weight:600;}
   font-family:var(--mono);font-size:.72rem;color:var(--accent);
   letter-spacing:.08em;display:block;margin-bottom:.4rem;
 }
-.verdict h4{margin:0 0 .45rem;font-size:.98rem;color:var(--ink);font-family:var(--serif);font-weight:600;}
+.verdict h3{margin:0 0 .45rem;font-size:.98rem;color:var(--ink);font-family:var(--serif);font-weight:600;}
 .verdict p{margin:0;font-size:.88rem;color:var(--ink-2);line-height:1.65;max-width:none;}
 
 /* ---------- 页脚 ---------- */
@@ -253,7 +253,7 @@ figcaption b{color:var(--ink-2);font-weight:600;}
   border-right:1px solid var(--line);letter-spacing:-.02em;
 }
 .rating .rb{padding:1rem 1.3rem;}
-.rating .rb h4{margin:0 0 .35rem;font-size:.98rem;color:var(--ink);font-family:var(--serif);font-weight:600;}
+.rating .rb h3{margin:0 0 .35rem;font-size:.98rem;color:var(--ink);font-family:var(--serif);font-weight:600;}
 .rating .rb p{margin:0;font-size:.86rem;color:var(--ink-2);line-height:1.65;max-width:none;}
 
 /* ---------- 交互测算 ---------- */
