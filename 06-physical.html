@@ -97,16 +97,16 @@
                 <rect x="130" y="60" width="92" height="52" fill="#ffffff" stroke="#15181c"/>
                 <text x="176" y="80">单体升温</text><text x="176" y="96" font-size="9" fill="#6d7783">80–120 ℃</text>
 
-                <rect x="246" y="60" width="92" height="52" fill="#fbf0e6" stroke="#a8500c"/>
+                <rect x="246" y="60" width="92" height="52" fill="var(--warn-soft)" stroke="var(--warm)"/>
                 <text x="292" y="80">隔膜熔断</text><text x="292" y="96" font-size="9" fill="#8a5a2a">内短路加剧</text>
 
-                <rect x="362" y="60" width="92" height="52" fill="#fbf0e6" stroke="#a8500c"/>
+                <rect x="362" y="60" width="92" height="52" fill="var(--warn-soft)" stroke="var(--warm)"/>
                 <text x="408" y="80">热失控</text><text x="408" y="96" font-size="9" fill="#8a5a2a">喷阀·喷射</text>
 
-                <rect x="478" y="60" width="92" height="52" fill="#f5e3d8" stroke="#a8500c"/>
+                <rect x="478" y="60" width="92" height="52" fill="#f5e3d8" stroke="var(--warm)"/>
                 <text x="524" y="80">模组蔓延</text><text x="524" y="96" font-size="9" fill="#8a5a2a">传热至邻体</text>
 
-                <rect x="594" y="60" width="72" height="52" fill="#9b2226"/>
+                <rect x="594" y="60" width="72" height="52" fill="var(--danger)"/>
                 <text x="630" y="80" fill="#ffffff">整机火情</text><text x="630" y="96" font-size="9" fill="#f3d6d6">不可接受</text>
               </g>
               <!-- 箭头 -->
@@ -143,7 +143,7 @@
               <rect x="14" y="200" width="652" height="80" fill="#f7f5f0" stroke="#cfcabf"/>
               <text x="30" y="222" font-size="10.5" fill="#3d454e">与架构的衔接：12 组电池分组供电，意味着单组失效后剩余 11 组仍可维持飞行，</text>
               <text x="30" y="240" font-size="10.5" fill="#3d454e">可用能量降至 91.7%，航程相应缩短约 8%——这足以支撑一次就近迫降。</text>
-              <text x="30" y="262" font-size="10.5" fill="#a8500c">真正的危险不是单组失效，而是热失控突破组间阻断，形成多组连锁。</text>
+              <text x="30" y="262" font-size="10.5" fill="var(--warm)">真正的危险不是单组失效，而是热失控突破组间阻断，形成多组连锁。</text>
             </g>
           </svg>
         </div>
@@ -176,7 +176,7 @@
           </thead>
           <tbody>
             <tr><td class="num">3 m/s</td><td class="num">2.8 kJ</td><td class="num">4.6 g</td><td class="num">1.5 g</td><td>可接受</td></tr>
-            <tr><td class="num">5 m/s</td><td class="num">7.8 kJ</td><td class="num">12.7 g</td><td class="num">4.2 g</td><td>0.1 m 时接近极限</td></tr>
+            <tr><td class="num">5 m/s</td><td class="num">7.8 kJ</td><td class="num">12.7 g</td><td class="num">4.2 g</td><td>两种行程均低于 20 g</td></tr>
             <tr><td class="num">8 m/s</td><td class="num">19.8 kJ</td><td class="num">32.6 g</td><td class="num">10.9 g</td><td>0.1 m 时超限，须增加行程</td></tr>
             <tr><td class="num">12 m/s</td><td class="num">44.6 kJ</td><td class="num">73.4 g</td><td class="num">24.5 g</td><td><strong>两种行程均超限</strong></td></tr>
           </tbody>
@@ -186,8 +186,8 @@
 
       <div class="note key">
         <span class="lbl">这张表说明了什么</span>
-        <p>要让 8 m/s 的垂直撞击保持在人体可承受范围内，<strong>吸能行程至少要接近 0.3 米</strong>。在一架高 1.93 米、座舱紧凑的多旋翼上，0.3 米的溃缩空间意味着机身下部必须专门设计为可压溃结构，且座椅需与机体解耦。这不是加一块泡沫能解决的，而是总体布局层面的设计决策。</p>
-        <p>更值得注意的是 12 m/s 一行：<strong>当撞击速度超过某一阈值后，任何行程都无法把减速度压到安全范围</strong>。此时唯一的保护手段是避免以该速度撞地——也就是靠失效保护、迫降区选择与包线限制。这正是「被动安全无法独立成立」的定量证明。</p>
+        <p>按 20 g 平均减速度估算，8 m/s 和 12 m/s 对应的理论最小吸能行程分别约为 0.16 m 和 0.37 m。实际乘员保护还取决于机体可用溃缩行程、减速度脉冲、座椅和约束系统，需通过试验验证。</p>
+        <p>在 12 m/s 工况下，表中 0.1 m 和 0.3 m 两种行程均高于 20 g。实际能否达到该减速度目标取决于可用行程和结构响应。</p>
       </div>
 
       <h3>一个明显的缺项</h3>
@@ -235,7 +235,7 @@
       <h2><span class="num">07</span><span>本章总结</span></h2>
       <div class="sum">
         <p>灾难性后果最终只有两种物理形态：火与撞击。热失控链有四个可阻断点，设计目标不是「不发生」，而是把失效限制在单组、单模组，为迫降争取时间。</p>
-        <p>坠撞的定量结论很硬：8 m/s 需要约 0.3 米吸能行程，12 m/s 时任何行程都超限——被动安全无法独立成立。无驾驶员、无灭火、舱内狭小三者叠加，火情策略只能是「不发生、不扩散」。</p>
+        <p>按 20 g 平均减速度估算，8 m/s 和 12 m/s 对应的理论最小吸能行程分别约为 0.16 m 和 0.37 m。实际乘员保护还取决于机体可用溃缩行程、减速度脉冲、座椅和约束系统，需通过试验验证。火情设计关注预防热失控和限制蔓延。</p>
       </div>
     </section>
 

@@ -99,16 +99,16 @@ The catastrophic consequences of a passenger-carrying aircraft ultimately take j
                 <rect x="130" y="60" width="92" height="52" fill="#ffffff" stroke="#15181c"/>
                 <text x="176" y="80">Cell heating</text><text x="176" y="96" font-size="9" fill="#6d7783">80–120 ℃</text>
 
-                <rect x="246" y="60" width="92" height="52" fill="#fbf0e6" stroke="#a8500c"/>
+                <rect x="246" y="60" width="92" height="52" fill="var(--warn-soft)" stroke="var(--warm)"/>
                 <text x="292" y="80">Separator melt</text><text x="292" y="96" font-size="9" fill="#8a5a2a">Internal short intensifies</text>
 
-                <rect x="362" y="60" width="92" height="52" fill="#fbf0e6" stroke="#a8500c"/>
+                <rect x="362" y="60" width="92" height="52" fill="var(--warn-soft)" stroke="var(--warm)"/>
                 <text x="408" y="80">Thermal runaway</text><text x="408" y="96" font-size="9" fill="#8a5a2a">Vent opening · ejection</text>
 
-                <rect x="478" y="60" width="92" height="52" fill="#f5e3d8" stroke="#a8500c"/>
+                <rect x="478" y="60" width="92" height="52" fill="#f5e3d8" stroke="var(--warm)"/>
                 <text x="524" y="80">Module propagation</text><text x="524" y="96" font-size="9" fill="#8a5a2a">Heat to adjacent cells</text>
 
-                <rect x="594" y="60" width="72" height="52" fill="#9b2226"/>
+                <rect x="594" y="60" width="72" height="52" fill="var(--danger)"/>
                 <text x="630" y="80" fill="#ffffff">Vehicle-wide fire</text><text x="630" y="96" font-size="9" fill="#f3d6d6">Unacceptable</text>
               </g>
               <!-- Arrows -->
@@ -145,7 +145,7 @@ The catastrophic consequences of a passenger-carrying aircraft ultimately take j
               <rect x="14" y="200" width="652" height="80" fill="#f7f5f0" stroke="#cfcabf"/>
               <text x="30" y="222" font-size="10.5" fill="#3d454e">Link to the architecture: the battery is divided into 12 power-supply groups, so after one group fails the remaining 11 can still sustain flight;</text>
               <text x="30" y="240" font-size="10.5" fill="#3d454e">available energy falls to 91.7% and range drops by about 8% — enough to support a diversion to the nearest site.</text>
-              <text x="30" y="262" font-size="10.5" fill="#a8500c">The real danger is not a single-group failure but runaway breaching the inter-group barrier and forming a multi-group chain.</text>
+              <text x="30" y="262" font-size="10.5" fill="var(--warm)">The real danger is not a single-group failure but runaway breaching the inter-group barrier and forming a multi-group chain.</text>
             </g>
           </svg>
         </div>
@@ -188,8 +188,8 @@ The catastrophic consequences of a passenger-carrying aircraft ultimately take j
 
       <div class="note key">
         <span class="lbl">What this table shows</span>
-        <p>To keep an 8 m/s vertical impact within human tolerance, <strong>the energy-absorbing stroke must approach 0.3 m</strong>. On a multirotor only 1.93 m tall with a compact cabin, a 0.3 m crush zone means the lower fuselage must be deliberately designed as a crushable structure and the seats decoupled from the airframe. This cannot be solved by adding a block of foam; it is a design decision at the overall-layout level.</p>
-        <p>More notable is the 12 m/s row: <strong>once impact speed exceeds a certain threshold, no stroke can keep deceleration within the safe range</strong>. The only remaining protection is to avoid hitting the ground at that speed — through fail-safe design, diversion-area selection and envelope limits. This is the quantitative proof that “passive safety cannot stand alone”.</p>
+        <p>At 20 g average deceleration, the theoretical minimum energy-absorbing stroke is about 0.16 m at 8 m/s and 0.37 m at 12 m/s. Actual occupant protection depends on usable crush stroke, the deceleration pulse, seats and restraints, and requires test evidence.</p>
+        <p>At 12 m/s, both tabulated strokes exceed 20 g. Meeting the benchmark in practice depends on available stroke and the structural response.</p>
       </div>
 
       <h3>An obvious omission</h3>
@@ -237,7 +237,7 @@ The catastrophic consequences of a passenger-carrying aircraft ultimately take j
       <h2><span class="num">07</span>Chapter Summary</h2>
       <div class="sum">
         <p>Catastrophic consequences ultimately take just two physical forms: fire and impact. The thermal-runaway chain has four break points; the design goal is not “non-occurrence” but confining the failure to one group and one module, buying time for a diversion.</p>
-        <p>The quantitative conclusion on crash is hard: 8 m/s requires about 0.3 m of energy-absorbing stroke, while at 12 m/s any stroke exceeds the limit — passive safety cannot stand alone. With no pilot, no extinguishing system and a cramped cabin combined, the fire strategy can only be “no occurrence, no propagation”.</p>
+        <p>At 20 g average deceleration, the theoretical minimum energy-absorbing stroke is about 0.16 m at 8 m/s and 0.37 m at 12 m/s. Actual occupant protection depends on usable crush stroke, the deceleration pulse, seats and restraints, and requires test evidence. Fire protection focuses on preventing thermal runaway and limiting propagation.</p>
       </div>
     </section>
 

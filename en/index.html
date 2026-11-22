@@ -50,7 +50,7 @@
     </ol>
   </aside>
 
-  <main id="main">
+  <main id="main" class="reading-redesign">
     <div class="page-head">
       <div class="ph-top">
         <div class="crumb"><a href="index.html">Home</a><span class="sep">›</span><span class="cur">Home</span></div>
@@ -58,20 +58,27 @@
         <a href="01-scope.html" title="Scope">Start reading →</a>
         </div>
       </div>
-      <h1>Taking “Zero Accidents” Apart</h1>
-      <p class="lede">
-A pilotless passenger-carrying aircraft removes “human error” — the greatest source of uncertainty — from the vehicle, and with it the last manual backstop. Safety responsibility is therefore transferred entirely to automation, redundant architecture and the ground remote crew. Using the eight-step method of systems safety engineering, this report examines whether that allocation of responsibility is argued convincingly enough.
-      </p>
+      <h1>EH216-S: What safety conclusions can the public evidence support?</h1>
+      <div class="report-hero">
+        <div>
+          <p class="lede">Public records support checks on certification and some redundancy measures. Quantified evidence for common-cause failures, crash protection and remote intervention remains limited. The report’s R2 assessment applies within the stated operating conditions.</p>
+          <dl class="report-metrics"><div><dt>Report-defined assessment</dt><dd>R2</dd></div><div><dt>Evidence chains</dt><dd>4</dd></div><div><dt>Public evidence gaps</dt><dd>3</dd></div></dl>
+          <div class="report-actions"><a href="03-hazard.html">See key hazards</a><a href="08-assurance.html#evidence">Review evidence and gaps</a></div>
+        </div>
+        <aside class="hero-evidence" aria-label="Which evidence is still missing?"><h2>Which evidence is still missing?</h2><ul><li><a href="08-assurance.html#gap">Common-cause failure and flight-control independence</a></li><li><a href="08-assurance.html#gap">Occupant crash protection criteria</a></li><li><a href="08-assurance.html#gap">Remote-crew takeover capability</a></li></ul></aside>
+      </div>
+
     </div>
 
-    <div class="kpis">
-      <div class="kpi"><div class="v">3<small> flight-control sets</small></div><div class="k">Independent control channels and voting</div></div>
-      <div class="kpi"><div class="v">12<small> battery groups</small></div><div class="k">Grouped power supply and isolation</div></div>
-      <div class="kpi"><div class="v">3<small> data links</small></div><div class="k">Data-link redundancy required by the special condition</div></div>
-      <div class="kpi"><div class="v">10<sup>-9</sup></div><div class="k">Target probability of catastrophic failure</div></div>
-      <div class="kpi"><div class="v">90,000<small>+ sorties</small></div><div class="k">Cumulative operating evidence</div></div>
-      <div class="kpi"><div class="v">4<small> certificates held</small></div><div class="k">TC / AC / PC / OC</div></div>
-    </div>
+    <details class="reading-toc"><summary>On this page</summary>
+      <ol>
+      <li><a href="#conclusions">Five Safety Conclusions</a></li>
+      <li><a href="#overview">Scope & Boundaries</a></li>
+      <li><a href="#goals">Safety Objectives</a></li>
+      <li><a href="#domains">Five Safety Domains</a></li>
+      <li><a href="#route">The Eight-Step Path</a></li>
+    </ol>
+    </details>
 
     <section id="conclusions">
       <h2><span class="num">01</span>Five Safety Conclusions</h2>
@@ -82,32 +89,38 @@ A pilotless passenger-carrying aircraft removes “human error” — the greate
           <h3>Removing the pilot is the first-principles choice for the whole safety architecture</h3>
           <p>There are no flight controls on board; the aircraft flies the entire route automatically along a preset path, while the ground remote crew only monitors and takes over in an emergency <span class="ev ev-std">Standard</span>.
           This choice eliminates human failures such as fatigue, misoperation and spatial disorientation, at the cost of removing the last “human-in-the-loop” backstop. Every safety design must compensate for this.</p>
+          <p class="t-foot"><a href="01-scope.html">Roles and operating scenarios</a></p>
         </div>
         <div class="verdict">
           <span class="n">Conclusion 02 · Architectural weak point</span>
           <h3>Triple redundancy addresses random failures but not common-cause failures</h3>
           <p>Three independent flight-control channels with a voting mechanism can reduce the probability of a single-point random failure to a very low level <span class="ev ev-off">Official</span>.
           But if the three systems share the same software, the same power supply or the same installation area, 1oo3 degrades to 1oo1. Common Cause Analysis (CCA) is the real test of this architecture, and no conclusion on it appears in the public material.</p>
+          <p class="t-foot"><a href="04-arch.html#deep">Redundancy and thrust assumptions</a></p>
         </div>
         <div class="verdict">
           <span class="n">Conclusion 03 · Nature of evidence</span>
           <h3>90,000 sorties are operating evidence, not a safety proof</h3>
           <p>At the catastrophic-failure target of 10<sup>-9</sup> per flight hour, statistically “proving” compliance would require data on the order of 10<sup>9</sup> hours; 90,000 sorties at 25 minutes each amount to roughly 37,500 flight hours <span class="ev ev-est">Author's estimate</span>.
           This supports a reliability-growth argument but cannot replace a quantitative analysis of failure probability.</p>
+          <p class="t-foot"><a href="07-vv.html#ops">Flight-hour calculation</a></p>
         </div>
         <div class="verdict">
           <span class="n">Conclusion 04 · Hazard focus</span>
           <h3>The three most severe hazards: loss of control in flight, energy failure, and post-crash occupant protection</h3>
           <p>The first two are controlled by architecture (redundancy, isolation, degradation), and the third by crashworthiness design. The special condition does add structural-protection requirements for the unmanned passenger cabin <span class="ev ev-std">Standard</span>,
           but public information contains the fewest quantitative figures on energy-absorbing structures, restraint systems and whole-aircraft recovery measures, making this the weakest link in the safety argument.</p>
+          <p class="t-foot"><a href="06-physical.html#energy">Crash deceleration calculation</a></p>
         </div>
         <div class="verdict">
           <span class="n">Conclusion 05 · Risk attribution</span>
           <h3>Residual risk lies mainly at the operational boundary, not in the hardware</h3>
           <p>Weather, segregated airspace, crowd separation at the vertiport and remote-crew human factors cannot be solved by adding redundancy; they can only be controlled through ODD definition and operating procedures.
           They determine whether “designed safety” can be converted into “operational safety”.</p>
+          <p class="t-foot"><a href="08-assurance.html#release-rating">Open risks and assessment criteria</a></p>
         </div>
       </div>
+          <p class="t-foot"><a href="08-assurance.html#release-rating">R2: restricted-scope release</a> is this report’s own assessment within the specified operating design domain.</p>
     </section>
 
     <section id="overview">
@@ -136,6 +149,7 @@ A pilotless passenger-carrying aircraft removes “human error” — the greate
 
     <section id="goals">
       <h2><span class="num">03</span>Safety Objectives & Probability Allocation</h2>
+      <p class="t-foot">H02, H05 and H06 use this report’s FHA event definitions and targets. Probabilities are targets per flight hour, rather than measured rates. No DAL is allocated here for H05.</p>
       <p>Safety analysis must arrive at quantifiable objectives. The table below allocates the aircraft-level safety objective step by step to the major functions, providing the baseline for the later chapters that discuss architecture and verification.</p>
 
       <div class="tw">
@@ -146,12 +160,12 @@ A pilotless passenger-carrying aircraft removes “human error” — the greate
           </thead>
           <tbody>
             <tr><td class="em">Loss of control of the aircraft</td><td>Catastrophic</td><td class="num">≤ 10<sup>-9</sup>/fh</td><td class="num">A</td><td>Triple-redundant flight control + voting + envelope protection</td></tr>
-            <tr><td class="em">Loss of all thrust</td><td>Catastrophic</td><td class="num">≤ 10<sup>-9</sup>/fh</td><td class="num">A</td><td>16-rotor distributed propulsion + 12 isolated battery groups</td></tr>
+            <tr><td class="em"><a href="03-hazard.html#h02">H02 Total thrust loss</a></td><td>Catastrophic</td><td class="num">≤ 10<sup>-9</sup>/fh</td><td class="num">A</td><td>16-rotor distributed propulsion + 12 isolated battery groups</td></tr>
             <tr><td class="em">Uncontrolled fire</td><td>Catastrophic</td><td class="num">≤ 10<sup>-9</sup>/fh</td><td class="num">A</td><td>Thermal-runaway warning, isolation, venting and flame retardance</td></tr>
             <tr><td class="em">Mid-air collision</td><td>Catastrophic</td><td class="num">≤ 10<sup>-9</sup>/fh</td><td class="num">B</td><td>Segregated airspace + filed routes + detect and avoid</td></tr>
-            <tr><td class="em">Partial thrust loss</td><td>Hazardous</td><td class="num">≤ 10<sup>-7</sup>/fh</td><td class="num">B</td><td>Control reconfiguration + degraded flight + diversion to the nearest site</td></tr>
+            <tr><td class="em"><a href="03-hazard.html#h06">H06 Partial thrust loss leading to uncontrollable yaw</a></td><td>Hazardous</td><td class="num">≤ 10<sup>-7</sup>/fh</td><td class="num">B</td><td>Control reconfiguration + degraded flight + diversion to the nearest site</td></tr>
             <tr><td class="em">Data-link loss</td><td>Hazardous</td><td class="num">≤ 10<sup>-7</sup>/fh</td><td class="num">B</td><td>Triple link + autonomous fail-safe on link loss</td></tr>
-            <tr><td class="em">Occupant injury in a crash</td><td>Hazardous</td><td class="num">≤ 10<sup>-7</sup>/fh</td><td class="num">B</td><td>Crashworthy structure, restraint systems, energy-absorbing seats</td></tr>
+            <tr><td class="em"><a href="03-hazard.html#h05">H05 Fatal injury to occupants in a crash</a></td><td>Catastrophic</td><td class="num">≤ 10<sup>-9</sup>/fh</td><td class="num">—</td><td>Crashworthy structure, restraints and energy-absorbing seats</td></tr>
           </tbody>
         </table>
       </div>
@@ -160,6 +174,18 @@ A pilotless passenger-carrying aircraft removes “human error” — the greate
 
     <section id="domains">
       <h2><span class="num">04</span>Coverage Across Five Safety Domains</h2>
+      <figure class="home-visual">
+      <div class="frame">
+        <svg viewBox="0 0 460 200" role="img" aria-label="EH216-S layout schematic: eight coaxial rotor positions and central cabin">
+          <g fill="none" stroke="var(--volume)" stroke-width="3"><path d="M180 100L112 48"/><path d="M180 100L180 32"/><path d="M180 100L248 48"/><path d="M180 100L272 100"/><path d="M180 100L248 152"/><path d="M180 100L180 168"/><path d="M180 100L112 152"/><path d="M180 100L88 100"/></g>
+          <g fill="var(--paper)" stroke="var(--volume)" stroke-width="1.5"><circle cx="112" cy="48" r="14"/><circle cx="112" cy="48" r="5"/><circle cx="180" cy="32" r="14"/><circle cx="180" cy="32" r="5"/><circle cx="248" cy="48" r="14"/><circle cx="248" cy="48" r="5"/><circle cx="272" cy="100" r="14"/><circle cx="272" cy="100" r="5"/><circle cx="248" cy="152" r="14"/><circle cx="248" cy="152" r="5"/><circle cx="180" cy="168" r="14"/><circle cx="180" cy="168" r="5"/><circle cx="112" cy="152" r="14"/><circle cx="112" cy="152" r="5"/><circle cx="88" cy="100" r="14"/><circle cx="88" cy="100" r="5"/></g>
+          <rect x="153" y="61" width="54" height="78" rx="23" fill="var(--paper)" stroke="var(--volume)" stroke-width="2"/>
+          <g stroke="var(--volume)" fill="none"><path d="M258 38L285 20H296"/><path d="M207 91L285 72H296"/></g>
+          <g fill="var(--volume)" font-size="15" font-family="system-ui,sans-serif"><text x="303" y="25">8 coaxial pairs</text><text x="303" y="77">Central cabin</text></g>
+        </svg>
+      </div>
+      <figcaption>Schematic based on the published external layout. Scale is approximate; internal equipment positions are omitted. <a href="04-arch.html#deep">See thrust margins and assumptions</a></figcaption>
+    </figure>
       <p>The course divides the safety of intelligent vehicles into five mutually coupled domains. A domain-by-domain review shows that coverage is uneven: functional safety and cybersecurity have strong evidence, while passive safety and Safety of the Intended Functionality (SOTIF) are the weakest.</p>
 
       <div class="tw">

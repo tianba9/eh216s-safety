@@ -50,27 +50,33 @@
       </ol>
   </aside>
 
-  <main id="main">
+  <main id="main" class="reading-redesign">
     <div class="page-head">
       <div class="ph-top">
         <div class="crumb"><span class="cur">首页</span><span class="sep">·</span><span>全方位安全分析</span></div>
         <div class="head-nav"><a href="01-scope.html" title="开始阅读：01 安全管理与场景定义">开始阅读 →</a></div>
       </div>
-      <h1>把「零事故」拆成可论证的命题</h1>
-      <p class="lede">
-        一架没有驾驶员的载人飞行器，把「人会犯错」这个最大的不确定性从机上移除了，同时也移除了最后一道人工兜底。
-        安全责任因此全部转移到自动化、冗余架构与地面远程机组身上。本报告用系统安全工程的八步法，检验这套责任分配是否被论证充分。
-      </p>
+      <h1>EH216-S：公开证据能支持怎样的安全判断？</h1>
+      <div class="report-hero">
+        <div>
+          <p class="lede">公开材料可用来核对适航证件和部分冗余措施。共因失效、乘员坠撞保护和远程接管的量化证据仍有限。本报告的 R2 评级仅适用于所列运行条件。</p>
+          <dl class="report-metrics"><div><dt>报告自定义评级</dt><dd>R2</dd></div><div><dt>证据链</dt><dd>4 条</dd></div><div><dt>公开证据缺口</dt><dd>3 处</dd></div></dl>
+          <div class="report-actions"><a href="03-hazard.html">看关键危害</a><a href="08-assurance.html#evidence">看证据与缺口</a></div>
+        </div>
+        <aside class="hero-evidence" aria-label="哪些证据还需要补足？"><h2>哪些证据还需要补足？</h2><ul><li><a href="08-assurance.html#gap">共因失效与飞控独立性</a></li><li><a href="08-assurance.html#gap">乘员坠撞保护指标</a></li><li><a href="08-assurance.html#gap">远程机组接管能力</a></li></ul></aside>
+      </div>
+
     </div>
 
-    <div class="kpis">
-      <div class="kpi"><div class="v">3<small>套飞控</small></div><div class="k">独立控制通道与表决</div></div>
-      <div class="kpi"><div class="v">12<small>组电池</small></div><div class="k">分组供电与隔离</div></div>
-      <div class="kpi"><div class="v">3<small>重链路</small></div><div class="k">专用条件要求的数据链冗余</div></div>
-      <div class="kpi"><div class="v">10<sup>-9</sup></div><div class="k">灾难性失效的目标概率</div></div>
-      <div class="kpi"><div class="v">9<small>万+架次</small></div><div class="k">累计运行证据</div></div>
-      <div class="kpi"><div class="v">4<small>证齐全</small></div><div class="k">TC / AC / PC / OC</div></div>
-    </div>
+    <details class="reading-toc"><summary>本页目录</summary>
+      <ol>
+      <li><a href="#conclusions">五条安全结论</a></li>
+      <li><a href="#overview">研究范围与边界</a></li>
+      <li><a href="#goals">安全目标与失效概率分配</a></li>
+      <li><a href="#domains">五大安全域的覆盖情况</a></li>
+      <li><a href="#route">八步法路径</a></li>
+    </ol>
+    </details>
 
     <section id="conclusions">
       <h2><span class="num">01</span><span>五条安全结论</span></h2>
@@ -81,32 +87,38 @@
           <h3>取消驾驶员，是全机安全架构的第一性选择</h3>
           <p>机上无操纵装置，全程按预设航路自动飞行，地面远程机组只做监视与应急接管<span class="ev ev-std">标准</span>。
           这一选择消除了疲劳、误操作、空间失定向等人因失效，代价是取消了「人在环内」的最后兜底。所有安全设计都必须补偿这一点。</p>
+          <p class="t-foot"><a href="01-scope.html">职责分配与运行场景</a></p>
         </div>
         <div class="verdict">
           <span class="n">结论 02 · 架构软肋</span>
           <h3>三余度解决随机失效，解决不了共因失效</h3>
           <p>三套独立飞控配合表决机制，可将单点随机失效的概率压到很低<span class="ev ev-off">官方</span>。
           但若三套系统共享同一份软件、同一路供电或同一安装区域，1oo3 将退化为 1oo1。共因分析（CCA）才是这套架构的真正考验，而公开材料未见其结论。</p>
+          <p class="t-foot"><a href="04-arch.html#deep">冗余架构与推力假设</a></p>
         </div>
         <div class="verdict">
           <span class="n">结论 03 · 证据性质</span>
           <h3>九万架次是运行证据，不是安全证明</h3>
           <p>按灾难性失效目标 10<sup>-9</sup>/飞行小时计，要统计性地「证明」达标需 10<sup>9</sup> 小时量级的数据；9 万架次、每架次 25 分钟，累计约 3.75 万飞行小时<span class="ev ev-est">本报告估算</span>。
           它支持可靠性增长论证，不能替代失效概率的定量分析。</p>
+          <p class="t-foot"><a href="07-vv.html#ops">运行小时与统计计算</a></p>
         </div>
         <div class="verdict">
           <span class="n">结论 04 · 危害重心</span>
           <h3>最严重的三类危害：空中失控、能源失效、坠撞后乘员保护</h3>
           <p>前两类由架构（冗余、隔离、降级）控制，第三类由适坠性设计控制。专用条件确实新增了无人驾驶载客舱体的结构防护要求<span class="ev ev-std">标准</span>，
           但公开信息中关于吸能结构、约束系统与整机降落手段的量化指标最少，是安全论证中最薄的一环。</p>
+          <p class="t-foot"><a href="06-physical.html#energy">坠撞减速度计算</a></p>
         </div>
         <div class="verdict">
           <span class="n">结论 05 · 风险归属</span>
           <h3>剩余风险主要在运行边界，不在硬件</h3>
           <p>气象、隔离空域、起降场人群隔离、远程机组人因，这四项无法靠增加冗余解决，只能靠 ODD 划定与运行程序控制。
           它们决定了「设计安全」能否转化为「运行安全」。</p>
+          <p class="t-foot"><a href="08-assurance.html#release-rating">剩余风险与评级条件</a></p>
         </div>
       </div>
+          <p class="t-foot"><a href="08-assurance.html#release-rating">R2（限定场景放行）</a>是本报告在指定运行设计域内给出的自定义评级。</p>
     </section>
 
     <section id="overview">
@@ -135,6 +147,7 @@
 
     <section id="goals">
       <h2><span class="num">03</span><span>安全目标与失效概率分配</span></h2>
+      <p class="t-foot">H02、H05 和 H06 沿用本报告 FHA 的事件定义与分析目标。概率为每飞行小时的目标，不是实测失效率；H05 的 DAL 未在此表分配。</p>
       <p>安全分析的落点是可量化的目标。下表把整机安全目标逐级分配到主要功能，作为后文章节讨论架构与验证的基准。</p>
 
       <div class="tw">
@@ -145,12 +158,12 @@
           </thead>
           <tbody>
             <tr><td class="em">丧失对航空器的控制</td><td>灾难性</td><td class="num">≤ 10<sup>-9</sup>/fh</td><td class="num">A</td><td>三余度飞控 + 表决 + 包线保护</td></tr>
-            <tr><td class="em">丧失全部推力</td><td>灾难性</td><td class="num">≤ 10<sup>-9</sup>/fh</td><td class="num">A</td><td>16 旋翼分布动力 + 12 组电池隔离</td></tr>
+            <tr><td class="em"><a href="03-hazard.html#h02">H02 全部推力丧失</a></td><td>灾难性</td><td class="num">≤ 10<sup>-9</sup>/fh</td><td class="num">A</td><td>16 旋翼分布动力 + 12 组电池隔离</td></tr>
             <tr><td class="em">不可控火情</td><td>灾难性</td><td class="num">≤ 10<sup>-9</sup>/fh</td><td class="num">A</td><td>热失控预警、隔离、泄压与阻燃</td></tr>
             <tr><td class="em">空中相撞</td><td>灾难性</td><td class="num">≤ 10<sup>-9</sup>/fh</td><td class="num">B</td><td>隔离空域 + 航路申报 + 感知避让</td></tr>
-            <tr><td class="em">部分推力丧失</td><td>危险</td><td class="num">≤ 10<sup>-7</sup>/fh</td><td class="num">B</td><td>控制重构 + 降级飞行 + 就近迫降</td></tr>
+            <tr><td class="em"><a href="03-hazard.html#h06">H06 部分推力丧失导致不可控偏航</a></td><td>危险</td><td class="num">≤ 10<sup>-7</sup>/fh</td><td class="num">B</td><td>控制重构 + 降级飞行 + 就近迫降</td></tr>
             <tr><td class="em">数据链路丧失</td><td>危险</td><td class="num">≤ 10<sup>-7</sup>/fh</td><td class="num">B</td><td>三重链路 + 失联自主失效保护</td></tr>
-            <tr><td class="em">坠撞中乘员受伤</td><td>危险</td><td class="num">≤ 10<sup>-7</sup>/fh</td><td class="num">B</td><td>适坠性结构、约束系统、吸能座椅</td></tr>
+            <tr><td class="em"><a href="03-hazard.html#h05">H05 坠撞导致乘员致命伤</a></td><td>灾难性</td><td class="num">≤ 10<sup>-9</sup>/fh</td><td class="num">—</td><td>适坠性结构、约束系统、吸能座椅</td></tr>
           </tbody>
         </table>
       </div>
@@ -159,6 +172,18 @@
 
     <section id="domains">
       <h2><span class="num">04</span><span>五大安全域的覆盖情况</span></h2>
+      <figure class="home-visual">
+      <div class="frame">
+        <svg viewBox="0 0 460 200" role="img" aria-label="EH216-S 构型示意：八个共轴旋翼站位与中央座舱">
+          <g fill="none" stroke="var(--volume)" stroke-width="3"><path d="M180 100L112 48"/><path d="M180 100L180 32"/><path d="M180 100L248 48"/><path d="M180 100L272 100"/><path d="M180 100L248 152"/><path d="M180 100L180 168"/><path d="M180 100L112 152"/><path d="M180 100L88 100"/></g>
+          <g fill="var(--paper)" stroke="var(--volume)" stroke-width="1.5"><circle cx="112" cy="48" r="14"/><circle cx="112" cy="48" r="5"/><circle cx="180" cy="32" r="14"/><circle cx="180" cy="32" r="5"/><circle cx="248" cy="48" r="14"/><circle cx="248" cy="48" r="5"/><circle cx="272" cy="100" r="14"/><circle cx="272" cy="100" r="5"/><circle cx="248" cy="152" r="14"/><circle cx="248" cy="152" r="5"/><circle cx="180" cy="168" r="14"/><circle cx="180" cy="168" r="5"/><circle cx="112" cy="152" r="14"/><circle cx="112" cy="152" r="5"/><circle cx="88" cy="100" r="14"/><circle cx="88" cy="100" r="5"/></g>
+          <rect x="153" y="61" width="54" height="78" rx="23" fill="var(--paper)" stroke="var(--volume)" stroke-width="2"/>
+          <g stroke="var(--volume)" fill="none"><path d="M258 38L285 20H296"/><path d="M207 91L285 72H296"/></g>
+          <g fill="var(--volume)" font-size="15" font-family="system-ui,sans-serif"><text x="303" y="25">八组共轴旋翼</text><text x="303" y="77">中央载客舱</text></g>
+        </svg>
+      </div>
+      <figcaption>按公开外部构型绘制，比例为示意。电池与飞控等内部位置未标注。 <a href="04-arch.html#deep">查看推力余量与假设</a></figcaption>
+    </figure>
       <p>课程把智能运载工具的安全拆成五个相互耦合的域。逐域检查后可以发现，覆盖并不均衡：功能安全与信息安全证据充分，被动安全与预期功能安全最弱。</p>
 
       <div class="tw">

@@ -151,13 +151,13 @@ The redundancy of the EH216-S appears at three levels: three flight-control chan
         <table>
           <caption><b>Table 4-4</b>　Thrust margin under different failure cases (author's estimate)</caption>
           <thead>
-            <tr><th style="width:26%">Failure case</th><th class="num" style="width:14%">Remaining rotors</th><th class="num" style="width:18%">Total available thrust</th><th class="num" style="width:16%">Margin</th><th>Can hover be maintained</th></tr>
+            <tr><th style="width:26%">Failure case</th><th class="num" style="width:14%">Remaining rotors</th><th class="num" style="width:18%">Total available thrust</th><th class="num" style="width:16%">Margin</th><th>Static thrust assessment</th></tr>
           </thead>
           <tbody>
             <tr><td>Intact</td><td class="num">16</td><td class="num">8000 N</td><td class="num">31.5%</td><td class="t-ok">Yes</td></tr>
-            <tr><td>Single rotor failure</td><td class="num">15</td><td class="num">7500 N</td><td class="num">23.3%</td><td class="t-warn">Yes, with torque compensation</td></tr>
-            <tr><td>One arm lost (2 rotors)</td><td class="num">14</td><td class="num">7000 N</td><td class="num">15.1%</td><td class="t-warn">Yes, but attitude margin falls significantly</td></tr>
-            <tr><td>Two arms lost (4 rotors)</td><td class="num">12</td><td class="num">6000 N</td><td class="num">-1.4%</td><td class="t-no"><strong>No</strong>, immediate landing required</td></tr>
+            <tr><td>Single rotor failure</td><td class="num">15</td><td class="num">7500 N</td><td class="num">23.3%</td><td class="t-warn">Positive before moment compensation</td></tr>
+            <tr><td>One arm lost (2 rotors)</td><td class="num">14</td><td class="num">7000 N</td><td class="num">15.1%</td><td class="t-warn">Positive before moment compensation</td></tr>
+            <tr><td>Two arms lost (4 rotors)</td><td class="num">12</td><td class="num">6000 N</td><td class="num">-1.4%</td><td class="t-no">Below hover thrust demand</td></tr>
           </tbody>
         </table>
       </div>
@@ -165,14 +165,14 @@ The redundancy of the EH216-S appears at three levels: three flight-control chan
       <p class="t-foot">Note: total thrust demand is 6,082 N (620 kg × 9.81). The table does not include the extra derating caused by torque compensation, so the actual usable margin is lower than the figures shown. The 500 N maximum rotor thrust is an assumption, not published data.</p>
 
       <div class="note key">
-        <span class="lbl">Three inferences from this</span>
-        <p><strong>First</strong>, a single rotor failure is tolerable, consistent with the statement of “full backup of key components”; <strong>second</strong>, the real fault-tolerance boundary is near “the loss of two arms”, where the thrust margin turns from positive to negative and any attempt to continue flying will make height unsustainable; <strong>third</strong>, therefore the Fail-Safe criterion cannot look only at “whether remaining thrust exceeds weight” but must also consider attitude controllability and remaining range — because a diversion needs extra energy.</p>
+        <span class="lbl">Assumptions behind the thrust estimate from this</span>
+        <p>The estimate assumes 500 N per rotor and sums the remaining rotors’ thrust. The table excludes any reduction needed to compensate for lost moments.</p>
       </div>
 
       <h3>Torque imbalance is more dangerous than insufficient thrust</h3>
       <p>The symmetry of the eight-arm layout means that any single-point failure creates a moment imbalance about the centre of the fuselage. The control system must restore balance by reducing thrust on the opposite side, which further reduces total thrust. This process is coupled — the smaller the thrust margin, the fewer the available compensation means and the worse the attitude-holding capability.</p>
 
-      <p>This explains an apparently contradictory phenomenon: <strong>the fault tolerance of a multirotor is not shown by “being able to fly” but by “being able to land smoothly”.</strong> After losing one arm, the aircraft may still hover, but it no longer has the capability to continue the mission and must enter the nearest-diversion procedure. The design goal of the safety architecture is precisely to ensure that this “dignified exit” path always exists.</p>
+      <p>The static estimate gives positive thrust margins after loss of one rotor or one arm, before moment compensation. The two-arm case falls below hover thrust demand. Attitude control and emergency landing require separate evidence for failure location, control authority and remaining energy.</p>
     </section>
 
       <div class="calc" id="calc-rotor">
@@ -216,7 +216,7 @@ The redundancy of the EH216-S appears at three levels: three flight-control chan
       <h2><span class="num">06</span>Chapter Summary</h2>
       <div class="sum">
         <p>Three flight-control channels, 12 battery groups and three data links form layered redundancy. Voting can tolerate one wrong channel, on the premise that at most one is wrong — when two are wrong in the same direction, 2oo3 will decide wrongly, the most fragile cell of the whole architecture.</p>
-        <p>The thrust margin is worked out in concrete numbers: single-rotor and single-arm failures are controllable, and the margin turns negative after the loss of two arms. <strong>Fault tolerance is not shown by “still being able to fly” but by “being able to land smoothly”.</strong></p>
+        <p>The static estimate gives positive thrust margins after loss of one rotor or one arm, before moment compensation. The two-arm case falls below hover thrust demand. Attitude control and emergency landing require separate evidence for failure location, control authority and remaining energy.</p>
       </div>
     </section>
 

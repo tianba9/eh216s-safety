@@ -149,13 +149,13 @@
         <table>
           <caption><b>表 4-4</b>　不同失效情形下的推力余量（本报告估算）</caption>
           <thead>
-            <tr><th style="width:26%">失效情形</th><th class="num" style="width:14%">剩余旋翼</th><th class="num" style="width:18%">总可用推力</th><th class="num" style="width:16%">余量</th><th>能否维持悬停</th></tr>
+            <tr><th style="width:26%">失效情形</th><th class="num" style="width:14%">剩余旋翼</th><th class="num" style="width:18%">总可用推力</th><th class="num" style="width:16%">余量</th><th>静态推力判断</th></tr>
           </thead>
           <tbody>
             <tr><td>完好</td><td class="num">16</td><td class="num">8000 N</td><td class="num">31.5%</td><td class="t-ok">能</td></tr>
-            <tr><td>单副旋翼失效</td><td class="num">15</td><td class="num">7500 N</td><td class="num">23.3%</td><td class="t-warn">能，需力矩补偿</td></tr>
-            <tr><td>整臂失效（2 副）</td><td class="num">14</td><td class="num">7000 N</td><td class="num">15.1%</td><td class="t-warn">能，但姿态裕度显著下降</td></tr>
-            <tr><td>两臂失效（4 副）</td><td class="num">12</td><td class="num">6000 N</td><td class="num">-1.4%</td><td class="t-no"><strong>不能</strong>，必须立即着陆</td></tr>
+            <tr><td>单副旋翼失效</td><td class="num">15</td><td class="num">7500 N</td><td class="num">23.3%</td><td class="t-warn">补偿力矩前有余量</td></tr>
+            <tr><td>整臂失效（2 副）</td><td class="num">14</td><td class="num">7000 N</td><td class="num">15.1%</td><td class="t-warn">补偿力矩前有余量</td></tr>
+            <tr><td>两臂失效（4 副）</td><td class="num">12</td><td class="num">6000 N</td><td class="num">-1.4%</td><td class="t-no">总推力低于悬停需求</td></tr>
           </tbody>
         </table>
       </div>
@@ -163,14 +163,14 @@
       <p class="t-foot">说明：总需求推力 6082 N（620 kg × 9.81）。表中未计入力矩补偿带来的额外降额，实际可用余量低于表中数值。旋翼最大推力 500 N 为假设值，非公开数据。</p>
 
       <div class="note key">
-        <span class="lbl">由此得到的三条推论</span>
-        <p><strong>其一</strong>，单副旋翼失效是可容忍的，这与「关键部件全备份」的表述一致；<strong>其二</strong>，真正的容错边界在「损失两个机臂」附近，此时推力余量由正转负，任何继续飞行的尝试都会导致高度不可维持；<strong>其三</strong>，因此 Fail-Safe 判据不能只看「剩余推力是否大于重力」，还须看姿态可控性与剩余航程——因为迫降需要额外能量。</p>
+        <span class="lbl">推力估算的前提</span>
+        <p>估算有两个关键前提：每副旋翼可提供 500 N，且表中推力可直接相加。表中余量尚未扣除力矩补偿所需的降额。</p>
       </div>
 
       <h3>力矩失衡比推力不足更危险</h3>
       <p>8 臂布局的对称性意味着：任何单点失效都会产生绕机身中心的力矩不平衡。控制系统必须通过对侧降推来恢复平衡，而降推又进一步减少总推力。这个过程是耦合的——推力余量越小，可用的补偿手段越少，姿态保持能力越差。</p>
 
-      <p>这解释了一个看似矛盾的现象：<strong>多旋翼的容错能力不体现在「能飞」，而体现在「能平稳地落下来」。</strong>损失一个机臂后，飞机或许仍可悬停，但已不具备继续执行任务的能力，只能进入就近迫降程序。安全架构的设计目标，正是保证这条「体面退场」的路径始终存在。</p>
+      <p>单臂失效后的验证应检查失效位置对控制分配的影响，并确认剩余能量能否覆盖迫降剖面。</p>
     </section>
 
       <div class="calc" id="calc-rotor">
@@ -214,7 +214,7 @@
       <h2><span class="num">06</span><span>本章总结</span></h2>
       <div class="sum">
         <p>三套飞控、12 组电池、三重链路构成分层冗余。表决能容忍一路错误，前提是至多一路错误——两路同向错误时，2oo3 会判错，这是整套架构最脆弱的一格。</p>
-        <p>推力余量算到具体数字：单副与单臂失效可控，损失两臂后余量转负。<strong>容错能力不体现在「还能飞」，而体现在「能平稳落下来」。</strong></p>
+        <p>静态估算中，单副旋翼或单臂失效后仍有总推力余量，两臂失效后总推力低于悬停需求。姿态控制和迫降能力还需结合失效位置、力矩补偿、剩余能量及验证结果判断。</p>
       </div>
     </section>
 

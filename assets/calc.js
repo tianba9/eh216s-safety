@@ -41,14 +41,10 @@
   }
 
   function rotorNote(m) {
-    if (isEn()) {
-      if (m.margin <= 0) return 'Remaining thrust is <em>below hover demand</em>; altitude cannot be held and an immediate landing is required.';
-      if (m.margin <= 15) return 'Hover is possible with <em>very little attitude margin</em>; divert and land rather than continue the mission.';
-      return 'Thrust margin is sufficient for controlled flight and a <em>degraded return</em>.';
-    }
-    if (m.margin <= 0) return '剩余推力<em>低于悬停需求</em>，无法维持高度，只能立即着陆。';
-    if (m.margin <= 15) return '可维持悬停但<em>姿态裕度极低</em>，应进入就近迫降程序，不得继续执行任务。';
-    return '推力余量充足，可维持可控飞行并执行<em>降级返场</em>。';
+    if (m.margin <= 0) return isEn() ? 'Estimated thrust does not exceed hover demand.' : '估算总推力不高于悬停需求。';
+    return isEn()
+      ? 'Positive static thrust margin before moment compensation. Attitude control and landing require separate verification.'
+      : '计入力矩补偿前，静态推力余量为正。姿态控制和迫降能力仍需单独验证。';
   }
 
   /* 3 电池比能量 → 航时与航程 */

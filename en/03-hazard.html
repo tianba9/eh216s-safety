@@ -77,11 +77,11 @@ The output of hazard analysis is not a long table but three judgements: which ha
           </thead>
           <tbody>
             <tr><td class="em">H01</td><td>Loss of attitude control in flight</td><td>Cruise</td><td>Catastrophic</td><td class="num">10<sup>-9</sup></td><td>Triple-redundant flight control + voting + envelope protection</td></tr>
-            <tr><td class="em">H02</td><td>Total thrust loss</td><td>All phases</td><td>Catastrophic</td><td class="num">10<sup>-9</sup></td><td>16-rotor distributed propulsion + 12 isolated battery groups</td></tr>
+            <tr id="h02"><td class="em">H02</td><td>Total thrust loss</td><td>All phases</td><td>Catastrophic</td><td class="num">10<sup>-9</sup></td><td>16-rotor distributed propulsion + 12 isolated battery groups</td></tr>
             <tr><td class="em">H03</td><td>Fire from battery thermal runaway</td><td>All phases</td><td>Catastrophic</td><td class="num">10<sup>-9</sup></td><td>Thermal-runaway warning, isolation between groups, venting and flame retardance</td></tr>
             <tr><td class="em">H04</td><td>Collision with an obstacle or another aircraft</td><td>Cruise</td><td>Catastrophic</td><td class="num">10<sup>-9</sup></td><td>Segregated airspace + filed routes + detect and avoid</td></tr>
-            <tr><td class="em">H05</td><td>Fatal injury to occupants in a crash</td><td>Landing</td><td>Catastrophic</td><td class="num">10<sup>-9</sup></td><td>Crashworthy structure + restraints + energy absorption</td></tr>
-            <tr><td class="em">H06</td><td>Partial thrust loss leading to uncontrollable yaw</td><td>All phases</td><td>Hazardous</td><td class="num">10<sup>-7</sup></td><td>Control reconfiguration + degraded flight + diversion to the nearest site</td></tr>
+            <tr id="h05"><td class="em">H05</td><td>Fatal injury to occupants in a crash</td><td>Landing</td><td>Catastrophic</td><td class="num">10<sup>-9</sup></td><td>Crashworthy structure + restraints + energy absorption</td></tr>
+            <tr id="h06"><td class="em">H06</td><td>Partial thrust loss leading to uncontrollable yaw</td><td>All phases</td><td>Hazardous</td><td class="num">10<sup>-7</sup></td><td>Control reconfiguration + degraded flight + diversion to the nearest site</td></tr>
             <tr><td class="em">H07</td><td>Data-link loss</td><td>Cruise</td><td>Hazardous</td><td class="num">10<sup>-7</sup></td><td>Triple link + autonomous fail-safe on link loss</td></tr>
             <tr><td class="em">H08</td><td>Navigation interference or spoofing causing deviation</td><td>Cruise</td><td>Hazardous</td><td class="num">10<sup>-7</sup></td><td>Multi-source navigation fusion + consistency checks</td></tr>
             <tr><td class="em">H09</td><td>Strong wind disturbance beyond control capability</td><td>Take-off / cruise</td><td>Hazardous</td><td class="num">10<sup>-7</sup></td><td>Weather limits + wind estimation + envelope limits</td></tr>
@@ -107,7 +107,7 @@ The output of hazard analysis is not a long table but three judgements: which ha
                 <path d="M0,0 L7,3 L0,6 z" fill="#0f5c6b"/>
               </marker>
               <marker id="a3" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
-                <path d="M0,0 L7,3 L0,6 z" fill="#a8500c"/>
+                <path d="M0,0 L7,3 L0,6 z" fill="var(--warm)"/>
               </marker>
             </defs>
             <g font-family="system-ui, sans-serif">
@@ -130,8 +130,8 @@ The output of hazard analysis is not a long table but three judgements: which ha
               </g>
               <text x="386" y="42" text-anchor="middle" font-size="10" fill="#0f5c6b">Forward control: commands and authorisation</text>
               <!-- Feedback -->
-              <path d="M610,106 L610,150 L278,150 L278,110" fill="none" stroke="#a8500c" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#a3)"/>
-              <text x="430" y="166" text-anchor="middle" font-size="10" fill="#a8500c">Feedback: status · alerts · health (returned via the data link)</text>
+              <path d="M610,106 L610,150 L278,150 L278,110" fill="none" stroke="var(--warm)" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#a3)"/>
+              <text x="430" y="166" text-anchor="middle" font-size="10" fill="var(--warm)">Feedback: status · alerts · health (returned via the data link)</text>
               <!-- Aircraft -->
               <rect x="470" y="188" width="190" height="42" fill="#f7f5f0" stroke="#cfcabf"/>
               <text x="565" y="206" text-anchor="middle" font-size="11" fill="#3d454e">Aircraft + external environment</text>
@@ -173,8 +173,8 @@ The output of hazard analysis is not a long table but three judgements: which ha
       <h2><span class="num">04</span>Fault Tree: Uncommanded Ground Impact</h2>
       <p>Taking “uncommanded ground impact of the aircraft” as the top event, three intermediate events are developed below it. Under each intermediate event the dominant cut sets are listed as a check list for architecture design.</p>
 
-      <figure>
-        <div class="frame">
+      <div class="fault-branches"><h3>Top event: unintended ground impact</h3><p>The branches are joined by an OR gate. In the model, any one can lead to the top event.</p><ul><li>Loss of attitude control</li><li>Total thrust loss</li><li>Structural failure</li></ul></div>
+      <details class="engineering-diagram"><summary>Expand the full fault tree</summary><figure><div class="frame" role="region" tabindex="0" aria-label="Horizontally scrollable fault tree">
           <svg viewBox="0 0 680 340" role="img" aria-label="Fault tree for uncommanded ground impact of the aircraft">
             <g font-family="system-ui, sans-serif">
               <!-- Top event -->
@@ -194,9 +194,9 @@ The output of hazard analysis is not a long table but three judgements: which ha
               </g>
               <!-- Intermediate events -->
               <g font-size="11" text-anchor="middle">
-                <rect x="40" y="126" width="190" height="34" fill="#fbf0e6" stroke="#a8500c"/><text x="135" y="148">Loss of attitude control</text>
-                <rect x="245" y="126" width="190" height="34" fill="#fbf0e6" stroke="#a8500c"/><text x="340" y="148">Total loss of thrust</text>
-                <rect x="450" y="126" width="190" height="34" fill="#fbf0e6" stroke="#a8500c"/><text x="545" y="148">Structural failure</text>
+                <rect x="40" y="126" width="190" height="34" fill="var(--warn-soft)" stroke="var(--warm)"/><text x="135" y="148">Loss of attitude control</text>
+                <rect x="245" y="126" width="190" height="34" fill="var(--warn-soft)" stroke="var(--warm)"/><text x="340" y="148">Total loss of thrust</text>
+                <rect x="450" y="126" width="190" height="34" fill="var(--warn-soft)" stroke="var(--warm)"/><text x="545" y="148">Structural failure</text>
               </g>
               <g stroke="#cfcabf">
                 <line x1="135" y1="160" x2="135" y2="180"/>
@@ -235,7 +235,7 @@ The output of hazard analysis is not a long table but three judgements: which ha
         </div>
         <figcaption><b>Figure 3-2</b>　Fault tree for “uncommanded ground impact” (simplified). Of the nine cut sets, <strong>A1, A2 and B1 are of the type “a single point can pierce redundancy”</strong> and are the priority items for architecture design.
         <span class="fig-src">Constructed by this report from public architecture descriptions, without manufacturer failure data; therefore only a qualitative ranking is given.</span></figcaption>
-      </figure>
+      </figure></details>
 
       <p>The value of the fault tree lies not in the diagram itself but in the three questions it forces: are the three flight-control channels truly independent? Can thermal propagation really be blocked between the 12 battery groups? Can an arm crack be detected before the next flight? These three questions point to Chapters 04, 06 and 07 respectively.</p>
     </section>
